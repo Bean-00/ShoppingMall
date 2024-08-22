@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;dao&apos; to &apos;LoginAction.java&apos;&#x0D;&#x0A;- Original project: &apos;01.Model2MVCShop(stu)&apos;&#x0D;&#x0A;- Destination element: &apos;LoginAction.java&apos;&#x0D;&#x0A;- Original element: &apos;dao&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move folder" element1="src/main/java/com/model2/mvc/service/product/dao" files="0" flags="589830" folders="1" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1724335253892" target="src/main/java/com/model2/mvc/view/user/LoginAction.java" units="0" version="1.0"/>
+</session>

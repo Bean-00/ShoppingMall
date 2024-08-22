@@ -1,0 +1,10 @@
+INDEX VERSION 1.4+C:\01.Model2MVCShop(stu)\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2169597332.index
+473363851.index
+1658319406.index
+3769901632.index
+151061855.index
+3635237872.index
+3221293486.index
+638156779.index
+2786676038.index
