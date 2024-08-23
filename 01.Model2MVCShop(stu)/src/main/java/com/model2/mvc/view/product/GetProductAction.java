@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
-import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.impl.UserServiceImpl;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.service.product.ProductService;
+import com.model2.service.product.impl.ProductServiceImpl;
 
 public class GetProductAction extends Action {
 	
@@ -18,12 +18,13 @@ public class GetProductAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userId = request.getParameter("userId");
 
-		UserService service = new UserServiceImpl();
-		UserVO vo = service.getPro(userId);
+		ProductService service = new ProductServiceImpl();
+		ProductVO pvo = service.getProductList();
+		
+		
+		request.setAttribute("pvo", pvo);
 
-		request.setAttribute("vo", vo);
-
-		return "forward:/user/readUser.jsp";
+		return "forward:/product/readUser.jsp";
 	}
 
 }
