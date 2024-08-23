@@ -91,7 +91,7 @@ function PortalJuminCheck(fieldValue){
 function fncCheckDuplication() {
 	popWin = window.open("/user/checkDuplication.jsp","popWin", "left=300,top=200,width=300,height=200,marginwidth=0,marginheight=0,scrollbars=no,scrolling=no,menubar=no,resizable=no");
 }
-
+ 
 function resetData() {
 	document.detailForm.reset();
 }

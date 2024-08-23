@@ -12,17 +12,10 @@ public class ProductVO {
 	private String prodName;
 	private int prodNo;
 	private Date regDate;
-	private String proTranCode;
 	
 	public ProductVO(){
 	}
 	
-	public String getProTranCode() {
-		return proTranCode;
-	}
-	public void setProTranCode(String proTranCode) {
-		this.proTranCode = proTranCode;
-	}
 	public String getFileName() {
 		return fileName;
 	}
@@ -33,7 +26,12 @@ public class ProductVO {
 		return manuDate;
 	}
 	public void setManuDate(String manuDate) {
-		this.manuDate = manuDate;
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(manuDate);
+		sb.deleteCharAt(sb.indexOf("-"));
+		sb.deleteCharAt(sb.indexOf("-"));
+		this.manuDate = sb.toString();
 	}
 	public int getPrice() {
 		return price;
@@ -64,6 +62,7 @@ public class ProductVO {
 	}
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+			
 	}
 
 	// Override

@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
-
+<%@ page contentType="text/html charset=euc-kr" %>
+  
 <html>
 <head>
 <title>Model2 MVC Shop</title>

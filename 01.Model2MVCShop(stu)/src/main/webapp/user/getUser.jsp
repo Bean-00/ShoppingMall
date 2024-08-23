@@ -31,7 +31,7 @@
 		</td>
 		<td width="12" height="37"><img src="/images/ct_ttl_img03.gif" width="12" height="37"></td>
 	</tr>
-</table>
+</table> 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:13px;">
 	<tr>

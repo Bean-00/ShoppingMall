@@ -36,7 +36,7 @@ function fncGetUserList(){
 	document.detailForm.submit();
 }
 </script>
-</head>
+</head> 
 
 <body bgcolor="#ffffff" text="#000000">
 

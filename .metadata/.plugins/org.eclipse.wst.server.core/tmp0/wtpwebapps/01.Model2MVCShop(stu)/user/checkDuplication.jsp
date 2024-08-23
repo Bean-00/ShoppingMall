@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
-
+ 
 <%
 	boolean result=false;
 	if(request.getAttribute("result") != null){

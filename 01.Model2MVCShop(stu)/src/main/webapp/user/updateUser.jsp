@@ -32,7 +32,7 @@ function fncUpdateUser() {
 	document.detailForm.action='/updateUser.do';
 	document.detailForm.submit();
 }
-
+ 
 function check_email(frm) {
 	alert
 	var email=document.detailForm.email.value;

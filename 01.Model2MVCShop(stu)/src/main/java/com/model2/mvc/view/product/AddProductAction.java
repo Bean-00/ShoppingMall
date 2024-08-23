@@ -1,0 +1,43 @@
+package com.model2.mvc.view.product;
+
+import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.user.UserService;
+import com.model2.mvc.service.user.impl.UserServiceImpl;
+import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.service.product.ProductService;
+import com.model2.service.product.impl.ProductServiceImpl;
+
+
+public class AddProductAction extends Action {
+	
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ProductVO productVO = new ProductVO();
+		
+		productVO.setProdName(request.getParameter("prodName"));
+		productVO.setProdDetail(request.getParameter("prodDetail"));
+		productVO.setRegDate(Date.valueOf(LocalDate.now()));
+		productVO.setPrice(Integer.parseInt(request.getParameter("price")));
+		productVO.setManuDate(request.getParameter("manuDate")); 
+		productVO.setFileName(request.getParameter("fileName"));
+
+		ProductService service = new ProductServiceImpl();
+		service.addProduct(productVO);
+		request.setAttribute("productVO", productVO);
+
+		return "forward:/product/addProductView.jsp";
+	}
+
+}
