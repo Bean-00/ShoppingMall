@@ -1,3 +1,4 @@
-metadata/
+.metadata/
 build/
 .idea/
+out/
