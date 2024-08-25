@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="com.model2.mvc.service.user.vo.*" %>  
 
 <%
@@ -9,6 +9,12 @@
 	if(vo != null) {
 		role=vo.getRole();
 	}
+//	UserVO vo = new UserVO();
+//	vo.setUserId("admin");
+//	vo.setRole("admin");
+//
+//	String role = vo.getRole();
+
 %>
 
 <html>
@@ -38,7 +44,7 @@ function history(){
 		%>
 		<tr>
 		<td class="Depth03">
-			<a href="/getUser.do?userId=<%=vo.getUserId() %>" target="rightFrame">����������ȸ</a>
+			<a href="/getUser.do?userId=<%=vo.getUserId() %>" target="rightFrame">개인정보조회</a>
 		</td>
 		</tr>
 		<%
@@ -49,7 +55,7 @@ function history(){
 		%>
 		<tr>
 		<td class="Depth03" >
-			<a href="/listUser.do" target="rightFrame">ȸ��������ȸ</a>
+			<a href="/listUser.do" target="rightFrame">회원정보조회</a>
 		</td>
 		</tr>
 		<%
@@ -71,11 +77,12 @@ function history(){
 	<table  border="0" cellspacing="0" cellpadding="0" width="159">
 		<tr>
 			<td class="Depth03">
-				<a href="../product/addProductView.jsp;" target="rightFrame">�ǸŻ�ǰ���</a>
+				<a href="../product/addProductView.jsp;" target="rightFrame">판매상품등록</a>
 			</td>
 		</tr>
-		<td class="Depth03">
-				<a href="/listProduct.do?menu=manage" target="rightFrame">�ǸŻ�ǰ����</a>
+		<tr>
+			<td class="Depth03">
+					<a href="/listProduct.do?menu=manage" target="rightFrame">판매상품관리</a>
 			</td>
 		</tr>
 		<tr>
@@ -94,7 +101,7 @@ function history(){
 	<table  border="0" cellspacing="0" cellpadding="0" width="159">
 		<tr>
 			<td class="Depth03">
-				<a href="/listProduct.do?menu=search" target="rightFrame">�� ǰ �� ��</a>
+				<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색</a>
 			</td>
 		</tr>
 		<%
@@ -103,7 +110,7 @@ function history(){
 		%>
 		<tr>
 			<td class="Depth03">
-				<a href="/listPurchase.do" target="rightFrame">�����̷���ȸ</a>
+				<a href="/listPurchase.do" target="rightFrame">구매이력조회</a>
 			</td>
 		</tr>
 		<%
@@ -115,7 +122,7 @@ function history(){
 		</tr>
 		<tr>
 			<td class="Depth03">
-				<a href="javascript:history()">�ֱ� �� ��ǰ</a>
+				<a href="javascript:history()">최근 본 상품</a>
 			</td>
 		</tr>
 	</table>

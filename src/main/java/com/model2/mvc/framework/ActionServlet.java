@@ -11,42 +11,39 @@ import com.model2.mvc.common.util.HttpUtil;
 
 
 public class ActionServlet extends HttpServlet {
-	
-	private RequestMapping mapper;
 
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		String resources=getServletConfig().getInitParameter("resources");
-		mapper=RequestMapping.getInstance(resources);
-	}
+    private RequestMapping mapper;
 
-	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response) 
-																									throws ServletException, IOException {
-		
-		String url = request.getRequestURI();
-		String contextPath = request.getContextPath();
-		String path = url.substring(contextPath.length());
-//		if (path.equals("/login.do"))
-//			path = "/fail-login.do";
-		System.out.println(path);
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        String resources = getServletConfig().getInitParameter("resources");
+        mapper = RequestMapping.getInstance(resources);
+    }
 
-		
-		try{
-			Action action = mapper.getAction(path);
-			action.setServletContext(getServletContext());
-			
-			String resultPage=action.execute(request, response);
-			String result=resultPage.substring(resultPage.indexOf(":")+1);
-			
-			if(resultPage.startsWith("forward:"))
-				HttpUtil.forward(request, response, result);
-			else
-				HttpUtil.redirect(response, result);
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String url = request.getRequestURI();
+        String contextPath = request.getContextPath();
+        String path = url.substring(contextPath.length());
+        System.out.println(path);
+
+        try {
+            Action action = mapper.getAction(path);
+            action.setServletContext(getServletContext());
+
+            String resultPage = action.execute(request, response);
+            String result = resultPage.substring(resultPage.indexOf(":") + 1);
+
+            if (resultPage.startsWith("forward:"))
+                HttpUtil.forward(request, response, result);
+            else
+                HttpUtil.redirect(response, result);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <%@ page import="com.model2.mvc.service.user.vo.*" %>
 
@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>È¸¿øÁ¤º¸Á¶È¸</title>
+<title>íšŒì›ì •ë³´ì¡°íšŒ</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -24,7 +24,7 @@
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td width="93%" class="ct_ttl01">È¸¿øÁ¤º¸Á¶È¸</td>
+				<td width="93%" class="ct_ttl01">íšŒì›ì •ë³´ì¡°íšŒ</td>
 				<td width="20%" align="right">&nbsp;</td>
 			</tr>
 		</table>
@@ -39,7 +39,7 @@
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			¾ÆÀÌµð <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			ì•„ì´ë”” <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
@@ -57,7 +57,7 @@
 	
 	<tr>
 		<td width="104" class="ct_write">
-			ÀÌ¸§ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
+			ì´ë¦„ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01"><%=vo.getUserName() %></td>
@@ -67,7 +67,7 @@
 	</tr>
 	
 	<tr>
-		<td width="104" class="ct_write">ÁÖ¼Ò</td>
+		<td width="104" class="ct_write">ì£¼ì†Œ</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01"><%=vo.getAddr() %></td>
 	</tr>
@@ -75,7 +75,7 @@
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">ÈÞ´ëÀüÈ­¹øÈ£</td>
+		<td width="104" class="ct_write">íœ´ëŒ€ì „í™”ë²ˆí˜¸</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01"><%=vo.getPhone() %></td>
 	</tr>
@@ -84,7 +84,7 @@
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">ÀÌ¸ÞÀÏ </td>
+		<td width="104" class="ct_write">ì´ë©”ì¼ </td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<table border="0" cellspacing="0" cellpadding="0">
@@ -99,7 +99,7 @@
 	</tr>
 	
 	<tr>
-		<td width="104" class="ct_write">°¡ÀÔÀÏÀÚ</td>
+		<td width="104" class="ct_write">ê°€ìž…ì¼ìž</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01"><%=vo.getRegDate() %></td>
 	</tr>
@@ -119,7 +119,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="/updateUserView.do?userId=<%=vo.getUserId() %>">¼öÁ¤</a>
+						<a href="/updateUserView.do?userId=<%=vo.getUserId() %>">ìˆ˜ì •</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -129,7 +129,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:history.go(-1);">È®ÀÎ</a>
+						<a href="javascript:history.go(-1);">í™•ì¸</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

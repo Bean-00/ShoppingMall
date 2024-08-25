@@ -1,12 +1,12 @@
 <%@page import="java.util.Objects"%>
 <%@page import="com.model2.mvc.service.user.vo.UserVO"%>
 <%@page import="com.model2.mvc.service.user.dao.UserDAO"%>
-<%@ page contentType="text/html; charset=euc-kr"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 
 
 <html>
 <head>
-<title>·Î±×ÀÎ</title>
+<title>ë¡œê·¸ì¸</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -15,12 +15,12 @@
 		var id = document.loginForm.userId.value;
 		var pw = document.loginForm.password.value;
 		if (id == null || id.length < 1) {
-			alert('ID ¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.');
+			alert('ID ë¥¼ ì…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.');
 			document.loginForm.userId.focus();
 			return;
 		}
 		if (pw == null || pw.length < 1) {
-			alert('ÆĞ½º¿öµå¸¦ ÀÔ·ÂÇÏÁö ¾ÊÀ¸¼Ì½À´Ï´Ù.');
+			alert('íŒ¨ìŠ¤ì›Œë“œë¥¼ ì…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.');
 			document.loginForm.password.focus();
 			return;
 		}

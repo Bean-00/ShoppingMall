@@ -5,173 +5,174 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
+import com.model2.mvc.common.util.SQLUtil;
 import com.model2.mvc.service.user.vo.UserVO;
 
 
 public class UserDAO {
-	
-	public UserDAO(){
-	}
 
-	public void insertUser(UserVO userVO) throws Exception {
-		
-		Connection con = DBUtil.getConnection();
+    public UserDAO() {
+    }
 
-		String sql = "insert into USERS values (?,?,?,'user',?,?,?,?,sysdate)";
-		
-		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setString(1, userVO.getUserId());
-		stmt.setString(2, userVO.getUserName());
-		stmt.setString(3, userVO.getPassword());
-		stmt.setString(4, userVO.getSsn());
-		stmt.setString(5, userVO.getPhone());
-		stmt.setString(6, userVO.getAddr());
-		stmt.setString(7, userVO.getEmail());
-		stmt.executeUpdate();
-		
-		con.close();
-	}
+    public void insertUser(UserVO userVO) throws Exception {
 
-	public UserVO findUser(String userId) throws Exception {
-		
-		Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection();
 
-		String sql = "select * from USERS where USER_ID=?";
-		
-		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setString(1, userId);
+        String sql = "insert into USERS values (?,?,?,'user',?,?,?,?,sysdate)";
 
-		ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, userVO.getUserId());
+        stmt.setString(2, userVO.getUserName());
+        stmt.setString(3, userVO.getPassword());
+        stmt.setString(4, userVO.getSsn());
+        stmt.setString(5, userVO.getPhone());
+        stmt.setString(6, userVO.getAddr());
+        stmt.setString(7, userVO.getEmail());
+        stmt.executeUpdate();
 
-		UserVO userVO = null;
-		while (rs.next()) {
-			userVO = new UserVO();
-			userVO.setUserId(rs.getString("USER_ID"));
-			userVO.setUserName(rs.getString("USER_NAME"));
-			userVO.setPassword(rs.getString("PASSWORD"));
-			userVO.setRole(rs.getString("ROLE"));
-			userVO.setSsn(rs.getString("SSN"));
-			userVO.setPhone(rs.getString("CELL_PHONE"));
-			userVO.setAddr(rs.getString("ADDR"));
-			userVO.setEmail(rs.getString("EMAIL"));
-			userVO.setRegDate(rs.getDate("REG_DATE"));
-		}
-		
-		con.close();
+        con.close();
+    }
 
-		return userVO;
-	}
-	
-	public UserVO findUser(String userId, String userPw) throws Exception {
-		
-		Connection con = DBUtil.getConnection();
+    public UserVO findUser(String userId) throws Exception {
 
-		String sql = "select * from USERS where USER_ID=? AND PASSWORD=?";
-		
-		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setString(1, userId);
-		stmt.setString(2, userPw);
+        Connection con = DBUtil.getConnection();
 
-		ResultSet rs = stmt.executeQuery();
+        String sql = "select * from USERS where USER_ID=?";
 
-		UserVO userVO = null;
-		while (rs.next()) {
-			userVO = new UserVO();
-			userVO.setUserId(rs.getString("USER_ID"));
-			userVO.setUserName(rs.getString("USER_NAME"));
-			userVO.setPassword(rs.getString("PASSWORD"));
-			userVO.setRole(rs.getString("ROLE"));
-			userVO.setSsn(rs.getString("SSN"));
-			userVO.setPhone(rs.getString("CELL_PHONE"));
-			userVO.setAddr(rs.getString("ADDR"));
-			userVO.setEmail(rs.getString("EMAIL"));
-			userVO.setRegDate(rs.getDate("REG_DATE"));
-		}
-		
-		con.close();
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, userId);
 
-		return userVO;
-	}
+        ResultSet rs = stmt.executeQuery();
+
+        UserVO userVO = null;
+        while (rs.next()) {
+            userVO = new UserVO();
+            userVO.setUserId(rs.getString("USER_ID"));
+            userVO.setUserName(rs.getString("USER_NAME"));
+            userVO.setPassword(rs.getString("PASSWORD"));
+            userVO.setRole(rs.getString("ROLE"));
+            userVO.setSsn(rs.getString("SSN"));
+            userVO.setPhone(rs.getString("CELL_PHONE"));
+            userVO.setAddr(rs.getString("ADDR"));
+            userVO.setEmail(rs.getString("EMAIL"));
+            userVO.setRegDate(rs.getDate("REG_DATE"));
+        }
+
+        con.close();
+
+        return userVO;
+    }
+
+    public UserVO findUser(String userId, String userPw) throws Exception {
+
+        Connection con = DBUtil.getConnection();
+
+        String sql = "select * from USERS where USER_ID=? AND PASSWORD=?";
+
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, userId);
+        stmt.setString(2, userPw);
+
+        ResultSet rs = stmt.executeQuery();
+
+        UserVO userVO = null;
+        while (rs.next()) {
+            userVO = new UserVO();
+            userVO.setUserId(rs.getString("USER_ID"));
+            userVO.setUserName(rs.getString("USER_NAME"));
+            userVO.setPassword(rs.getString("PASSWORD"));
+            userVO.setRole(rs.getString("ROLE"));
+            userVO.setSsn(rs.getString("SSN"));
+            userVO.setPhone(rs.getString("CELL_PHONE"));
+            userVO.setAddr(rs.getString("ADDR"));
+            userVO.setEmail(rs.getString("EMAIL"));
+            userVO.setRegDate(rs.getDate("REG_DATE"));
+        }
+
+        con.close();
+
+        return userVO;
+    }
 
 
-	public HashMap<String,Object> getUserList(SearchVO searchVO) throws Exception {
-		
-		Connection con = DBUtil.getConnection();
-		
-		String sql = "select * from USERS ";
-		if (searchVO.getSearchCondition() != null) {
-			if (searchVO.getSearchCondition().equals("0")) {
-				sql += " where USER_ID='" + searchVO.getSearchKeyword()
-						+ "'";
-			} else if (searchVO.getSearchCondition().equals("1")) {
-				sql += " where USER_NAME='" + searchVO.getSearchKeyword()
-						+ "'";
-			}
-		}
-		sql += " order by USER_ID";
+    public Map<String, Object> getUserList(SearchVO searchVO) throws Exception {
 
-		PreparedStatement stmt = 
-			con.prepareStatement(	sql,
-														ResultSet.TYPE_SCROLL_INSENSITIVE,
-														ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = stmt.executeQuery();
+        Connection con = DBUtil.getConnection();
 
-		rs.last();
-		int total = rs.getRow();
-		System.out.println("로우의 수:" + total);
+        StringBuilder sql = new StringBuilder("select * from USERS ");
+        if (searchVO.getSearchCondition() != null) {
+            if (searchVO.getSearchCondition().equals("0")) {
+                sql.append(SQLUtil.makeLikeClause("USER_ID", searchVO.getSearchKeyword()));
+            } else if (searchVO.getSearchCondition().equals("1")) {
+                sql.append(SQLUtil.makeLikeClause("USER_NAME", searchVO.getSearchKeyword()));
+            }
+        }
+        sql.append(" order by USER_ID");
 
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("count", new Integer(total));
+        PreparedStatement stmt =
+                con.prepareStatement(sql.toString(),
+                        ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = stmt.executeQuery();
 
-		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1);
-		System.out.println("searchVO.getPage():" + searchVO.getPage());
-		System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
+        rs.last();
+        int total = rs.getRow();
 
-		ArrayList<UserVO> list = new ArrayList<UserVO>();
-		if (total > 0) {
-			for (int i = 0; i < searchVO.getPageUnit(); i++) {
-				UserVO vo = new UserVO();
-				vo.setUserId(rs.getString("USER_ID"));
-				vo.setUserName(rs.getString("USER_NAME"));
-				vo.setPassword(rs.getString("PASSWORD"));
-				vo.setRole(rs.getString("ROLE"));
-				vo.setSsn(rs.getString("SSN"));
-				vo.setPhone(rs.getString("CELL_PHONE"));
-				vo.setAddr(rs.getString("ADDR"));
-				vo.setEmail(rs.getString("EMAIL"));
-				vo.setRegDate(rs.getDate("REG_DATE"));
+        Map<String, Object> map = new HashMap<>();
 
-				list.add(vo);
-				if (!rs.next())
-					break;
-			}
-		}
-		System.out.println("list.size() : "+ list.size());
-		map.put("list", list);
-		System.out.println("map().size() : "+ map.size());
+        map.put("count", new Integer(total));
 
-		con.close();
-			
-		return map;
-	}
+        rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit() + 1);
+        System.out.println("searchVO.getPage():" + searchVO.getPage());
+        System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
 
-	public void updateUser(UserVO userVO) throws Exception {
-		
-		Connection con = DBUtil.getConnection();
+        List<UserVO> list = new ArrayList<>();
+        if (total > 0) {
+            for (int i = 0; i < searchVO.getPageUnit(); i++) {
+                UserVO vo = new UserVO();
+                vo.setUserId(rs.getString("USER_ID"));
+                vo.setUserName(rs.getString("USER_NAME"));
+                vo.setPassword(rs.getString("PASSWORD"));
+                vo.setRole(rs.getString("ROLE"));
+                vo.setSsn(rs.getString("SSN"));
+                vo.setPhone(rs.getString("CELL_PHONE"));
+                vo.setAddr(rs.getString("ADDR"));
+                vo.setEmail(rs.getString("EMAIL"));
+                vo.setRegDate(rs.getDate("REG_DATE"));
 
-		String sql = "update USERS set USER_NAME=?,CELL_PHONE=?,ADDR=?,EMAIL=? where USER_ID=?";
-		
-		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setString(1, userVO.getUserName());
-		stmt.setString(2, userVO.getPhone());
-		stmt.setString(3, userVO.getAddr());
-		stmt.setString(4, userVO.getEmail());
-		stmt.setString(5, userVO.getUserId());
-		stmt.executeUpdate();
-		
-		con.close();
-	}
+                list.add(vo);
+                if (!rs.next())
+                    break;
+            }
+        }
+        System.out.println("list.size() : " + list.size());
+        map.put("list", list);
+        System.out.println("map().size() : " + map.size());
+
+        con.close();
+
+        return map;
+    }
+
+    public void updateUser(UserVO userVO) throws Exception {
+
+        Connection con = DBUtil.getConnection();
+
+        String sql = "update USERS set USER_NAME=?,CELL_PHONE=?,ADDR=?,EMAIL=? where USER_ID=?";
+
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, userVO.getUserName());
+        stmt.setString(2, userVO.getPhone());
+        stmt.setString(3, userVO.getAddr());
+        stmt.setString(4, userVO.getEmail());
+        stmt.setString(5, userVO.getUserId());
+        stmt.executeUpdate();
+
+        con.close();
+    }
 }

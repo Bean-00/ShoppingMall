@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
  
 <%@ page import="com.model2.mvc.service.user.vo.*" %>
 

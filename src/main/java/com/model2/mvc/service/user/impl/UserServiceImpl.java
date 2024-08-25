@@ -1,11 +1,11 @@
 package com.model2.mvc.service.user.impl;
 
-import java.util.HashMap;
-
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.dao.UserDAO;
 import com.model2.mvc.service.user.vo.UserVO;
+
+import java.util.Map;
 
 
 public class UserServiceImpl implements UserService{
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
 			UserVO dbUser=userDAO.findUser(userVO.getUserId());
 
 			if(! dbUser.getPassword().equals(userVO.getPassword()))
-				throw new Exception("∑Œ±◊¿Œø° Ω«∆–«ﬂΩ¿¥œ¥Ÿ.");
+				throw new Exception("Î°úÍ∑∏Ïù∏Ïóê Ïã§Ìå®ÌñàÏäµÎãàÎã§.");
 			
 			return dbUser;
 	}
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService{
 		return userDAO.findUser(userId);
 	}
 
-	public HashMap<String,Object> getUserList(SearchVO searchVO) throws Exception {
+	public Map<String, Object> getUserList(SearchVO searchVO) throws Exception {
 		return userDAO.getUserList(searchVO);
 	}
 

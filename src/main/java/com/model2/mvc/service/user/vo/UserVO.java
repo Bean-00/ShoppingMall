@@ -1,6 +1,7 @@
 package com.model2.mvc.service.user.vo;
 
 import java.sql.Date;
+import java.util.Optional;
 
 
 public class UserVO {
@@ -55,13 +56,13 @@ public class UserVO {
 		this.phone = phone;
 	}
 	public String getAddr() {
-		return addr;
+		return this.addr;
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
