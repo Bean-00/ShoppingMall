@@ -15,7 +15,7 @@ public class UpdateUserAction extends Action {
 	@Override
 	public String execute(	HttpServletRequest request,
 												HttpServletResponse response) throws Exception {
-		String userId=(String)request.getParameter("userId");
+		String userId= request.getParameter("userId");
 		
 		UserVO userVO=new UserVO();
 		userVO.setUserId(userId);

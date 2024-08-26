@@ -3,8 +3,18 @@
 <%@ page import="java.util.*" %>
 <%@ page import="com.model2.mvc.service.product.vo.*" %>
 <%@ page import="com.model2.mvc.common.*" %>
+<%@ page import="com.model2.mvc.service.user.vo.UserVO" %>
 
 <%
+    UserVO vo = (UserVO) session.getAttribute("user");
+
+    String role = "";
+
+    if (Objects.nonNull(vo)) {
+        role = vo.getRole();
+    }
+
+
     HashMap<String, Object> map = (HashMap<String, Object>) request.getAttribute("map");
     SearchVO searchVO = (SearchVO) request.getAttribute("searchVO");
 
@@ -128,16 +138,32 @@
                 <td align="center"><%=no--%>
                 </td>
                 <td></td>
-                <td align="left"><a
-<%--                        href="/product/getProduct.jsp">--%>
-<%--                    <%= pvo.getProdName() %>--%>
-                        href="/getProduct.do?prodNo=<%=pvo.getProdNo() %>
+                <td align="left">
+                    <%
+                        if (vo != null) {
+                            if (role.equals("admin")) {
+                    %>
+                    <a
+                            href="/updateProductView.do?prodNo=<%=pvo.getProdNo() %>
 									&menu=manage"><%= pvo.getProdName() %>
-                </a></td>
+                            <% } else {
+                                %>
+                        <a
+                                href="/getProduct.do?prodNo=<%=pvo.getProdNo() %>
+                        &menu=manage"><%= pvo.getProdName() %>
+                            <%
+                                    }
+                                }
+
+                            %>
+
+                        </a></td>
                 <td></td>
-                <td align="left"><%= pvo.getPrice() %></td>
+                <td align="left"><%= pvo.getPrice() %>
+                </td>
                 <td></td>
-                <td align="left"><%= pvo.getManuDate() %></td>
+                <td align="left"><%= pvo.getManuDate() %>
+                </td>
                 <td></td>
                 <td align="left">판매 중</td>
 
@@ -154,16 +180,16 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0"
                style="margin-top: 10px;">
             <tr>
-				<td align="center">
-						<%
+                <td align="center">
+                        <%
 						for (int i = 1; i <= totalPage; i++) {
 						%>
-					<a href="/listProduct.do?page=1&menu=manage"><%= i %>
-					</a>
-						<% } %>
-			</tr>
-		</table>
-		<!--  페이지 Navigator 끝 -->
+                    <a href="/listProduct.do?page=1&menu=manage"><%= i %>
+                    </a>
+                        <% } %>
+            </tr>
+        </table>
+        <!--  페이지 Navigator 끝 -->
 
     </form>
 

@@ -10,7 +10,6 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.common.util.SQLUtil;
 import com.model2.mvc.service.product.vo.ProductVO;
-import com.model2.mvc.service.user.vo.UserVO;
 
 public class ProductDAO {
 
@@ -20,13 +19,7 @@ public class ProductDAO {
 
     public void addProduct(ProductVO productVO) {
         try (Connection con = DBUtil.getConnection()) {
-            String sql = "insert into product("
-                    + "PROD_NO, PROD_NAME, PROD_DETAIL, MANUFACTURE_DAY,"
-                    + "PRICE, IMAGE_FILE, REG_DATE)"
-                    + "VALUES (\r\n"
-                    + "   seq_product_prod_no.nextval,\r\n"
-                    + "  ?, ?, ?, ?, ?, ? \r\n"
-                    + ")";
+            String sql = "insert into product(" + "PROD_NO, PROD_NAME, PROD_DETAIL, MANUFACTURE_DAY," + "PRICE, IMAGE_FILE, REG_DATE)" + "VALUES (\r\n" + "   seq_product_prod_no.nextval,\r\n" + "  ?, ?, ?, ?, ?, ? \r\n" + ")";
 
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, productVO.getProdName());
@@ -86,12 +79,11 @@ public class ProductDAO {
                     productVO.setRegDate(rs.getDate("REG_DATE"));
 
                     list.add(productVO);
-                    if (!rs.next())
-                        break;
+                    if (!rs.next()) break;
                 }
             }
             System.out.println("list.size() : " + list.size());
-			productMap.put("list", list);
+            productMap.put("list", list);
             System.out.println("map().size() : " + productMap.size());
 
             con.close();
@@ -100,7 +92,7 @@ public class ProductDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-			throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -130,5 +122,33 @@ public class ProductDAO {
         con.close();
 
         return productVO;
+    }
+
+    public void updateProduct(ProductVO productVO) {
+
+        try (Connection con = DBUtil.getConnection()) {
+            StringBuilder sql = new StringBuilder("UPDATE product " +
+                    "SET PROD_NAME = ?," +
+                    "PROD_DETAIL = ?," +
+                    "MANUFACTURE_DAY = ?," +
+                    "PRICE = ?," +
+                    "IMAGE_FILE = ?," +
+                    "REG_DATE = ?" +
+            "where PROD_NO = ?");
+
+            PreparedStatement stmt = con.prepareStatement(sql.toString());
+            stmt.setString(1, productVO.getProdName());
+            stmt.setString(2, productVO.getProdDetail());
+            stmt.setString(3, productVO.getManuDate());
+            stmt.setInt(4, productVO.getPrice());
+            stmt.setString(5, productVO.getFileName());
+            stmt.setDate(6, productVO.getRegDate());
+            stmt.setInt(7, productVO.getProdNo());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
