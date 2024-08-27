@@ -1,3 +1,5 @@
+<%@ page import="java.util.Optional" %>
+<%@ page import="com.model2.mvc.common.util.SessionUtil" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <html>
@@ -13,25 +15,16 @@
 <%
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
-    String history = null;
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null && cookies.length > 0) {
-        for (int i = 0; i < cookies.length; i++) {
-            Cookie cookie = cookies[i];
-            if (cookie.getName().equals("history")) {
-                history = cookie.getValue();
-            }
-        }
-        if (history != null) {
-            String[] h = history.split(",");
-            for (int i = 0; i < h.length; i++) {
-                if (!h[i].equals("null")) {
+    Optional<String> cookieValue = SessionUtil.getCookieValue(request.getCookies(), SessionUtil.HISTORY_NAME);
+    if (cookieValue.isPresent()) {
+        String[] h = cookieValue.get().split("\\|");
+        for (int i = 0; i < h.length; i++) {
+            if (!h[i].equals("null")) {
 %>
-<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search" target="rightFrame"><%=h[i]%>
-</a>
-<br>
+                <a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search" target="rightFrame"><%=h[i]%>
+                </a>
+                <br>
 <%
-                }
             }
         }
     }

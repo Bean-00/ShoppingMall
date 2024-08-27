@@ -144,13 +144,11 @@
                             if (role.equals("admin")) {
                     %>
                     <a
-                            href="/updateProductView.do?prodNo=<%=pvo.getProdNo() %>
-									&menu=manage"><%= pvo.getProdName() %>
+                            href="/updateProductView.do?prodNo=<%=pvo.getProdNo() %>&menu=manage"><%= pvo.getProdName() %>
                             <% } else {
                                 %>
                         <a
-                                href="/getProduct.do?prodNo=<%=pvo.getProdNo() %>
-                        &menu=manage"><%= pvo.getProdName() %>
+                                href="/getProduct.do?prodNo=<%=pvo.getProdNo() %>&menu=manage"><%= pvo.getProdName() %>
                             <%
                                     }
                                 }

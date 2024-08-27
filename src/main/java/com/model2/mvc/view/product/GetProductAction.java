@@ -1,29 +1,46 @@
 package com.model2.mvc.view.product;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.util.SessionUtil;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.product.vo.ProductVO;
 
+import java.util.StringJoiner;
+
 public class GetProductAction extends Action {
 
-	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @Override
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String productNo = request.getParameter("prodNo");
+        String prodNo = request.getParameter("prodNo");
+        String cookieValue = SessionUtil.getCookieValue(request.getCookies(), SessionUtil.HISTORY_NAME)
+                .map(str -> {
+                    StringJoiner sj = new StringJoiner("|");
+                    sj.add(str);
+                    sj.add(prodNo);
+                    return sj.toString();
+                })
+                .orElse(prodNo);
 
-		ProductService productService = new ProductServiceImpl();
-		ProductVO pvo = productService.getProduct(productNo);
+        Cookie cookie = SessionUtil.createCookie(SessionUtil.HISTORY_NAME, cookieValue);
 
-		request.setAttribute("pvo", pvo);
+        response.addCookie(cookie);
 
-		return "forward:/product/getProduct.jsp";
-	}
+        String productNo = request.getParameter("prodNo");
+
+        ProductService productService = new ProductServiceImpl();
+        ProductVO pvo = productService.getProduct(productNo);
+
+
+        request.setAttribute("pvo", pvo);
+
+        return "forward:/product/getProduct.jsp";
+    }
 
 }
