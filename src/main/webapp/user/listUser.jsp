@@ -139,7 +139,7 @@
                     UserVO vo = list.get(i);
             %>
             <tr class="ct_list_pop">
-                <td align="center"><%=no--%>
+                <td align="center"><%=vo.getRowNum()%>
                 </td>
                 <td></td>
                 <td align="left">
