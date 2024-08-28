@@ -15,6 +15,7 @@ import com.model2.mvc.service.user.vo.UserVO;
 import javax.swing.tree.RowMapper;
 
 import static com.model2.mvc.common.util.DBUtil.*;
+import static com.model2.mvc.common.util.SQLUtil.makeSearchClause;
 
 
 public class UserDAO {
@@ -40,6 +41,22 @@ public class UserDAO {
     public UserDAO() {
     }
 
+    public static int getAllUserCount() {
+        Function<ResultSet, Integer> mapperFn = (rs) -> {
+                try {
+                    int totalCount = rs.getInt("totalCount");
+                    return totalCount;
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+        };
+
+        String sql = "SELECT\n" +
+                "    COUNT(user_id) AS \"totalCount\"\n" +
+                "FROM USERS";
+        return executeQuery(sql,mapperFn).get(0);
+    }
+
     public void insertUser(UserVO userVO) {
         String sql = "insert into USERS values (?,?,?,'user',?,?,?,?,sysdate)";
         executeUpdate(sql, userVO.getUserId(), userVO.getUserName(), userVO.getPassword(), userVO.getSsn(), userVO.getPhone(), userVO.getAddr(), userVO.getEmail());
@@ -60,23 +77,39 @@ public class UserDAO {
     }
 
 
-    public Map<String, Object> getUserList(SearchVO searchVO) {
-        StringBuilder sql = new StringBuilder("select * from USERS ");
-        if (searchVO.getSearchCondition() != null) {
-            if (searchVO.getSearchCondition().equals("0")) {
-                sql.append(SQLUtil.makeLikeClause("USER_ID", searchVO.getSearchKeyword()));
-            } else if (searchVO.getSearchCondition().equals("1")) {
-                sql.append(SQLUtil.makeLikeClause("USER_NAME", searchVO.getSearchKeyword()));
+    public List<UserVO> getUserList(SearchVO searchVO) {
+        final Function<ResultSet, UserVO> mapperFn = (rs) -> {
+            try {
+                UserVO userVO = new UserVO();
+                userVO.setUserId(rs.getString("USER_ID"));
+                userVO.setUserName(rs.getString("USER_NAME"));
+                userVO.setEmail(rs.getString("EMAIL"));
+                userVO.setRowNum(rs.getInt("ROW_NUM"));
+
+                return userVO;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
+        };
+        StringBuilder sql = new StringBuilder("SELECT ROW_NUM, user_id, user_name, email" +
+                " FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,\n" +
+                "             user_id,\n" +
+                "             user_name,\n" +
+                "             email\n" +
+                "      FROM USERS) U\n" +
+                "WHERE ROW_NUM BETWEEN ? AND ?");
+
+        if (Objects.nonNull(searchVO.getSearchCondition())) {
+            sql.append(makeSearchClause(searchVO, "USER_ID", "USER_NAME"));
         }
         sql.append(" order by USER_ID");
 
-        Map<String, Object> result = executePagingQuery(sql.toString(), mapperFn, searchVO);
+        List<UserVO> userList = executeQuery(sql.toString(), mapperFn, searchVO.getStartIndex(), searchVO.getEndIndex());
 
-        return result;
+        return userList;
     }
 
-    public void updateUser(UserVO userVO) throws Exception {
+    public void updateUser(UserVO userVO) {
         String sql = "update USERS set USER_NAME=?,CELL_PHONE=?,ADDR=?,EMAIL=? where USER_ID=?";
         executeUpdate(sql, userVO.getUserName(), userVO.getPhone(), userVO.getAddr(), userVO.getEmail(), userVO.getUserId());
     }

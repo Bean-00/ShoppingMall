@@ -37,4 +37,12 @@ public class SearchVO {
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
 	}
+
+	public int getStartIndex() {
+		return (this.getPage() - 1) * this.getPageUnit() + 1;
+	}
+
+	public int getEndIndex() {
+		return this.getStartIndex() + this.getPageUnit() - 1;
+	}
 }

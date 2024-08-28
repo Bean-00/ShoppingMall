@@ -15,6 +15,7 @@ public class UserVO {
 	private String addr;
 	private String email;
 	private Date regDate;
+	private int rowNum;
 	
 	public UserVO(){
 	}
@@ -24,6 +25,8 @@ public class UserVO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+
+
 	}
 	public String getUserName() {
 		return userName;
@@ -76,8 +79,16 @@ public class UserVO {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+
 		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
 			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+
+	public int getRowNum() {
+		return this.rowNum;
 	}
 }

@@ -1,83 +1,63 @@
 package com.model2.mvc.service.product.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.function.Function;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.common.util.SQLUtil;
+import com.model2.mvc.service.product.vo.ProductStatusVO;
 import com.model2.mvc.service.product.vo.ProductVO;
 
-import static com.model2.mvc.common.util.DBUtil.executeUpdate;
+import static com.model2.mvc.common.util.DBUtil.*;
+import static com.model2.mvc.common.util.SQLUtil.makeSearchClause;
 
 public class ProductDAO {
-
     public ProductDAO() {
 
     }
 
     public void addProduct(ProductVO productVO) {
         String sql = "insert into product(" + "PROD_NO, PROD_NAME, PROD_DETAIL, MANUFACTURE_DAY," + "PRICE, IMAGE_FILE, REG_DATE)" + "VALUES (\r\n" + "   seq_product_prod_no.nextval,\r\n" + "  ?, ?, ?, ?, ?, ? \r\n" + ")";
-        executeUpdate(sql, productVO.getProdName(), productVO.getProdDetail(), productVO.getManuDate(),  productVO.getPrice(),  productVO.getFileName(),  productVO.getRegDate());
+        executeUpdate(sql, productVO.getProdName(), productVO.getProdDetail(), productVO.getManuDate(), productVO.getPrice(), productVO.getFileName(), productVO.getRegDate());
     }
 
-    public Map<String, Object> getProductList(SearchVO searchVO) {
+    public Map<String, Object> getProductWithStatusList(SearchVO searchVO) {
+
+        final Function<ResultSet, ProductStatusVO> mapperFn = (rs) -> {
+            try {
+                ProductStatusVO productStatusVO = new ProductStatusVO();
+                productStatusVO.setProdNo(rs.getInt("prodNo"));
+                productStatusVO.setProductName(rs.getString("prodName"));
+                productStatusVO.setPrice(rs.getInt("price"));
+                productStatusVO.setRegDate(rs.getDate("regDate"));
+                productStatusVO.setStatus(rs.getString("statusCode"));
+
+                return productStatusVO;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        };
+
         try (Connection con = DBUtil.getConnection()) {
-            StringBuilder sql = new StringBuilder("select * from PRODUCT ");
+            StringBuilder sql = new StringBuilder("select\n" +
+                    "    p.prod_no AS \"prodNo\",\n" +
+                    "    p.prod_name AS \"prodName\",\n" +
+                    "    p.price AS \"price\",\n" +
+                    "    p.reg_date AS \"regDate\",\n" +
+                    "    NVL(t.tran_status_code, 0) AS \"statusCode\"\n" +
+                    "\n" +
+                    "from product p left outer join transaction t on p.PROD_NO = t.prod_no");
             if (Objects.nonNull(searchVO.getSearchCondition())) {
-                if (searchVO.getSearchCondition().equals("0")) {
-                    sql.append(SQLUtil.makeLikeClause("PROD_NO", searchVO.getSearchKeyword()));
-                } else if (searchVO.getSearchCondition().equals("1")) {
-                    sql.append(SQLUtil.makeLikeClause("PROD_NAME", searchVO.getSearchKeyword()));
-                } else {
-                    sql.append(SQLUtil.makeLikeClause("PRICE", searchVO.getSearchKeyword()));
-                }
-
+                sql.append(makeSearchClause(searchVO, "p.prod_no", "p.prod_name", "p.price"));
             }
-            sql.append(" order by PROD_NO");
+            sql.append(" order by p.prod_no");
 
-            PreparedStatement stmt = con.prepareStatement(sql.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = stmt.executeQuery();
+            Map<String, Object> result = executePagingQuery(sql.toString(), mapperFn, searchVO);
 
-            rs.last();
-            int total = rs.getRow();
-
-            Map<String, Object> productMap = new HashMap<>();
-
-            productMap.put("count", new Integer(total));
-
-            rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit() + 1);
-            System.out.println("searchVO.getPage():" + searchVO.getPage());
-            System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
-
-            List<ProductVO> list = new ArrayList<>();
-
-            if (total > 0) {
-                for (int i = 0; i < searchVO.getPageUnit(); i++) {
-                    ProductVO productVO = new ProductVO();
-                    productVO.setProdNo(rs.getInt("PROD_NO"));
-                    productVO.setProdName(rs.getString("PROD_NAME"));
-                    productVO.setProdDetail(rs.getString("PROD_DETAIL"));
-                    productVO.setManuDate(rs.getString("MANUFACTURE_DAY"));
-                    productVO.setPrice(rs.getInt("PRICE"));
-                    productVO.setFileName(rs.getString("IMAGE_FILE"));
-                    productVO.setRegDate(rs.getDate("REG_DATE"));
-
-                    list.add(productVO);
-                    if (!rs.next()) break;
-                }
-            }
-            System.out.println("list.size() : " + list.size());
-            productMap.put("list", list);
-            System.out.println("map().size() : " + productMap.size());
-
-            con.close();
-
-            return productMap;
-
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -85,58 +65,34 @@ public class ProductDAO {
     }
 
     public ProductVO getProductByProdNo(String prodNo) throws SQLException {
-        Connection con = DBUtil.getConnection();
+        final Function<ResultSet, ProductVO> mapperFn = (rs) -> {
+            try {
+                ProductVO productVO = new ProductVO();
 
+                productVO.setProdNo(rs.getInt("PROD_NO"));
+                productVO.setProdName(rs.getString("PROD_NAME"));
+                productVO.setProdDetail(rs.getString("PROD_DETAIL"));
+                productVO.setManuDate(rs.getString("MANUFACTURE_DAY"));
+                productVO.setPrice(rs.getInt("PRICE"));
+                productVO.setFileName(rs.getString("IMAGE_FILE"));
+                productVO.setRegDate(rs.getDate("REG_DATE"));
+
+                return productVO;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        };
         String sql = "select * from PRODUCT where PROD_NO=?";
+        List<ProductVO> productList = executeQuery(sql, mapperFn, prodNo);
 
-        PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setString(1, prodNo);
-
-        ResultSet rs = stmt.executeQuery();
-
-        ProductVO productVO = null;
-        while (rs.next()) {
-            productVO = new ProductVO();
-            productVO.setProdNo(rs.getInt("PROD_NO"));
-            productVO.setProdName(rs.getString("PROD_NAME"));
-            productVO.setProdDetail(rs.getString("PROD_DETAIL"));
-            productVO.setManuDate(rs.getString("MANUFACTURE_DAY"));
-            productVO.setPrice(rs.getInt("PRICE"));
-            productVO.setFileName(rs.getString("IMAGE_FILE"));
-            productVO.setRegDate(rs.getDate("REG_DATE"));
-
-        }
-
-        con.close();
-
-        return productVO;
+        return productList.size() > 0 ? productList.get(0) : null;
     }
 
     public void updateProduct(ProductVO productVO) {
-
-        try (Connection con = DBUtil.getConnection()) {
-            StringBuilder sql = new StringBuilder("UPDATE product " +
-                    "SET PROD_NAME = ?," +
-                    "PROD_DETAIL = ?," +
-                    "MANUFACTURE_DAY = ?," +
-                    "PRICE = ?," +
-                    "IMAGE_FILE = ?," +
-                    "REG_DATE = ?" +
-            "where PROD_NO = ?");
-
-            PreparedStatement stmt = con.prepareStatement(sql.toString());
-            stmt.setString(1, productVO.getProdName());
-            stmt.setString(2, productVO.getProdDetail());
-            stmt.setString(3, productVO.getManuDate());
-            stmt.setInt(4, productVO.getPrice());
-            stmt.setString(5, productVO.getFileName());
-            stmt.setDate(6, productVO.getRegDate());
-            stmt.setInt(7, productVO.getProdNo());
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String sql = "UPDATE product SET PROD_NAME = ?, PROD_DETAIL = ?, MANUFACTURE_DAY = ?, PRICE = ?, IMAGE_FILE = ?, REG_DATE = ? where PROD_NO = ? ";
+        executeUpdate(sql, productVO.getProdName(), productVO.getProdDetail(),
+                productVO.getManuDate(), productVO.getPrice(),
+                productVO.getFileName(), productVO.getRegDate(),
+                productVO.getProdNo());
     }
 }

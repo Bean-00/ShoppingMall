@@ -19,10 +19,10 @@
     SearchVO searchVO = (SearchVO) request.getAttribute("searchVO");
 
     int total = 0;
-    ArrayList<ProductVO> list = null;
+    ArrayList<ProductStatusVO> list = null;
     if (map != null) {
         total = ((Integer) map.get("count")).intValue();
-        list = (ArrayList<ProductVO>) map.get("list");
+        list = (ArrayList<ProductStatusVO>) map.get("list");
     }
 
     int currentPage = searchVO.getPage();
@@ -132,7 +132,7 @@
             <%
                 int no = list.size();
                 for (int i = 0; i < list.size(); i++) {
-                    ProductVO pvo = list.get(i);
+                    ProductStatusVO psvo = list.get(i);
             %>
             <tr class="ct_list_pop">
                 <td align="center"><%=no--%>
@@ -144,12 +144,18 @@
                             if (role.equals("admin")) {
                     %>
                     <a
-                            href="/updateProductView.do?prodNo=<%=pvo.getProdNo() %>&menu=manage"><%= pvo.getProdName() %>
+                            href="/updateProductView.do?prodNo=<%=psvo.getProdNo() %>&menu=manage"><%= psvo.getProductName() %>
                             <% } else {
                                 %>
+                        <%
+                                if (psvo.getStatus().getCode().equals("0")){
+                            %>
                         <a
-                                href="/getProduct.do?prodNo=<%=pvo.getProdNo() %>&menu=manage"><%= pvo.getProdName() %>
+                                href="/getProduct.do?prodNo=<%=psvo.getProdNo() %>&menu=manage">
+                            <% } %>
+                            <%= psvo.getProductName() %>
                             <%
+
                                     }
                                 }
 
@@ -157,13 +163,13 @@
 
                         </a></td>
                 <td></td>
-                <td align="left"><%= pvo.getPrice() %>
+                <td align="left"><%= psvo.getPrice() %>
                 </td>
                 <td></td>
-                <td align="left"><%= pvo.getManuDate() %>
+                <td align="left"><%= psvo.getRegDate() %>
                 </td>
                 <td></td>
-                <td align="left">판매 중</td>
+                <td align="left"><%= psvo.getStatus().getText() %></td>
 
             </tr>
             <% }

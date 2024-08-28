@@ -30,7 +30,7 @@ public class ListProductAction extends Action {
         searchVO.setPageUnit(Integer.parseInt(pageUnit));
 
         ProductService service = new ProductServiceImpl();
-        Map<String, Object> map = service.getProductList(searchVO);
+        Map<String, Object> map = service.getProductWithStatusList(searchVO);
 
         request.setAttribute("map", map);
         request.setAttribute("searchVO", searchVO);

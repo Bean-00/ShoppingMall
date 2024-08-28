@@ -1,0 +1,61 @@
+package com.model2.mvc.service.product.vo;
+
+import com.model2.mvc.service.purchase.constant.PurchaseStatus;
+
+import java.util.Date;
+import java.util.Optional;
+
+public class ProductStatusVO {
+
+    private int prodNo;
+    private String productName;
+    private int price;
+    private Date regDate;
+    private PurchaseStatus status;
+
+    public int getProdNo() {
+        return prodNo;
+    }
+
+    public void setProdNo(int prodNo) {
+        this.prodNo = prodNo;
+    }
+
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+
+    public PurchaseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PurchaseStatus status) {
+        this.status = status;
+    }
+
+    public void setStatus(String code) {
+        this.status = PurchaseStatus.getByCode(code);
+    }
+}

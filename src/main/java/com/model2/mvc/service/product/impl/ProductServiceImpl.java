@@ -32,11 +32,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Map<String, Object> getAllProduct(SearchVO searchVO) {
-		return productDAO.getProductList(searchVO);
-	}
-
-	@Override
 	public ProductVO getProduct(String productNo) {
         try {
             return productDAO.getProductByProdNo(productNo);
@@ -47,8 +42,8 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public Map<String, Object> getProductList(SearchVO searchVO) {
-		return productDAO.getProductList(searchVO);
+	public Map<String, Object> getProductWithStatusList(SearchVO searchVO) {
+		return productDAO.getProductWithStatusList(searchVO);
 	}
 	
 }

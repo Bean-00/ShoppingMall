@@ -13,10 +13,8 @@ public interface ProductService {
 
 	void deleteProduct (ProductVO productVO);
 
-	Map<String, Object> getAllProduct (SearchVO searchVO);
-
 	ProductVO getProduct (String productNo);
 	
-	Map<String, Object> getProductList (SearchVO searchVO);
+	Map<String, Object> getProductWithStatusList (SearchVO searchVO);
 
 }

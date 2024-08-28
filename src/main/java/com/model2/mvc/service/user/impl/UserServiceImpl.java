@@ -5,6 +5,7 @@ import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.dao.UserDAO;
 import com.model2.mvc.service.user.vo.UserVO;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService{
 		return userDAO.findUser(userId);
 	}
 
-	public Map<String, Object> getUserList(SearchVO searchVO) throws Exception {
+	public List<UserVO> getUserList(SearchVO searchVO) throws Exception {
 		return userDAO.getUserList(searchVO);
 	}
 
@@ -48,5 +49,10 @@ public class UserServiceImpl implements UserService{
 			result=false;
 		}
 		return result;
+	}
+
+	@Override
+	public int getUserTotalCount() {
+		return UserDAO.getAllUserCount();
 	}
 }
