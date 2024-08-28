@@ -15,7 +15,7 @@
     }
 
 
-    HashMap<String, Object> map = (HashMap<String, Object>) request.getAttribute("map");
+    Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
     SearchVO searchVO = (SearchVO) request.getAttribute("searchVO");
 
     int total = 0;
@@ -135,7 +135,7 @@
                     ProductStatusVO psvo = list.get(i);
             %>
             <tr class="ct_list_pop">
-                <td align="center"><%=no--%>
+                <td align="center"><%=psvo.getRowNum()%>
                 </td>
                 <td></td>
                 <td align="left">
@@ -188,7 +188,7 @@
                         <%
 						for (int i = 1; i <= totalPage; i++) {
 						%>
-                    <a href="/listProduct.do?page=1&menu=manage"><%= i %>
+                    <a href="/listProduct.do?page=<%= i%>&menu=manage"><%= i %>
                     </a>
                         <% } %>
             </tr>

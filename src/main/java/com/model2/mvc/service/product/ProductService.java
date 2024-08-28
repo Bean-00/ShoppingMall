@@ -1,9 +1,10 @@
 package com.model2.mvc.service.product;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.service.product.vo.ProductStatusVO;
 import com.model2.mvc.service.product.vo.ProductVO;
 
-import java.util.Map;
+import java.util.List;
 
 
 public interface ProductService {
@@ -15,6 +16,7 @@ public interface ProductService {
 
 	ProductVO getProduct (String productNo);
 	
-	Map<String, Object> getProductWithStatusList (SearchVO searchVO);
+	List<ProductStatusVO> getProductWithStatusList (SearchVO searchVO);
 
+	int getAllProductCount ();
 }

@@ -36,7 +36,7 @@ public class ListUserAction extends Action {
         Map<String, Object> map = new HashMap<>();
 
         List<UserVO> userList = service.getUserList(searchVO);
-        int totalCount = service.getUserTotalCount();
+        int totalCount = service.getUserTotalCount(searchVO);
 
         map.put("count", totalCount);
         map.put("list", userList);

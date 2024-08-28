@@ -21,5 +21,5 @@ public interface UserService {
 	
 	boolean checkDuplication(String userId) throws Exception;
 
-	int getUserTotalCount();
+	int getUserTotalCount(SearchVO searchVO);
 }

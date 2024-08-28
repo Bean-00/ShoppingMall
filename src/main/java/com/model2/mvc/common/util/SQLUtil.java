@@ -25,8 +25,8 @@ public class SQLUtil {
     public static String makeSearchClause(SearchVO searchVO, String... columnNames) {
         int index = 0;
         for (String columnName : columnNames) {
-            if (String.valueOf(index).equals(columnName)) {
-                return makeLikeClause(columnNames[index], searchVO.getSearchKeyword());
+            if (String.valueOf(index++).equals(searchVO.getSearchCondition())) {
+                return makeLikeClause(columnName, searchVO.getSearchKeyword());
             }
         }
         return null;

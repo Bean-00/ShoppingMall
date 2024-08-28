@@ -37,7 +37,7 @@ public class DBUtil {
 
     public static <T> List<T> executeQuery(String sql, Function<ResultSet, T> mapperFn, Object... args) {
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement psmt = getPreparedStatement(conn, sql, false, args)) {
+             PreparedStatement psmt = getPreparedStatement(conn, sql, args)) {
             List<T> list = new ArrayList<>();
             ResultSet rs = psmt.executeQuery();
 
@@ -52,47 +52,9 @@ public class DBUtil {
         }
     }
 
-    public static <T> Map<String, Object> executePagingQuery(String sql, Function<ResultSet, T> mapperFn, SearchVO searchVO, Object... args) {
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement psmt = getPreparedStatement(conn, sql, true, args)) {
-            Map<String, Object> map = new HashMap<>();
 
-            ResultSet rs = psmt.executeQuery();
-            rs.last();
-            int total = rs.getRow();
-
-            map.put("count", total);
-
-            rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit() + 1);
-            System.out.println("searchVO.getPage():" + searchVO.getPage());
-            System.out.println("searchVO.getPageUnit():" + searchVO.getPageUnit());
-
-            List<T> list = new ArrayList<>();
-            if (total > 0) {
-                for (int i = 0; i < searchVO.getPageUnit(); i++) {
-                    T vo = mapperFn.apply(rs);
-
-                    list.add(vo);
-                    if (!rs.next())
-                        break;
-                }
-            }
-
-            System.out.println("list.size() : " + list.size());
-            map.put("list", list);
-            System.out.println("map().size() : " + map.size());
-
-
-            return map;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static PreparedStatement getPreparedStatement(Connection conn, String sql, boolean isSearch, Object... args) throws SQLException {
-        PreparedStatement psmt = isSearch ? conn.prepareStatement(sql.toString(),
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_UPDATABLE) : conn.prepareStatement(sql);
+    private static PreparedStatement getPreparedStatement(Connection conn, String sql, Object... args) throws SQLException {
+        PreparedStatement psmt = conn.prepareStatement(sql);
         int index = 1;
         if (Objects.nonNull(args)) {
             for (Object arg : args) {

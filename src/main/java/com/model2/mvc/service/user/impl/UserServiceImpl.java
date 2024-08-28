@@ -34,15 +34,15 @@ public class UserServiceImpl implements UserService{
 		return userDAO.findUser(userId);
 	}
 
-	public List<UserVO> getUserList(SearchVO searchVO) throws Exception {
+	public List<UserVO> getUserList(SearchVO searchVO) {
 		return userDAO.getUserList(searchVO);
 	}
 
-	public void updateUser(UserVO userVO) throws Exception {
+	public void updateUser(UserVO userVO) {
 		userDAO.updateUser(userVO);
 	}
 
-	public boolean checkDuplication(String userId) throws Exception {
+	public boolean checkDuplication(String userId) {
 		boolean result=true;
 		UserVO userVO=userDAO.findUser(userId);
 		if(userVO != null) {
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int getUserTotalCount() {
-		return UserDAO.getAllUserCount();
+	public int getUserTotalCount(SearchVO searchVO) {
+		return UserDAO.getAllUserCount(searchVO);
 	}
 }

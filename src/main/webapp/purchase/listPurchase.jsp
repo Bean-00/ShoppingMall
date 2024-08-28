@@ -1,7 +1,31 @@
+<%@ page import="com.model2.mvc.common.SearchVO" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.model2.mvc.service.product.vo.ProductStatusVO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.model2.mvc.service.purchase.vo.PurchaseBuyerVO" %>
+<%@ page import="com.model2.mvc.service.purchase.constant.PurchaseStatus" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%
+    Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
+    SearchVO searchVO = (SearchVO) request.getAttribute("searchVO");
 
+    int total = 0;
+    ArrayList<PurchaseBuyerVO> list = null;
+    if (map != null) {
+        total = ((Integer) map.get("count")).intValue();
+        list = (ArrayList<PurchaseBuyerVO>) map.get("list");
+    }
+
+    int currentPage = searchVO.getPage();
+
+    int totalPage = 0;
+    if (total > 0) {
+        totalPage = total / searchVO.getPageUnit();
+        if (total % searchVO.getPageUnit() > 0)
+            totalPage += 1;
+    }
 
 %>
 <html>
@@ -39,7 +63,7 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
             <tr>
-                <td colspan="11">전체 2 건수, 현재 1 페이지</td>
+                <td colspan="11">전체 <%= total%> 건수, 현재 <%= currentPage%> 페이지</td>
             </tr>
             <tr>
                 <td class="ct_list_b" width="100">No</td>
@@ -58,23 +82,26 @@
                 <td colspan="11" bgcolor="808285" height="1"></td>
             </tr>
 
+            <%
+                for (int i = 0; i < list.size(); i++) {
+                    PurchaseBuyerVO purchaseBuyerVO = list.get(i);
+            %>
 
             <tr class="ct_list_pop">
                 <td align="center">
-                    <a href="/getPurchase.do?tranNo=10019">2</a>
+                    <a href="/getPurchase.do?tranNo=10019"><%=purchaseBuyerVO.getRowNum()%></a>
                 </td>
                 <td></td>
                 <td align="left">
-                    <a href="/getUser.do?userId=user05">user05</a>
+                    <a href="/getUser.do?userId=user05"><%=purchaseBuyerVO.getBuyerId()%></a>
                 </td>
                 <td></td>
-                <td align="left">SCOTT</td>
+                <td align="left"><%=purchaseBuyerVO.getBuyerName()%></td>
                 <td></td>
-                <td align="left">01000000000</td>
+                <td align="left"><%=purchaseBuyerVO.getBuyerPhone()%></td>
                 <td></td>
                 <td align="left">현재
-
-                    배송완료
+                    <%= PurchaseStatus.getByCode(purchaseBuyerVO.getTranCode())%>
                     상태 입니다.
                 </td>
                 <td></td>
@@ -82,47 +109,20 @@
 
                 </td>
             </tr>
+                <% }
+            %>
             <tr>
                 <td colspan="11" bgcolor="D6D7D6" height="1"></td>
             </tr>
 
 
-            <tr class="ct_list_pop">
-                <td align="center">
-                    <a href="/getPurchase.do?tranNo=10027">1</a>
-                </td>
-                <td></td>
-                <td align="left">
-                    <a href="/getUser.do?userId=user05">user05</a>
-                </td>
-                <td></td>
-                <td align="left">SCOTT</td>
-                <td></td>
-                <td align="left">null</td>
-                <td></td>
-                <td align="left">현재
 
-                    배송중
-                    상태 입니다.
-                </td>
-                <td></td>
-                <td align="left">
-
-                    <a href="/updateTranCode.do?tranNo=10027&tranCode=3">물건도착</a>
-
-                </td>
-            </tr>
-            <tr>
-                <td colspan="11" bgcolor="D6D7D6" height="1"></td>
-            </tr>
-
-        </table>
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
             <tr>
                 <td align="center">
 
-                    <a href="/listPurchase.do?page=1">1</a>
+                    <a href="/listPurchase.do?page=<%= currentPage%>"><%= currentPage%></a>
 
                 </td>
             </tr>

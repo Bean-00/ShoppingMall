@@ -41,7 +41,7 @@ public class UserDAO {
     public UserDAO() {
     }
 
-    public static int getAllUserCount() {
+    public static int getAllUserCount(SearchVO searchVO) {
         Function<ResultSet, Integer> mapperFn = (rs) -> {
                 try {
                     int totalCount = rs.getInt("totalCount");
@@ -51,10 +51,13 @@ public class UserDAO {
                 }
         };
 
-        String sql = "SELECT\n" +
+        StringBuilder sql = new StringBuilder("SELECT\n" +
                 "    COUNT(user_id) AS \"totalCount\"\n" +
-                "FROM USERS";
-        return executeQuery(sql,mapperFn).get(0);
+                "FROM USERS\n");
+        if (Objects.nonNull(searchVO.getSearchCondition())) {
+            sql.append(makeSearchClause(searchVO, "USER_ID", "USER_NAME"));
+        }
+        return executeQuery(sql.toString(),mapperFn).get(0);
     }
 
     public void insertUser(UserVO userVO) {
@@ -96,12 +99,16 @@ public class UserDAO {
                 "             user_id,\n" +
                 "             user_name,\n" +
                 "             email\n" +
-                "      FROM USERS) U\n" +
-                "WHERE ROW_NUM BETWEEN ? AND ?");
+                "      FROM USERS\n");
 
         if (Objects.nonNull(searchVO.getSearchCondition())) {
             sql.append(makeSearchClause(searchVO, "USER_ID", "USER_NAME"));
         }
+
+        sql.append(") U\n");
+        sql.append("WHERE ROW_NUM BETWEEN ? AND ?");
+
+
         sql.append(" order by USER_ID");
 
         List<UserVO> userList = executeQuery(sql.toString(), mapperFn, searchVO.getStartIndex(), searchVO.getEndIndex());

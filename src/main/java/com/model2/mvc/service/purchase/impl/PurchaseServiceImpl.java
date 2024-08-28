@@ -1,11 +1,16 @@
 package com.model2.mvc.service.purchase.impl;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.service.product.vo.ProductStatusVO;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.dao.PurchaseDAO;
+import com.model2.mvc.service.purchase.vo.PurchaseBuyerVO;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
 
+import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
+import java.util.function.Function;
 
 public class PurchaseServiceImpl implements PurchaseService {
 
@@ -27,8 +32,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public HashMap<String, Object> getPurchaseList() {
-        return null;
+    public List<PurchaseBuyerVO> getPurchaseList(SearchVO searchVO) {
+        return purchaseDAO.getPurchaseList(searchVO);
     }
 
     @Override
@@ -44,5 +49,10 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public void TranCode(PurchaseVO purchaseVO) {
 
+    }
+
+    @Override
+    public int getAllPurchaseCount() {
+        return purchaseDAO.getPurchaseTotalCount();
     }
 }

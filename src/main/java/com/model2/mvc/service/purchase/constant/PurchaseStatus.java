@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum PurchaseStatus {
-    FOR_SALE("0", "판매 중"),
-    PURCHASED("1", "구매 완료"),
-    SHIPPING("2", "배송 중"),
-    DELIVERED("3", "배송 확인");
+    FOR_SALE("0", "판매중"),
+    PURCHASED("1", "구매완료"),
+    SHIPPING("2", "배송중"),
+    DELIVERED("3", "배송확인");
 
     private final String code;
     private final String text;

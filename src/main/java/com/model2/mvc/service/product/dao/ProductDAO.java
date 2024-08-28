@@ -24,11 +24,12 @@ public class ProductDAO {
         executeUpdate(sql, productVO.getProdName(), productVO.getProdDetail(), productVO.getManuDate(), productVO.getPrice(), productVO.getFileName(), productVO.getRegDate());
     }
 
-    public Map<String, Object> getProductWithStatusList(SearchVO searchVO) {
+    public List<ProductStatusVO> getProductWithStatusList(SearchVO searchVO) {
 
         final Function<ResultSet, ProductStatusVO> mapperFn = (rs) -> {
             try {
                 ProductStatusVO productStatusVO = new ProductStatusVO();
+                productStatusVO.setRowNum(rs.getInt("rowNum"));
                 productStatusVO.setProdNo(rs.getInt("prodNo"));
                 productStatusVO.setProductName(rs.getString("prodName"));
                 productStatusVO.setPrice(rs.getInt("price"));
@@ -41,27 +42,22 @@ public class ProductDAO {
             }
         };
 
-        try (Connection con = DBUtil.getConnection()) {
-            StringBuilder sql = new StringBuilder("select\n" +
-                    "    p.prod_no AS \"prodNo\",\n" +
-                    "    p.prod_name AS \"prodName\",\n" +
-                    "    p.price AS \"price\",\n" +
-                    "    p.reg_date AS \"regDate\",\n" +
-                    "    NVL(t.tran_status_code, 0) AS \"statusCode\"\n" +
-                    "\n" +
-                    "from product p left outer join transaction t on p.PROD_NO = t.prod_no");
-            if (Objects.nonNull(searchVO.getSearchCondition())) {
-                sql.append(makeSearchClause(searchVO, "p.prod_no", "p.prod_name", "p.price"));
-            }
-            sql.append(" order by p.prod_no");
-
-            Map<String, Object> result = executePagingQuery(sql.toString(), mapperFn, searchVO);
-
-            return result;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+        StringBuilder sql = new StringBuilder("select\n" +
+                "    ROW_NUMBER() over (ORDER BY p.reg_date) AS \"rowNum\",\n" +
+                "    p.prod_no AS \"prodNo\",\n" +
+                "    p.prod_name AS \"prodName\",\n" +
+                "    p.price AS \"price\",\n" +
+                "    p.reg_date AS \"regDate\",\n" +
+                "    NVL(t.tran_status_code, 0) AS \"statusCode\"\n" +
+                "from product p left outer join transaction t on p.PROD_NO = t.prod_no");
+        if (Objects.nonNull(searchVO.getSearchCondition())) {
+            sql.append(makeSearchClause(searchVO, "p.prod_no", "p.prod_name", "p.price"));
         }
+        sql.append(" order by p.prod_no");
+
+        List<ProductStatusVO> result = executeQuery(sql.toString(), mapperFn);
+
+        return result;
     }
 
     public ProductVO getProductByProdNo(String prodNo) throws SQLException {
@@ -94,5 +90,21 @@ public class ProductDAO {
                 productVO.getManuDate(), productVO.getPrice(),
                 productVO.getFileName(), productVO.getRegDate(),
                 productVO.getProdNo());
+    }
+
+    public int getProductTotalCount() {
+        Function<ResultSet, Integer> mapperFn = (rs) -> {
+            try {
+                int totalCount = rs.getInt("totalCount");
+                return totalCount;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        };
+        String sql = "SELECT\n" +
+                "    count(prod_no) AS \"totalCount\"\n" +
+                "FROM product";
+
+        return executeQuery(sql, mapperFn).get(0);
     }
 }

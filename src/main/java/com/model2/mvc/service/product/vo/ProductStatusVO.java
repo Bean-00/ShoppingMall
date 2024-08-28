@@ -12,6 +12,15 @@ public class ProductStatusVO {
     private int price;
     private Date regDate;
     private PurchaseStatus status;
+    private int rowNum;
+
+    public int getRowNum() {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum) {
+        this.rowNum = rowNum;
+    }
 
     public int getProdNo() {
         return prodNo;
