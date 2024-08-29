@@ -28,7 +28,7 @@ public class DBUtil {
 
     public static void executeUpdate(String sql, Object... args) {
         try (Connection conn = getConnection();
-			 PreparedStatement psmt = getPreparedStatement(conn, sql, false, args)) {
+			 PreparedStatement psmt = getPreparedStatement(conn, sql, args)) {
 			psmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -6,6 +6,7 @@ public class PurchaseBuyerVO {
     private String buyerName;
     private String buyerPhone;
     private String tranCode;
+    private String prodNo;
 
     public int getRowNum() {
         return rowNum;
@@ -46,4 +47,13 @@ public class PurchaseBuyerVO {
     public void setTranCode(String tranCode) {
         this.tranCode = tranCode;
     }
+
+    public String getProdNo() {
+        return prodNo;
+    }
+
+    public void setProdNo(String prodNo) {
+        this.prodNo = prodNo;
+    }
+
 }

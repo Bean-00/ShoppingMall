@@ -20,13 +20,6 @@
 
     int currentPage = searchVO.getPage();
 
-//    int totalPage = 0;
-//    if (total > 0) {
-//        totalPage = total / searchVO.getPageUnit();
-//        if (total % searchVO.getPageUnit() > 0)
-//            totalPage += 1;
-//    }
-
 %>
 <html>
 <head>
@@ -93,7 +86,8 @@
                 </td>
                 <td></td>
                 <td align="left">
-                    <a href="/getUser.do?userId=<%=purchaseBuyerVO.getBuyerId()%>"><%=purchaseBuyerVO.getBuyerId()%></a>
+                    <a href="/getUser.do?userId=<%=purchaseBuyerVO.getBuyerId()%>"><%=purchaseBuyerVO.getBuyerId()%>
+                    </a>
                 </td>
                 <td></td>
                 <td align="left"><%=purchaseBuyerVO.getBuyerName()%>
@@ -105,10 +99,18 @@
                 <td align="left">현재
                     <%= PurchaseStatus.getTextByCode((purchaseBuyerVO.getTranCode()))%>
                     상태 입니다.
+
                 </td>
                 <td></td>
                 <td align="left">
+                    <%
+                        if (purchaseBuyerVO.getTranCode().equals("2")) { %>
+                    <a href="/updateTranCode.do?prodNo=<%=purchaseBuyerVO.getProdNo()%>&role=Buyer&buyerId=<%=purchaseBuyerVO.getBuyerId()%>&page=<%= currentPage%>">
+                    물건도착
+                    </a>
 
+                    <% }
+                    %>
                 </td>
             </tr>
                 <% }

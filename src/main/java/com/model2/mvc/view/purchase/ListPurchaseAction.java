@@ -46,6 +46,7 @@ public class ListPurchaseAction extends Action {
         request.setAttribute("map", map);
         request.setAttribute("searchVO", searchVO);
 
+
         return "forward:/purchase/listPurchase.jsp";
     }
 }

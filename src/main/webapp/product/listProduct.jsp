@@ -4,6 +4,7 @@
 <%@ page import="com.model2.mvc.service.product.vo.*" %>
 <%@ page import="com.model2.mvc.common.*" %>
 <%@ page import="com.model2.mvc.service.user.vo.UserVO" %>
+<%@ page import="com.model2.mvc.service.purchase.constant.PurchaseStatus" %>
 
 <%
     UserVO vo = (UserVO) session.getAttribute("user");
@@ -147,7 +148,7 @@
                             href="/updateProductView.do?prodNo=<%=psvo.getProdNo() %>&menu=manage"><%= psvo.getProductName() %>
                             <% } else {
                                 %>
-                        <%
+                            <%
                                 if (psvo.getStatus().getCode().equals("0")){
                             %>
                         <a
@@ -169,8 +170,26 @@
                 <td align="left"><%= psvo.getRegDate() %>
                 </td>
                 <td></td>
-                <td align="left"><%= psvo.getStatus().getText() %></td>
-
+                <%
+                    if (vo.getRole().equals("user") && !psvo.getStatus().getCode().equals("0")) {
+                %>
+                <td align="left">재고 없음</td>
+                <% } else if (vo.getRole().equals("user") && psvo.getStatus().getCode().equals("0")) {
+                %>
+                <td align="left">판매 중</td>
+                <% } else {
+                %>
+                <td align="left"><%= psvo.getStatus().getText()%>
+                    <%
+                        if (psvo.getStatus().getCode().equals("1")) { %>
+                        <a href="/updateTranCode.do?prodNo=<%=psvo.getProdNo()%>&tranCode=<%=psvo.getStatus().getCode()%>&page=<%= currentPage%>">
+                            배송하기
+                        </a>
+                    <%
+                        }
+                    %></td>
+                <% }
+                %>
             </tr>
             <% }
             %>

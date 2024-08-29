@@ -274,9 +274,9 @@ WHERE ROW_NUM BETWEEN 1 AND 3
 ORDER BY user_id;
 
 SELECT "rowNum",
-       buyer_id AS "buyerId",
-       receiver_name AS "buyerName",
-       receiver_phone AS "buyerPhone",
+       buyer_id         AS "buyerId",
+       receiver_name    AS "buyerName",
+       receiver_phone   AS "buyerPhone",
        tran_status_code AS "tranCode"
 FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
              buyer_id,
@@ -286,7 +286,7 @@ FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
              order_data
       FROM TRANSACTION) A
 WHERE buyer_id = 'user01'
-AND "rowNum" BETWEEN 1 AND 3
+  AND "rowNum" BETWEEN 1 AND 3
 ORDER BY order_data;
 
 select p.prod_no                  AS "prodNo",
@@ -299,9 +299,9 @@ from product p
 order by p.prod_no;
 
 SELECT "rowNum",
-       buyer_id AS "buyerId",
-       receiver_name AS "buyerName",
-       receiver_phone AS "buyerPhone",
+       buyer_id         AS "buyerId",
+       receiver_name    AS "buyerName",
+       receiver_phone   AS "buyerPhone",
        tran_status_code AS "tranCode"
 FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
              buyer_id,
@@ -309,16 +309,153 @@ FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
              receiver_phone,
              tran_status_code,
              order_data
-      FROM TRANSACTION
-     )
-WHERE buyer_id ='user01'
+      FROM TRANSACTION)
+WHERE buyer_id = 'user01'
   AND "rowNum" BETWEEN ? AND ?
-ORDER BY order_data ;
+ORDER BY order_data;
 
-SELECT ROW_NUM, user_id, user_name, email FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
-                                                       user_id,
-                                                       user_name,
-                                                       email
-                                                FROM USERS
-                                               ) U
-WHERE ROW_NUM BETWEEN ? AND ? order by USER_ID
+SELECT ROW_NUM, user_id, user_name, email
+FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
+             user_id,
+             user_name,
+             email
+      FROM USERS) U
+WHERE ROW_NUM BETWEEN ? AND ?
+order by USER_ID;
+
+
+SELECT "rowNum",
+       buyer_id         AS "buyerId",
+       receiver_name    AS "buyerName",
+       receiver_phone   AS "buyerPhone",
+       tran_status_code AS "tranCode"
+FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
+             buyer_id,
+             receiver_name,
+             receiver_phone,
+             tran_status_code,
+             order_data
+      FROM TRANSACTION) A
+WHERE buyer_id = 'user01'
+  AND "rowNum" BETWEEN 1 AND 3
+ORDER BY order_data;
+
+
+SELECT PT.ROW_NUM      AS "rowNum",
+       PT."prodNo"     AS "prodNo",
+       PT."prodName"   AS "prodName",
+       PT."price"      AS "price",
+       PT."regDate"    AS "redDate",
+       PT."statusCode" AS "statusCode"
+
+FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
+             p.prod_no                             AS "prodNo",
+             p.prod_name                           AS "prodName",
+             p.price                               AS "price",
+             p.reg_date                            AS "regDate",
+             NVL(t.tran_status_code, 0)            AS "statusCode"
+      from product p
+               left outer join transaction t on p.PROD_NO = t.prod_no
+      order by p.reg_date) PT;
+
+SELECT PT.ROW_NUM      AS "rowNum",
+       PT."prodNo"     AS "prodNo",
+       PT."prodName"   AS "prodName",
+       PT."price"      AS "price",
+       PT."regDate"    AS "redDate",
+       PT."statusCode" AS "statusCode"
+
+FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
+             p.prod_no                             AS "prodNo",
+             p.prod_name                           AS "prodName",
+             p.price                               AS "price",
+             p.reg_date                            AS "regDate",
+             NVL(t.tran_status_code, 0)            AS "statusCode"
+      from product p
+               left outer join transaction t on p.PROD_NO = t.prod_no
+      order by p.prod_no) PT;
+
+SELECT PT.ROW_NUM      AS "rowNum",
+       PT."prodNo"     AS "prodNo",
+       PT."prodName"   AS "prodName",
+       PT."price"      AS "price",
+       PT."regDate"    AS "redDate",
+       PT."statusCode" AS "statusCode"
+
+FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
+             p.prod_no                             AS "prodNo",
+             p.prod_name                           AS "prodName",
+             p.price                               AS "price",
+             p.reg_date                            AS "regDate",
+             NVL(t.tran_status_code, 0)            AS "statusCode"
+      from product p
+               left outer join transaction t on p.PROD_NO = t.prod_no
+      WHERE rowNum BETWEEN 1 AND 3
+      order by p.reg_date) PT;
+
+SELECT ROW_NUM, user_id, user_name, email
+FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
+             user_id,
+             user_name,
+             email
+      FROM USERS) U
+WHERE ROW_NUM BETWEEN 4 AND 6
+order by USER_ID;
+
+SELECT PT.ROW_NUM      AS "rowNum",
+       PT."prodNo"     AS "prodNo",
+       PT."prodName"   AS "prodName",
+       PT."price"      AS "price",
+       PT."regDate"    AS "regDate",
+       PT."statusCode" AS "statusCode"
+
+FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
+             p.prod_no                             AS "prodNo",
+             p.prod_name                           AS "prodName",
+             p.price                               AS "price",
+             p.reg_date                            AS "regDate",
+             NVL(t.tran_status_code, 0)            AS "statusCode"
+      from product p
+               left outer join transaction t on p.PROD_NO = t.prod_no) PT
+WHERE "ROW_NUM" BETWEEN 4 AND 6
+order by "regDate";
+
+SELECT PT.ROW_NUM      AS "rowNum",
+       PT."prodNo"     AS "prodNo",
+       PT."prodName"   AS "prodName",
+       PT."price"      AS "price",
+       PT."regDate"    AS "regDate",
+       PT."statusCode" AS "statusCode"
+
+FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
+             p.prod_no                             AS "prodNo",
+             p.prod_name                           AS "prodName",
+             p.price                               AS "price",
+             p.reg_date                            AS "regDate",
+             NVL(t.tran_status_code, 0)            AS "statusCode"
+      from product p
+               left outer join transaction t on p.PROD_NO = t.prod_no) PT
+WHERE "ROW_NUM" BETWEEN ? AND ?
+order by PT."regDate";
+
+SELECT *
+FROM TRANSACTION
+WHERE prod_no = '10000';
+
+UPDATE TRANSACTION
+SET TRAN_STATUS_CODE = 2
+WHERE prod_no = 10000;
+
+UPDATE TRANSACTION
+SET TRAN_STATUS_CODE = TRAN_STATUS_CODE + 1
+WHERE prod_no = 10000;
+
+UPDATE TRANSACTION
+SET TRAN_STATUS_CODE = TRAN_STATUS_CODE - 1
+WHERE prod_no = 10000;
+
+UPDATE TRANSACTION
+SET TRAN_STATUS_CODE = TRAN_STATUS_CODE + 1
+WHERE prod_no = 10000;
+
+select * from transaction where prod_no = 10000;

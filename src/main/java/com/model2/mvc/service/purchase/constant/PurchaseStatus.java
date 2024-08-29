@@ -7,7 +7,7 @@ public enum PurchaseStatus {
     FOR_SALE("0", "판매중"),
     PURCHASED("1", "구매완료"),
     SHIPPING("2", "배송중"),
-    DELIVERED("3", "배송확인");
+    DELIVERED("3", "배송완료");
 
     private final String code;
     private final String text;

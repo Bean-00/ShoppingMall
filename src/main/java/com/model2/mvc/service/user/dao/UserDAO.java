@@ -107,7 +107,6 @@ public class UserDAO {
 
         sql.append(") U\n");
         sql.append("WHERE ROW_NUM BETWEEN ? AND ?");
-
         sql.append(" order by USER_ID");
 
         List<UserVO> userList = executeQuery(sql.toString(), mapperFn, searchVO.getStartIndex(), searchVO.getEndIndex());

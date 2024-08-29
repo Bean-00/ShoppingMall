@@ -42,20 +42,28 @@ public class ProductDAO {
             }
         };
 
-        StringBuilder sql = new StringBuilder("select\n" +
-                "    ROW_NUMBER() over (ORDER BY p.reg_date) AS \"rowNum\",\n" +
-                "    p.prod_no AS \"prodNo\",\n" +
-                "    p.prod_name AS \"prodName\",\n" +
-                "    p.price AS \"price\",\n" +
-                "    p.reg_date AS \"regDate\",\n" +
-                "    NVL(t.tran_status_code, 0) AS \"statusCode\"\n" +
-                "from product p left outer join transaction t on p.PROD_NO = t.prod_no");
+        StringBuilder sql = new StringBuilder("SELECT PT.ROW_NUM      AS \"rowNum\",\n" +
+                "       PT.\"prodNo\"     AS \"prodNo\",\n" +
+                "       PT.\"prodName\"   AS \"prodName\",\n" +
+                "       PT.\"price\"      AS \"price\",\n" +
+                "       PT.\"regDate\"    AS \"regDate\",\n" +
+                "       PT.\"statusCode\" AS \"statusCode\"\n" +
+                "\n" +
+                "FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS \"ROW_NUM\",\n" +
+                "             p.prod_no                             AS \"prodNo\",\n" +
+                "             p.prod_name                           AS \"prodName\",\n" +
+                "             p.price                               AS \"price\",\n" +
+                "             p.reg_date                            AS \"regDate\",\n" +
+                "             NVL(t.tran_status_code, 0)            AS \"statusCode\"\n" +
+                "      from product p\n" +
+                "               left outer join transaction t on p.PROD_NO = t.prod_no\n");
         if (Objects.nonNull(searchVO.getSearchCondition())) {
             sql.append(makeSearchClause(searchVO, "p.prod_no", "p.prod_name", "p.price"));
         }
-        sql.append(" order by p.prod_no");
+        sql.append(") PT\n WHERE \"ROW_NUM\" BETWEEN ? AND ?\n");
+        sql.append(" order by PT.\"regDate\"");
 
-        List<ProductStatusVO> result = executeQuery(sql.toString(), mapperFn);
+        List<ProductStatusVO> result = executeQuery(sql.toString(), mapperFn, searchVO.getStartIndex(), searchVO.getEndIndex());
 
         return result;
     }

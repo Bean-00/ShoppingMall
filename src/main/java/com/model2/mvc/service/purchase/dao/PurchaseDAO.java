@@ -45,6 +45,7 @@ public class PurchaseDAO {
                 purchaseBuyerVO.setBuyerName(rs.getString("buyerName"));
                 purchaseBuyerVO.setBuyerPhone(rs.getString("buyerPhone"));
                 purchaseBuyerVO.setTranCode(rs.getString("tranCode"));
+                purchaseBuyerVO.setProdNo(rs.getString("prodNo"));
 
                 return purchaseBuyerVO;
             } catch (SQLException e) {
@@ -52,15 +53,17 @@ public class PurchaseDAO {
             }
         };
         StringBuilder sql = new StringBuilder("SELECT \"rowNum\",\n" +
-                "       buyer_id AS \"buyerId\",\n" +
-                "       receiver_name AS \"buyerName\",\n" +
-                "       receiver_phone AS \"buyerPhone\",\n" +
-                "       tran_status_code AS \"tranCode\"\n" +
+                "       buyer_id         AS \"buyerId\",\n" +
+                "       receiver_name    AS \"buyerName\",\n" +
+                "       receiver_phone   AS \"buyerPhone\",\n" +
+                "       tran_status_code AS \"tranCode\",\n" +
+                "       prod_no          AS \"prodNo\"\n" +
                 "FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS \"rowNum\",\n" +
                 "             buyer_id,\n" +
                 "             receiver_name,\n" +
                 "             receiver_phone,\n" +
                 "             tran_status_code,\n" +
+                "             prod_no,\n" +
                 "             order_data\n" +
                 "      FROM TRANSACTION\n");
 
@@ -91,5 +94,13 @@ public class PurchaseDAO {
                 "WHERE buyer_id = ?";
 
         return executeQuery(sql, mapperFn, buyerId).get(0);
+    }
+
+    public static void updateTransCode(String prodNo) {
+        StringBuilder sql = new StringBuilder("UPDATE TRANSACTION\n" +
+                "SET TRAN_STATUS_CODE = TRAN_STATUS_CODE + 1\n" +
+                "WHERE prod_no = ?");
+
+        executeUpdate(sql.toString(), prodNo);
     }
 }
