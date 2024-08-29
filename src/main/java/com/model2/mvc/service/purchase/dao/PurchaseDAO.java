@@ -36,7 +36,7 @@ public class PurchaseDAO {
                 purchaseVO.getDivyDate());
     }
 
-    public List<PurchaseBuyerVO> getPurchaseList(SearchVO searchVO) {
+    public List<PurchaseBuyerVO> getPurchaseList(SearchVO searchVO, String buyerId) {
         final Function<ResultSet, PurchaseBuyerVO> mapperFn = (rs) -> {
             try {
                 PurchaseBuyerVO purchaseBuyerVO = new PurchaseBuyerVO();
@@ -51,21 +51,32 @@ public class PurchaseDAO {
                 throw new RuntimeException(e);
             }
         };
-        StringBuilder sql = new StringBuilder("SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS \"rowNum\",\n" +
-                "           buyer_id AS \"buyerId\",\n" +
+        StringBuilder sql = new StringBuilder("SELECT \"rowNum\",\n" +
+                "       buyer_id AS \"buyerId\",\n" +
                 "       receiver_name AS \"buyerName\",\n" +
                 "       receiver_phone AS \"buyerPhone\",\n" +
                 "       tran_status_code AS \"tranCode\"\n" +
-                "FROM transaction\n" +
-                "WHERE buyer_id = ?\n" +
-                "ORDER BY order_data");
+                "FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS \"rowNum\",\n" +
+                "             buyer_id,\n" +
+                "             receiver_name,\n" +
+                "             receiver_phone,\n" +
+                "             tran_status_code,\n" +
+                "             order_data\n" +
+                "      FROM TRANSACTION\n");
+
+        sql.append(") \n");
+        sql.append("WHERE buyer_id ='");
+        sql.append(buyerId);
+        sql.append("'\n");
+        sql.append("AND \"rowNum\" BETWEEN ? AND ?\n");
+        sql.append("ORDER BY order_data");
 
         List<PurchaseBuyerVO> purchaseBuyerVOList = executeQuery(sql.toString(), mapperFn, searchVO.getStartIndex(), searchVO.getEndIndex());
 
         return purchaseBuyerVOList;
     }
 
-    public static int getPurchaseTotalCount() {
+    public static int getPurchaseTotalCount(String buyerId) {
         Function<ResultSet, Integer> mapperFn = (rs) -> {
             try {
                 int totalCount = rs.getInt("totalCount");
@@ -79,6 +90,6 @@ public class PurchaseDAO {
                 "FROM transaction\n" +
                 "WHERE buyer_id = ?";
 
-        return executeQuery(sql, mapperFn).get(0);
+        return executeQuery(sql, mapperFn, buyerId).get(0);
     }
 }

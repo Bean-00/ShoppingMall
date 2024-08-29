@@ -233,24 +233,36 @@ from transaction;
 
 
 SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
-           buyer_id AS "buyerId",
-       receiver_name AS "buyerName",
-       receiver_phone AS "buyerPhone",
-       tran_status_code AS "tranCode"
+       buyer_id                                AS "buyerId",
+       receiver_name                           AS "buyerName",
+       receiver_phone                          AS "buyerPhone",
+       tran_status_code                        AS "tranCode"
 FROM transaction
 WHERE buyer_id = 'user01'
 ORDER BY order_data;
 
-SELECT
-    count(tran_no) AS "totalCount"
+SELECT count(tran_no) AS "totalCount"
 FROM transaction
 WHERE buyer_id = 'user01';
 
-SELECT
-    count(prod_no) AS "totalCount"
+SELECT count(prod_no) AS "totalCount"
 FROM product
-
 ;
+
+select a.ROW_NUM   AS "rowNum",
+       a.prod_no   AS "prodNo",
+       a.PROD_NAME AS "prodName",
+       a.PRICE     AS "price"
+FROM (SELECT ROW_NUMBER() over (ORDER BY p.reg_date) AS ROW_NUM,
+             p.prod_no,
+             p.prod_name,
+             p.price,
+             p.reg_date,
+             NVL(t.tran_status_code, 0)
+      from product p
+               left outer join transaction t on p.PROD_NO = t.prod_no) a
+where ROW_NUM between 1 and 3
+order by a.prod_no;
 
 SELECT ROW_NUM, user_id, user_name, email
 FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
@@ -261,33 +273,52 @@ FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
 WHERE ROW_NUM BETWEEN 1 AND 3
 ORDER BY user_id;
 
-select
-    a.ROW_NUM AS "rowNum",
-    a.prod_no AS "prodNo",
-    a.PROD_NAME AS "prodName",
-    a.PRICE AS "price"
-    FROM(SELECT ROW_NUMBER() over (ORDER BY p.reg_date) AS ROW_NUM,
-    p.prod_no,
-    p.prod_name,
-    p.price,
-    p.reg_date,
-    NVL(t.tran_status_code, 0)
-from product p left outer join transaction t on p.PROD_NO = t.prod_no) a
-where ROW_NUM between 1 and 3
-order by a.prod_no;
+SELECT "rowNum",
+       buyer_id AS "buyerId",
+       receiver_name AS "buyerName",
+       receiver_phone AS "buyerPhone",
+       tran_status_code AS "tranCode"
+FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
+             buyer_id,
+             receiver_name,
+             receiver_phone,
+             tran_status_code,
+             order_data
+      FROM TRANSACTION) A
+WHERE buyer_id = 'user01'
+AND "rowNum" BETWEEN 1 AND 3
+ORDER BY order_data;
 
-SELECT ROW_NUM, user_id, user_name, email" +
-                " FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,\n" +
-                "             user_id,\n" +
-                "             user_name,\n" +
-                "             email\n" +
-                "      FROM USERS) U\n" +
-                "WHERE ROW_NUM BETWEEN ? AND ?"
+select p.prod_no                  AS "prodNo",
+       p.prod_name                AS "prodName",
+       p.price                    AS "price",
+       p.reg_date                 AS "regDate",
+       NVL(t.tran_status_code, 0) AS "statusCode"
+from product p
+         left outer join transaction t on p.PROD_NO = t.prod_no
+order by p.prod_no;
 
-select
-    p.prod_no AS "prodNo",
-    p.prod_name AS "prodName",
-    p.price AS "price",
-    p.reg_date AS "regDate",
-    NVL(t.tran_status_code, 0) AS "statusCode"
-from product p left outer join transaction t on p.PROD_NO = t.prod_no order by p.prod_no
+SELECT "rowNum",
+       buyer_id AS "buyerId",
+       receiver_name AS "buyerName",
+       receiver_phone AS "buyerPhone",
+       tran_status_code AS "tranCode"
+FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
+             buyer_id,
+             receiver_name,
+             receiver_phone,
+             tran_status_code,
+             order_data
+      FROM TRANSACTION
+     )
+WHERE buyer_id ='user01'
+  AND "rowNum" BETWEEN ? AND ?
+ORDER BY order_data ;
+
+SELECT ROW_NUM, user_id, user_name, email FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
+                                                       user_id,
+                                                       user_name,
+                                                       email
+                                                FROM USERS
+                                               ) U
+WHERE ROW_NUM BETWEEN ? AND ? order by USER_ID

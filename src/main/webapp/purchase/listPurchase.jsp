@@ -20,12 +20,12 @@
 
     int currentPage = searchVO.getPage();
 
-    int totalPage = 0;
-    if (total > 0) {
-        totalPage = total / searchVO.getPageUnit();
-        if (total % searchVO.getPageUnit() > 0)
-            totalPage += 1;
-    }
+//    int totalPage = 0;
+//    if (total > 0) {
+//        totalPage = total / searchVO.getPageUnit();
+//        if (total % searchVO.getPageUnit() > 0)
+//            totalPage += 1;
+//    }
 
 %>
 <html>
@@ -82,26 +82,28 @@
                 <td colspan="11" bgcolor="808285" height="1"></td>
             </tr>
 
-            <%
+                <%
                 for (int i = 0; i < list.size(); i++) {
                     PurchaseBuyerVO purchaseBuyerVO = list.get(i);
             %>
 
             <tr class="ct_list_pop">
                 <td align="center">
-                    <a href="/getPurchase.do?tranNo=10019"><%=purchaseBuyerVO.getRowNum()%></a>
+                    <%=purchaseBuyerVO.getRowNum()%>
                 </td>
                 <td></td>
                 <td align="left">
-                    <a href="/getUser.do?userId=user05"><%=purchaseBuyerVO.getBuyerId()%></a>
+                    <a href="/getUser.do?userId=<%=purchaseBuyerVO.getBuyerId()%>"><%=purchaseBuyerVO.getBuyerId()%></a>
                 </td>
                 <td></td>
-                <td align="left"><%=purchaseBuyerVO.getBuyerName()%></td>
+                <td align="left"><%=purchaseBuyerVO.getBuyerName()%>
+                </td>
                 <td></td>
-                <td align="left"><%=purchaseBuyerVO.getBuyerPhone()%></td>
+                <td align="left"><%=purchaseBuyerVO.getBuyerPhone()%>
+                </td>
                 <td></td>
                 <td align="left">현재
-                    <%= PurchaseStatus.getByCode(purchaseBuyerVO.getTranCode())%>
+                    <%= PurchaseStatus.getTextByCode((purchaseBuyerVO.getTranCode()))%>
                     상태 입니다.
                 </td>
                 <td></td>
@@ -116,19 +118,18 @@
             </tr>
 
 
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
+                <tr>
+                    <td align="center">
 
+                        <a href="/listPurchase.do?page=<%= currentPage%>"><%= currentPage%>
+                        </a>
 
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
-            <tr>
-                <td align="center">
+                    </td>
+                </tr>
+            </table>
 
-                    <a href="/listPurchase.do?page=<%= currentPage%>"><%= currentPage%></a>
-
-                </td>
-            </tr>
-        </table>
-
-        <!--  페이지 Navigator 끝 -->
+            <!--  페이지 Navigator 끝 -->
     </form>
 
 </div>

@@ -21,7 +21,7 @@ public class ListPurchaseAction extends Action {
         SearchVO searchVO = new SearchVO();
 
         int page = 1;
-        if (Objects.nonNull("page")){
+        if (Objects.nonNull(request.getParameter("page"))){
             page = Integer.parseInt(request.getParameter("page"));
         }
 
@@ -34,10 +34,11 @@ public class ListPurchaseAction extends Action {
 
         PurchaseService service = new PurchaseServiceImpl();
         Map<String, Object> map = new HashMap<>();
+        String buyerId = request.getParameter("buyerId");
 
-        List<PurchaseBuyerVO> purchaseBuyerList = service.getPurchaseList(searchVO);
+        List<PurchaseBuyerVO> purchaseBuyerList = service.getPurchaseList(searchVO, buyerId);
 
-        int totalCount = service.getAllPurchaseCount();
+        int totalCount = service.getAllPurchaseCount(buyerId);
 
         map.put("count", totalCount);
         map.put("list", purchaseBuyerList);
@@ -45,6 +46,6 @@ public class ListPurchaseAction extends Action {
         request.setAttribute("map", map);
         request.setAttribute("searchVO", searchVO);
 
-        return "forward:/product/listPurchase.jsp";
+        return "forward:/purchase/listPurchase.jsp";
     }
 }

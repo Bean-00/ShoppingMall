@@ -13,7 +13,7 @@ public interface PurchaseService {
 
     PurchaseVO getPurchase(int purchaseId);
 
-    List<PurchaseBuyerVO> getPurchaseList(SearchVO searchVO);
+    List<PurchaseBuyerVO> getPurchaseList(SearchVO searchVO, String buyerId);
 
     HashMap<String, Object> getSaleList(SearchVO searchVO);
 
@@ -21,5 +21,5 @@ public interface PurchaseService {
 
     void TranCode(PurchaseVO purchaseVO);
 
-    int getAllPurchaseCount();
+    int getAllPurchaseCount(String buyerId);
 }
