@@ -19,27 +19,29 @@ public class ListPurchaseAction extends Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Search search = new Search();
 
-        int page = 1;
-        if (Objects.nonNull(request.getParameter("page"))){
-            page = Integer.parseInt(request.getParameter("page"));
-        }
+        int currentPage = 1;
+        if (request.getParameter("currentPage") != null &&
+                !request.getParameter("currentPage").equals("undefined"))
+            currentPage = Integer.parseInt(request.getParameter("currentPage"));
 
-        search.setPage(page);
+        search.setCurrentPage(currentPage);
         search.setSearchCondition(request.getParameter("searchCondition"));
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 
-        String pageUnit = getServletContext().getInitParameter("pageSize");
-        search.setPageNumSize(Integer.parseInt(pageUnit));
+        int pageNumSize = Integer.parseInt(getServletContext().getInitParameter("pageNumSize"));
+        int displayCount = Integer.parseInt(getServletContext().getInitParameter("displayCount"));
+
+        search.setPageNumSize(pageNumSize);
+        search.setDisplayCount(displayCount);
 
         PurchaseService service = new PurchaseServiceImpl();
         Map<String, Object> map = new HashMap<>();
         String buyerId = request.getParameter("buyerId");
 
         List<PurchaseBuyer> purchaseBuyerList = service.getPurchaseList(search, buyerId);
-
         int totalCount = service.getAllPurchaseCount(buyerId);
 
-        map.put("count", totalCount);
+        map.put("totalCount", totalCount);
         map.put("list", purchaseBuyerList);
 
         request.setAttribute("map", map);

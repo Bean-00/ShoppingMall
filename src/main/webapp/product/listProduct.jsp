@@ -21,10 +21,10 @@
     int totalCount = (Integer) map.get("totalCount");
     int pageUnit = search.getPageNumSize();
     int pageSize = search.getDisplayCount();
-    int currentPage = search.getPage();
+    int currentPage = search.getCurrentPage();
 
     PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);
-    pageInfo.setCurrentPage(search.getPage());
+    pageInfo.setCurrentPage(search.getCurrentPage());
 
     if (Objects.nonNull(map)) {
         pageInfo.setTotalCount(totalCount);
@@ -41,13 +41,11 @@
     <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
     <script type="text/javascript">
-        <!--
         function fncGetProductList(currentPage) {
             document.getElementById("currentPage").value = currentPage;
             document.detailForm.submit();
         }
 
-        -->
     </script>
 </head>
 
@@ -80,7 +78,35 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0"
                style="margin-top: 10px;">
             <tr>
-
+                <%
+                    if (search.getSearchCondition() != null) {
+                %>
+                <td align="right">
+                    <select name="searchCondition" class="ct_input_g" style="width:80px">
+                        <%
+                            if (search.getSearchCondition().equals("0")) {
+                        %>
+                        <option value="0" selected>상품번호</option>
+                        <option value="1">상품명</option>
+                        <option value="2">상품가격</option>
+                        <%
+                        } else if(search.getSearchCondition().equals("1")) {
+                        %>
+                        <option value="0">상품번호</option>
+                        <option value="1" selected>상품명</option>
+                        <option value="2">상품가격</option>
+                        <%
+                            } else { %>
+                        <option value="0">상품번호</option>
+                        <option value="1">상품명</option>
+                        <option value="2" selected>상품가격</option>
+                        <% } %>
+                    </select>
+                    <input type="text" name="searchKeyword" value="<%=search.getSearchKeyword() %>"
+                           class="ct_input_g" style="width:200px; height:19px">
+                </td>
+                <%
+                    } else { %>
                 <td align="right"><select name="searchCondition"
                                           class="ct_input_g" style="width: 80px">
                     <option value="0">상품번호</option>
@@ -88,9 +114,11 @@
                     <option value="2">상품가격</option>
                 </select> <input type="text" name="searchKeyword" class="ct_input_g"
                                  style="width: 200px; height: 19px"/></td>
-
-
+                <%
+                    }
+                %>
                 <td align="right" width="70">
+
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td width="17" height="23"><img

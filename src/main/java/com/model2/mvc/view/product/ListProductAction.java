@@ -18,28 +18,32 @@ public class ListProductAction extends Action {
     @Override
     public String execute(HttpServletRequest request,
                           HttpServletResponse response) throws Exception {
+
         Search search = new Search();
 
-        int page = 1;
-        if (request.getParameter("page") != null)
-            page = Integer.parseInt(request.getParameter("page"));
+        int currentPage = 1;
+        if (request.getParameter("currentPage") != null &&
+                !request.getParameter("currentPage").equals("undefined"))
+            currentPage = Integer.parseInt(request.getParameter("currentPage"));
 
-        search.setPage(page);
+        int pageNumSize = Integer.parseInt(getServletContext().getInitParameter("pageNumSize"));
+        int displayCount = Integer.parseInt(getServletContext().getInitParameter("displayCount"));
+
+        search.setCurrentPage(currentPage);
+        search.setPageNumSize(pageNumSize);
+        search.setDisplayCount(displayCount);
+
         search.setSearchCondition(request.getParameter("searchCondition"));
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 
-        String pageUnit = getServletContext().getInitParameter("pageSize");
-        search.setPageNumSize(Integer.parseInt(pageUnit));
-
+        ProductService service = new ProductServiceImpl();
         Map<String, Object> map = new HashMap<>();
 
-        ProductService service = new ProductServiceImpl();
         List<ProductStatus> productStatusVOList = service.getProductWithStatusList(search);
+        int totalCount = service.getAllProductCount(search);
 
-        int totalCount = service.getAllProductCount();
-
-        map.put("list", productStatusVOList);
         map.put("totalCount", totalCount);
+        map.put("list", productStatusVOList);
 
         request.setAttribute("map", map);
         request.setAttribute("search", search);

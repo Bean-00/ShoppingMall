@@ -48,8 +48,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int getAllProductCount() {
-		return productDAO.getProductTotalCount();
+	public int getAllProductCount(Search search) {
+		return productDAO.getProductTotalCount(search);
 	}
 
 }

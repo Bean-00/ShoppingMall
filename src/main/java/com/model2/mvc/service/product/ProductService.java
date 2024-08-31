@@ -18,5 +18,5 @@ public interface ProductService {
 	
 	List<ProductStatus> getProductWithStatusList (Search search);
 
-	int getAllProductCount ();
+	int getAllProductCount (Search search);
 }

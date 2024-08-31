@@ -12,10 +12,10 @@
     int totalCount = (Integer) map.get("totalCount");
     int pageUnit = search.getPageNumSize();
     int pageSize = search.getDisplayCount();
-    int currentPage = search.getPage();
+    int currentPage = search.getCurrentPage();
 
     PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);
-    pageInfo.setCurrentPage(search.getPage());
+    pageInfo.setCurrentPage(search.getCurrentPage());
 
     if (Objects.nonNull(map)) {
         pageInfo.setTotalCount(totalCount);

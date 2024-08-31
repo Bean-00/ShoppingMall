@@ -19,14 +19,15 @@ public class ListUserAction extends Action {
     @Override
     public String execute(HttpServletRequest request,
                           HttpServletResponse response) throws Exception {
+
         Search search = new Search();
 
-        int Currentpage = 1;
+        int currentPage = 1;
         if (request.getParameter("currentPage") != null &&
                 !request.getParameter("currentPage").equals("undefined"))
-            Currentpage = Integer.parseInt(request.getParameter("currentPage"));
+            currentPage = Integer.parseInt(request.getParameter("currentPage"));
 
-        search.setPage(Currentpage);
+        search.setCurrentPage(currentPage);
         search.setSearchCondition(request.getParameter("searchCondition"));
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 

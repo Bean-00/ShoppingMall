@@ -3,7 +3,7 @@ package com.model2.mvc.common;
 
 public class Search {
 	
-	private int page;
+	private int currentPage;
 	private String searchCondition;
 	private String searchKeyword;
 	private int pageNumSize;
@@ -19,11 +19,11 @@ public class Search {
 		this.pageNumSize = pageUnit;
 	}
 	
-	public int getPage() {
-		return page;
+	public int getCurrentPage() {
+		return currentPage;
 	}
-	public void setPage(int page) {
-		this.page = page;
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
 	}
 
 	public String getSearchCondition() {
@@ -40,7 +40,7 @@ public class Search {
 	}
 
 	public int getStartIndex() {
-		return (this.getPage() - 1) * this.getDisplayCount() + 1;
+		return (this.getCurrentPage() - 1) * this.getDisplayCount() + 1;
 	}
 
 	public int getEndIndex() {

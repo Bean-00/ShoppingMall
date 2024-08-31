@@ -1,22 +1,32 @@
 <%@ page import="com.model2.mvc.common.Search" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.model2.mvc.service.domain.PurchaseBuyer" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.model2.mvc.common.PageMaker" %>
+<%@ page import="java.util.Objects" %>
 <%@ page import="com.model2.mvc.service.purchase.constant.PurchaseStatus" %>
+<%@ page import="com.model2.mvc.service.domain.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%
     Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
     Search search = (Search) request.getAttribute("search");
 
-    int total = 0;
-    ArrayList<PurchaseBuyer> list = null;
-    if (map != null) {
-        total = ((Integer) map.get("count")).intValue();
-        list = (ArrayList<PurchaseBuyer>) map.get("list");
-    }
+    User vo=(User)session.getAttribute("user");
 
-    int currentPage = search.getPage();
+    List<PurchaseBuyer> list = null;
+    int totalCount = (Integer) map.get("totalCount");
+    int pageUnit = search.getPageNumSize();
+    int pageSize = search.getDisplayCount();
+    int currentPage = search.getCurrentPage();
+
+    PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);
+    pageInfo.setCurrentPage(search.getCurrentPage());
+
+    if (Objects.nonNull(map)) {
+        pageInfo.setTotalCount(totalCount);
+        list = (List<PurchaseBuyer>) map.get("list");
+    }
 
 %>
 <html>
@@ -26,7 +36,8 @@
     <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
     <script type="text/javascript">
-        function fncGetUserList() {
+        function fncGetPurchaseBuyerList(currentPage) {
+            document.getElementById("currentPage").value = currentPage;
             document.detailForm.submit();
         }
     </script>
@@ -36,7 +47,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-    <form name="detailForm" action="/listUser.do" method="post">
+    <form name="detailForm" action="/listPurchase.do?buyerId=<%=vo.getUserId()%>" method="post">
 
         <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
             <tr>
@@ -54,7 +65,7 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
             <tr>
-                <td colspan="11">전체 <%=total%> 건수, 현재 <%=currentPage%> 페이지</td>
+                <td colspan="11">전체 <%=totalCount%> 건수, 현재 <%=currentPage%> 페이지</td>
             </tr>
             <tr>
                 <td class="ct_list_b" width="100">No</td>
@@ -117,18 +128,31 @@
                 <td colspan="11" bgcolor="D6D7D6" height="1"></td>
             </tr>
 
-
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
                 <tr>
                     <td align="center">
-
-                        <a href="/listPurchase.do?page=<%=currentPage%>"><%=currentPage%>
+                        <input type="hidden" id="currentPage" name="currentPage" value=""/>
+                        <% if (pageInfo.isEnablePrev()) {
+                        %>
+                        ◀ 이전
+                        <% } else { %>
+                        <a href="javascript:fncGetPurchaseBuyerList('<%=pageInfo.getPrevPage()%>')">◀ 이전</a>
+                        <% } %>
+                        <% for (int i = pageInfo.getCurrentStartPageNum(); i <= pageInfo.getCurrentEndPageNum(); i++) {
+                        %>
+                        <a href="javascript:fncGetPurchaseBuyerList('<%=i%>');"><%=i%>
                         </a>
-
+                        <% } %>
+                        <% if (pageInfo.isEnableNext()) { %>
+                        이후 ▶
+                        <%
+                        } else { %>
+                        <a href="javascript:fncGetPurchaseBuyerList('<%=pageInfo.getNextPage()%>')">이후 ▶</a>
+                        <%
+                            } %>
                     </td>
                 </tr>
             </table>
-
             <!--  페이지 Navigator 끝 -->
     </form>
 

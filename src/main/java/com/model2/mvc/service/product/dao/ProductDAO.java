@@ -98,7 +98,7 @@ public class ProductDAO {
                 productVO.getProdNo());
     }
 
-    public int getProductTotalCount() {
+    public int getProductTotalCount(Search search) {
         Function<ResultSet, Integer> mapperFn = (rs) -> {
             try {
                 int totalCount = rs.getInt("totalCount");
@@ -107,10 +107,13 @@ public class ProductDAO {
                 throw new RuntimeException(e);
             }
         };
-        String sql = "SELECT\n" +
+        StringBuilder sql = new StringBuilder("SELECT\n" +
                 "    count(prod_no) AS \"totalCount\"\n" +
-                "FROM product";
+                "FROM product\n");
+        if (Objects.nonNull(search.getSearchCondition())) {
+            sql.append(makeSearchClause(search, "PROD_NO", "PROD_NAME", "PRICE"));
+        }
 
-        return executeQuery(sql, mapperFn).get(0);
+        return executeQuery(sql.toString(), mapperFn).get(0);
     }
 }
