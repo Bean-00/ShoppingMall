@@ -42,7 +42,7 @@ public class ListUserAction extends Action {
         List<User> userList = service.getUserList(search);
         int totalCount = service.getUserTotalCount(search);
 
-        map.put("count", totalCount);
+        map.put("totalCount", totalCount);
         map.put("list", userList);
 
         request.setAttribute("map", map);

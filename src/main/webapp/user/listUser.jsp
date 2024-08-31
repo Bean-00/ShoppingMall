@@ -9,7 +9,7 @@
     Search search = (Search) request.getAttribute("search");
 
     List<User> list = null;
-    int totalCount = (Integer) map.get("count");
+    int totalCount = (Integer) map.get("totalCount");
     int pageUnit = search.getPageUnit();
     int pageSize = search.getPageSize();
     int currentPage = search.getPage();
@@ -162,25 +162,21 @@
             <tr>
                 <td align="center">
                     <input type="hidden" id="currentPage" name="currentPage" value=""/>
-<%--                    <% if (pageInfo.getCurrentPage() <= pageInfo.getPageUnit()) {--%>
                     <% if (pageInfo.isEnablePrev()) {
                        %>
                     ◀ 이전
                     <% } else { %>
-<%--                    <a href="javascript:fncGetUserList('<%=pageInfo.getCurrentPage()-1%>')">◀ 이전</a>--%>
                     <a href="javascript:fncGetUserList('<%=pageInfo.getPrevPage()%>')">◀ 이전</a>
                     <% } %>
-                    <% for (int i = pageInfo.getBeginUnitPage(); i <= pageInfo.getEndUnitPage(); i++) {
+                    <% for (int i = pageInfo.getCurrentStartPageNum(); i <= pageInfo.getCurrentEndPageNum(); i++) {
                     %>
                     <a href="javascript:fncGetUserList('<%=i%>');"><%=i%>
                     </a>
                     <% } %>
                     <% if (pageInfo.isEnableNext()) { %>
-<%--                    <% if (pageInfo.getEndUnitPage() >= pageInfo.getMaxPage()) { %>--%>
                     이후 ▶
                     <%
                     } else { %>
-<%--                    <a href="javascript:fncGetUserList('<%=pageInfo.getEndUnitPage()+1%>')">이후 ▶</a>--%>
                     <a href="javascript:fncGetUserList('<%=pageInfo.getNextPage()%>')">이후 ▶</a>
                     <%
                     } %>
