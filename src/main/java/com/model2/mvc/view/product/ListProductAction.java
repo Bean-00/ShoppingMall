@@ -29,7 +29,7 @@ public class ListProductAction extends Action {
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 
         String pageUnit = getServletContext().getInitParameter("pageSize");
-        search.setPageUnit(Integer.parseInt(pageUnit));
+        search.setPageNumSize(Integer.parseInt(pageUnit));
 
         Map<String, Object> map = new HashMap<>();
 
@@ -39,7 +39,7 @@ public class ListProductAction extends Action {
         int totalCount = service.getAllProductCount();
 
         map.put("list", productStatusVOList);
-        map.put("count", totalCount);
+        map.put("totalCount", totalCount);
 
         request.setAttribute("map", map);
         request.setAttribute("search", search);

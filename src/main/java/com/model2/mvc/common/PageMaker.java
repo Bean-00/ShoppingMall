@@ -62,7 +62,7 @@ public class PageMaker {
     }
 
     public boolean isEnableNext() {
-        return this.currentEndPageNum < this.maxPageNum;
+        return this.currentEndPageNum >= this.maxPageNum;
     }
 
     public String getNextPage() {

@@ -29,7 +29,7 @@ public class ListPurchaseAction extends Action {
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 
         String pageUnit = getServletContext().getInitParameter("pageSize");
-        search.setPageUnit(Integer.parseInt(pageUnit));
+        search.setPageNumSize(Integer.parseInt(pageUnit));
 
         PurchaseService service = new PurchaseServiceImpl();
         Map<String, Object> map = new HashMap<>();

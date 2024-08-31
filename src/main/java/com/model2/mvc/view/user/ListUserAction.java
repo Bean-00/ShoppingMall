@@ -30,11 +30,11 @@ public class ListUserAction extends Action {
         search.setSearchCondition(request.getParameter("searchCondition"));
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 
-        int pageUnit = Integer.parseInt(getServletContext().getInitParameter("pageNumSize"));
-        int pageSize = Integer.parseInt(getServletContext().getInitParameter("displayCount"));
+        int pageNumSize = Integer.parseInt(getServletContext().getInitParameter("pageNumSize"));
+        int displayCount = Integer.parseInt(getServletContext().getInitParameter("displayCount"));
 
-        search.setPageUnit(pageUnit);
-        search.setPageSize(pageSize);
+        search.setPageNumSize(pageNumSize);
+        search.setDisplayCount(displayCount);
 
         UserService service = new UserServiceImpl();
         Map<String, Object> map = new HashMap<>();

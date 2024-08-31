@@ -10,8 +10,8 @@
 
     List<User> list = null;
     int totalCount = (Integer) map.get("totalCount");
-    int pageUnit = search.getPageUnit();
-    int pageSize = search.getPageSize();
+    int pageUnit = search.getPageNumSize();
+    int pageSize = search.getDisplayCount();
     int currentPage = search.getPage();
 
     PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);

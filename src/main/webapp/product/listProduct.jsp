@@ -14,24 +14,21 @@
         role = vo.getRole();
     }
 
-
     Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
     Search search = (Search) request.getAttribute("search");
 
-    int total = 0;
-    ArrayList<ProductStatus> list = null;
-    if (map != null) {
-        total = ((Integer) map.get("count")).intValue();
-        list = (ArrayList<ProductStatus>) map.get("list");
-    }
-
+    List<ProductStatus> list = null;
+    int totalCount = (Integer) map.get("totalCount");
+    int pageUnit = search.getPageNumSize();
+    int pageSize = search.getDisplayCount();
     int currentPage = search.getPage();
 
-    int totalPage = 0;
-    if (total > 0) {
-        totalPage = total / search.getPageUnit();
-        if (total % search.getPageUnit() > 0)
-            totalPage += 1;
+    PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);
+    pageInfo.setCurrentPage(search.getPage());
+
+    if (Objects.nonNull(map)) {
+        pageInfo.setTotalCount(totalCount);
+        list = (List<ProductStatus>) map.get("list");
     }
 
 %>
@@ -45,7 +42,8 @@
 
     <script type="text/javascript">
         <!--
-        function fncGetProductList() {
+        function fncGetProductList(currentPage) {
+            document.getElementById("currentPage").value = currentPage;
             document.detailForm.submit();
         }
 
@@ -112,7 +110,7 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0"
                style="margin-top: 10px;">
             <tr>
-                <td colspan="11">전체 <%=total%> 건수, 현재 <%=currentPage%> 페이지
+                <td colspan="11">전체 <%=totalCount%> 건수, 현재 <%=currentPage%> 페이지
                 </td>
             </tr>
             <tr>
@@ -130,7 +128,6 @@
                 <td colspan="11" bgcolor="808285" height="1"></td>
             </tr>
             <%
-                int no = list.size();
                 for (int i = 0; i < list.size(); i++) {
                     ProductStatus psvo = list.get(i);
             %>
@@ -203,12 +200,25 @@
                style="margin-top: 10px;">
             <tr>
                 <td align="center">
-                        <%
-						for (int i = 1; i <= totalPage; i++) {
-						%>
-                    <a href="/listProduct.do?page=<%=i%>&menu=manage"><%=i%>
+                    <input type="hidden" id="currentPage" name="currentPage" value=""/>
+                        <% if (pageInfo.isEnablePrev()) {
+                       %>
+                    ◀ 이전
+                        <% } else { %>
+                    <a href="javascript:fncGetProductList('<%=pageInfo.getPrevPage()%>')">◀ 이전</a>
+                        <% } %>
+                        <% for (int i = pageInfo.getCurrentStartPageNum(); i <= pageInfo.getCurrentEndPageNum(); i++) {
+                    %>
+                    <a href="javascript:fncGetProductList('<%=i%>');"><%=i%>
                     </a>
                         <% } %>
+                        <% if (pageInfo.isEnableNext()) { %>
+                    이후 ▶
+                        <%
+                    } else { %>
+                    <a href="javascript:fncGetProductList('<%=pageInfo.getNextPage()%>')">이후 ▶</a>
+                        <%
+                    } %>
             </tr>
         </table>
         <!--  페이지 Navigator 끝 -->

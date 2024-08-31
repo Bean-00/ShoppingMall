@@ -4,19 +4,19 @@ package com.model2.mvc.common;
 public class Search {
 	
 	private int page;
-	String searchCondition;
-	String searchKeyword;
-	int pageUnit;
-	int pageSize;
+	private String searchCondition;
+	private String searchKeyword;
+	private int pageNumSize;
+	private int displayCount;
 	
 	public Search(){
 	}
 	
-	public int getPageUnit() {
-		return pageUnit;
+	public int getPageNumSize() {
+		return pageNumSize;
 	}
-	public void setPageUnit(int pageUnit) {
-		this.pageUnit = pageUnit;
+	public void setPageNumSize(int pageUnit) {
+		this.pageNumSize = pageUnit;
 	}
 	
 	public int getPage() {
@@ -40,18 +40,18 @@ public class Search {
 	}
 
 	public int getStartIndex() {
-		return (this.getPage() - 1) * this.getPageUnit() + 1;
+		return (this.getPage() - 1) * this.getDisplayCount() + 1;
 	}
 
 	public int getEndIndex() {
-		return this.getStartIndex() + this.getPageUnit() - 1;
+		return this.getStartIndex() + this.getDisplayCount() - 1;
 	}
 
-	public int getPageSize() {
-		return pageSize;
+	public int getDisplayCount() {
+		return displayCount;
 	}
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	public void setDisplayCount(int pageSize) {
+		this.displayCount = pageSize;
 	}
 }
