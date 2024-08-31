@@ -1,11 +1,10 @@
 package com.model2.mvc.view.purchase;
 
-import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
-import com.model2.mvc.service.purchase.vo.PurchaseBuyerVO;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.domain.PurchaseBuyer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,25 +17,25 @@ public class ListPurchaseAction extends Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SearchVO searchVO = new SearchVO();
+        Search search = new Search();
 
         int page = 1;
         if (Objects.nonNull(request.getParameter("page"))){
             page = Integer.parseInt(request.getParameter("page"));
         }
 
-        searchVO.setPage(page);
-        searchVO.setSearchCondition(request.getParameter("searchCondition"));
-        searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
+        search.setPage(page);
+        search.setSearchCondition(request.getParameter("searchCondition"));
+        search.setSearchKeyword(request.getParameter("searchKeyword"));
 
         String pageUnit = getServletContext().getInitParameter("pageSize");
-        searchVO.setPageUnit(Integer.parseInt(pageUnit));
+        search.setPageUnit(Integer.parseInt(pageUnit));
 
         PurchaseService service = new PurchaseServiceImpl();
         Map<String, Object> map = new HashMap<>();
         String buyerId = request.getParameter("buyerId");
 
-        List<PurchaseBuyerVO> purchaseBuyerList = service.getPurchaseList(searchVO, buyerId);
+        List<PurchaseBuyer> purchaseBuyerList = service.getPurchaseList(search, buyerId);
 
         int totalCount = service.getAllPurchaseCount(buyerId);
 
@@ -44,7 +43,7 @@ public class ListPurchaseAction extends Action {
         map.put("list", purchaseBuyerList);
 
         request.setAttribute("map", map);
-        request.setAttribute("searchVO", searchVO);
+        request.setAttribute("search", search);
 
 
         return "forward:/purchase/listPurchase.jsp";

@@ -1,8 +1,8 @@
 package com.model2.mvc.service.product.impl;
 
-import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.product.vo.ProductStatusVO;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.ProductStatus;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.dao.ProductDAO;
 
@@ -18,22 +18,22 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void addProduct(ProductVO productVO) {
+	public void addProduct(Product productVO) {
 		productDAO.addProduct(productVO);
 	}
 
 	@Override
-	public void updateProduct(ProductVO productVO) {
+	public void updateProduct(Product productVO) {
 		productDAO.updateProduct(productVO);
 	}
 
 	@Override
-	public void deleteProduct(ProductVO productVO) {
+	public void deleteProduct(Product productVO) {
 
 	}
 
 	@Override
-	public ProductVO getProduct(String productNo) {
+	public Product getProduct(String productNo) {
         try {
             return productDAO.getProductByProdNo(productNo);
         } catch (SQLException e) {
@@ -43,8 +43,8 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public List<ProductStatusVO> getProductWithStatusList(SearchVO searchVO) {
-		return productDAO.getProductWithStatusList(searchVO);
+	public List<ProductStatus> getProductWithStatusList(Search search) {
+		return productDAO.getProductWithStatusList(search);
 	}
 
 	@Override

@@ -1,27 +1,21 @@
 package com.model2.mvc.service.user.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
 
-import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.common.util.SQLUtil;
-import com.model2.mvc.service.user.vo.UserVO;
-
-import javax.swing.tree.RowMapper;
+import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.User;
 
 import static com.model2.mvc.common.util.DBUtil.*;
 import static com.model2.mvc.common.util.SQLUtil.makeSearchClause;
 
 
 public class UserDAO {
-    private final Function<ResultSet, UserVO> mapperFn = (rs) -> {
+    private final Function<ResultSet, User> mapperFn = (rs) -> {
         try {
-            UserVO userVO = new UserVO();
+            User userVO = new User();
             userVO.setUserId(rs.getString("USER_ID"));
             userVO.setUserName(rs.getString("USER_NAME"));
             userVO.setPassword(rs.getString("PASSWORD"));
@@ -41,7 +35,7 @@ public class UserDAO {
     public UserDAO() {
     }
 
-    public static int getAllUserCount(SearchVO searchVO) {
+    public static int getAllUserCount(Search search) {
         Function<ResultSet, Integer> mapperFn = (rs) -> {
                 try {
                     int totalCount = rs.getInt("totalCount");
@@ -54,36 +48,36 @@ public class UserDAO {
         StringBuilder sql = new StringBuilder("SELECT\n" +
                 "    COUNT(user_id) AS \"totalCount\"\n" +
                 "FROM USERS\n");
-        if (Objects.nonNull(searchVO.getSearchCondition())) {
-            sql.append(makeSearchClause(searchVO, "USER_ID", "USER_NAME"));
+        if (Objects.nonNull(search.getSearchCondition())) {
+            sql.append(makeSearchClause(search, "USER_ID", "USER_NAME"));
         }
         return executeQuery(sql.toString(),mapperFn).get(0);
     }
 
-    public void insertUser(UserVO userVO) {
+    public void insertUser(User userVO) {
         String sql = "insert into USERS values (?,?,?,'user',?,?,?,?,sysdate)";
         executeUpdate(sql, userVO.getUserId(), userVO.getUserName(), userVO.getPassword(), userVO.getSsn(), userVO.getPhone(), userVO.getAddr(), userVO.getEmail());
     }
 
-    public UserVO findUser(String userId) {
+    public User findUser(String userId) {
         String sql = "select * from USERS where USER_ID=?";
-        List<UserVO> userList = executeQuery(sql, mapperFn, userId);
+        List<User> userList = executeQuery(sql, mapperFn, userId);
 
         return userList.size() > 0 ? userList.get(0) : null;
     }
 
-    public UserVO findUser(String userId, String userPw) {
+    public User findUser(String userId, String userPw) {
         String sql = "select * from USERS where USER_ID=? AND PASSWORD=?";
-        List<UserVO> userList = executeQuery(sql, mapperFn, userId, userPw);
+        List<User> userList = executeQuery(sql, mapperFn, userId, userPw);
 
         return userList.size() > 0 ? userList.get(0) : null;
     }
 
 
-    public List<UserVO> getUserList(SearchVO searchVO) {
-        final Function<ResultSet, UserVO> mapperFn = (rs) -> {
+    public List<User> getUserList(Search search) {
+        final Function<ResultSet, User> mapperFn = (rs) -> {
             try {
-                UserVO userVO = new UserVO();
+                User userVO = new User();
                 userVO.setUserId(rs.getString("USER_ID"));
                 userVO.setUserName(rs.getString("USER_NAME"));
                 userVO.setEmail(rs.getString("EMAIL"));
@@ -101,20 +95,20 @@ public class UserDAO {
                 "             email\n" +
                 "      FROM USERS\n");
 
-        if (Objects.nonNull(searchVO.getSearchCondition())) {
-            sql.append(makeSearchClause(searchVO, "USER_ID", "USER_NAME"));
+        if (Objects.nonNull(search.getSearchCondition())) {
+            sql.append(makeSearchClause(search, "USER_ID", "USER_NAME"));
         }
 
         sql.append(") U\n");
         sql.append("WHERE ROW_NUM BETWEEN ? AND ?");
         sql.append(" order by USER_ID");
 
-        List<UserVO> userList = executeQuery(sql.toString(), mapperFn, searchVO.getStartIndex(), searchVO.getEndIndex());
+        List<User> userList = executeQuery(sql.toString(), mapperFn, search.getStartIndex(), search.getEndIndex());
 
         return userList;
     }
 
-    public void updateUser(UserVO userVO) {
+    public void updateUser(User userVO) {
         String sql = "update USERS set USER_NAME=?,CELL_PHONE=?,ADDR=?,EMAIL=? where USER_ID=?";
         executeUpdate(sql, userVO.getUserName(), userVO.getPhone(), userVO.getAddr(), userVO.getEmail(), userVO.getUserId());
     }

@@ -1,11 +1,10 @@
-package com.model2.mvc.service.product.vo;
+package com.model2.mvc.service.domain;
 
 import com.model2.mvc.service.purchase.constant.PurchaseStatus;
 
 import java.util.Date;
-import java.util.Optional;
 
-public class ProductStatusVO {
+public class ProductStatus {
 
     private int prodNo;
     private String productName;

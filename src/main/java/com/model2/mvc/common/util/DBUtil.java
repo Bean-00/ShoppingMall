@@ -1,8 +1,5 @@
 package com.model2.mvc.common.util;
 
-import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.user.vo.UserVO;
-
 import java.sql.*;
 import java.util.*;
 import java.util.function.Function;

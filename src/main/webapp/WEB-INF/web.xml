@@ -7,8 +7,15 @@
          version="4.0"
          metadata-complete="true">
 
+    <!-- 게시판 Page 하단 Page 번호 개수 예)  이전 1 2 3 4 5  이후 -->
     <context-param>
-        <param-name>pageSize</param-name>
+        <param-name>pageNumSize</param-name>
+        <param-value>5</param-value>
+    </context-param>
+
+    <!--  게시판 Page 에 보여주는 게시물 수 -->
+    <context-param>
+        <param-name>displayCount</param-name>
         <param-value>3</param-value>
     </context-param>
 

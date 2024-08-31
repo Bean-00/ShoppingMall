@@ -1,5 +1,5 @@
 <%@page import="java.util.Objects"%>
-<%@page import="com.model2.mvc.service.user.vo.UserVO"%>
+<%@page import="com.model2.mvc.service.domain.User"%>
 <%@page import="com.model2.mvc.service.user.dao.UserDAO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 

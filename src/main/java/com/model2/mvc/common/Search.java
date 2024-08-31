@@ -1,14 +1,15 @@
 package com.model2.mvc.common;
 
 
-public class SearchVO {
+public class Search {
 	
 	private int page;
 	String searchCondition;
 	String searchKeyword;
 	int pageUnit;
+	int pageSize;
 	
-	public SearchVO(){
+	public Search(){
 	}
 	
 	public int getPageUnit() {
@@ -44,5 +45,13 @@ public class SearchVO {
 
 	public int getEndIndex() {
 		return this.getStartIndex() + this.getPageUnit() - 1;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 }

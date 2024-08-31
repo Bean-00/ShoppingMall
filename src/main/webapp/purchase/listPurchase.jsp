@@ -1,24 +1,22 @@
-<%@ page import="com.model2.mvc.common.SearchVO" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.model2.mvc.service.product.vo.ProductStatusVO" %>
+<%@ page import="com.model2.mvc.common.Search" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="com.model2.mvc.service.purchase.vo.PurchaseBuyerVO" %>
+<%@ page import="com.model2.mvc.service.domain.PurchaseBuyer" %>
 <%@ page import="com.model2.mvc.service.purchase.constant.PurchaseStatus" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%
     Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
-    SearchVO searchVO = (SearchVO) request.getAttribute("searchVO");
+    Search search = (Search) request.getAttribute("search");
 
     int total = 0;
-    ArrayList<PurchaseBuyerVO> list = null;
+    ArrayList<PurchaseBuyer> list = null;
     if (map != null) {
         total = ((Integer) map.get("count")).intValue();
-        list = (ArrayList<PurchaseBuyerVO>) map.get("list");
+        list = (ArrayList<PurchaseBuyer>) map.get("list");
     }
 
-    int currentPage = searchVO.getPage();
+    int currentPage = search.getPage();
 
 %>
 <html>
@@ -56,7 +54,7 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
             <tr>
-                <td colspan="11">전체 <%= total%> 건수, 현재 <%= currentPage%> 페이지</td>
+                <td colspan="11">전체 <%=total%> 건수, 현재 <%=currentPage%> 페이지</td>
             </tr>
             <tr>
                 <td class="ct_list_b" width="100">No</td>
@@ -77,7 +75,7 @@
 
                 <%
                 for (int i = 0; i < list.size(); i++) {
-                    PurchaseBuyerVO purchaseBuyerVO = list.get(i);
+                    PurchaseBuyer purchaseBuyerVO = list.get(i);
             %>
 
             <tr class="ct_list_pop">
@@ -97,7 +95,7 @@
                 </td>
                 <td></td>
                 <td align="left">현재
-                    <%= PurchaseStatus.getTextByCode((purchaseBuyerVO.getTranCode()))%>
+                    <%=PurchaseStatus.getTextByCode((purchaseBuyerVO.getTranCode()))%>
                     상태 입니다.
 
                 </td>
@@ -105,7 +103,7 @@
                 <td align="left">
                     <%
                         if (purchaseBuyerVO.getTranCode().equals("2")) { %>
-                    <a href="/updateTranCode.do?prodNo=<%=purchaseBuyerVO.getProdNo()%>&role=Buyer&buyerId=<%=purchaseBuyerVO.getBuyerId()%>&page=<%= currentPage%>">
+                    <a href="/updateTranCode.do?prodNo=<%=purchaseBuyerVO.getProdNo()%>&role=Buyer&buyerId=<%=purchaseBuyerVO.getBuyerId()%>&page=<%=currentPage%>">
                     물건도착
                     </a>
 
@@ -124,7 +122,7 @@
                 <tr>
                     <td align="center">
 
-                        <a href="/listPurchase.do?page=<%= currentPage%>"><%= currentPage%>
+                        <a href="/listPurchase.do?page=<%=currentPage%>"><%=currentPage%>
                         </a>
 
                     </td>

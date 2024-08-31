@@ -1,12 +1,11 @@
 package com.model2.mvc.service.user.impl;
 
-import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.Search;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.dao.UserDAO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.User;
 
 import java.util.List;
-import java.util.Map;
 
 
 public class UserServiceImpl implements UserService{
@@ -17,12 +16,12 @@ public class UserServiceImpl implements UserService{
 		userDAO=new UserDAO();
 	}
 
-	public void addUser(UserVO userVO) throws Exception {
+	public void addUser(User userVO) throws Exception {
 		userDAO.insertUser(userVO);
 	}
 
-	public UserVO loginUser(UserVO userVO) throws Exception {
-			UserVO dbUser=userDAO.findUser(userVO.getUserId());
+	public User loginUser(User userVO) throws Exception {
+			User dbUser=userDAO.findUser(userVO.getUserId());
 
 			if(! dbUser.getPassword().equals(userVO.getPassword()))
 				throw new Exception("로그인에 실패했습니다.");
@@ -30,21 +29,21 @@ public class UserServiceImpl implements UserService{
 			return dbUser;
 	}
 
-	public UserVO getUser(String userId) throws Exception {
+	public User getUser(String userId) throws Exception {
 		return userDAO.findUser(userId);
 	}
 
-	public List<UserVO> getUserList(SearchVO searchVO) {
-		return userDAO.getUserList(searchVO);
+	public List<User> getUserList(Search search) {
+		return userDAO.getUserList(search);
 	}
 
-	public void updateUser(UserVO userVO) {
+	public void updateUser(User userVO) {
 		userDAO.updateUser(userVO);
 	}
 
 	public boolean checkDuplication(String userId) {
 		boolean result=true;
-		UserVO userVO=userDAO.findUser(userId);
+		User userVO=userDAO.findUser(userId);
 		if(userVO != null) {
 			result=false;
 		}
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int getUserTotalCount(SearchVO searchVO) {
-		return UserDAO.getAllUserCount(searchVO);
+	public int getUserTotalCount(Search search) {
+		return UserDAO.getAllUserCount(search);
 	}
 }

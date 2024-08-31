@@ -1,33 +1,31 @@
-package com.model2.mvc.service.purchase.vo;
+package com.model2.mvc.service.domain;
 
 import java.sql.Date;
 
-import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.purchase.constant.PurchaseStatus;
-import com.model2.mvc.service.user.vo.UserVO;
 
 
-public class PurchaseVO {
-    private UserVO buyer;
+public class Purchase {
+    private User buyer;
     private String divyAddr;
     private Date divyDate;
     private String divyRequest;
     private Date orderDate;
     private String paymentOption;
-    private ProductVO purchaseProd;
+    private Product purchaseProd;
     private String receiverName;
     private String receiverPhone;
     private PurchaseStatus status;
     private int tranNo;
 
-    public PurchaseVO() {
+    public Purchase() {
     }
 
-    public UserVO getBuyer() {
+    public User getBuyer() {
         return buyer;
     }
 
-    public void setBuyer(UserVO buyer) {
+    public void setBuyer(User buyer) {
         this.buyer = buyer;
     }
 
@@ -71,11 +69,11 @@ public class PurchaseVO {
         this.paymentOption = paymentOption;
     }
 
-    public ProductVO getPurchaseProd() {
+    public Product getPurchaseProd() {
         return purchaseProd;
     }
 
-    public void setPurchaseProd(ProductVO purchaseProd) {
+    public void setPurchaseProd(Product purchaseProd) {
         this.purchaseProd = purchaseProd;
     }
 

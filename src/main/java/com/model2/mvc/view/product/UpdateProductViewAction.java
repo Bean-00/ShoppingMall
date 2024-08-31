@@ -7,7 +7,7 @@ import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.dao.ProductDAO;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.domain.Product;
 
 /**
  * Servlet implementation class UpdateProductViewAction
@@ -21,7 +21,7 @@ public class UpdateProductViewAction extends Action {
 
 		ProductService productService = new ProductServiceImpl();
 		ProductDAO productDAO = new ProductDAO();
-		ProductVO pvo = productDAO.getProductByProdNo(String.valueOf(productNo));
+		Product pvo = productDAO.getProductByProdNo(String.valueOf(productNo));
 		productService.updateProduct(pvo);
 
 		request.setAttribute("productVO", pvo);

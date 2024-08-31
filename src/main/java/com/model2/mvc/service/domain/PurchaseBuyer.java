@@ -1,6 +1,6 @@
-package com.model2.mvc.service.purchase.vo;
+package com.model2.mvc.service.domain;
 
-public class PurchaseBuyerVO {
+public class PurchaseBuyer {
     private int rowNum;
     private String buyerId;
     private String buyerName;

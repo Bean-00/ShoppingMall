@@ -1,25 +1,24 @@
 package com.model2.mvc.service.user;
 
-import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.User;
 
 import java.util.List;
-import java.util.Map;
 
 
 public interface UserService {
 	
-	void addUser(UserVO userVO) throws Exception;
+	void addUser(User userVO) throws Exception;
 
-	UserVO loginUser(UserVO userVO) throws Exception;
+	User loginUser(User userVO) throws Exception;
 	
-	UserVO getUser(String userId) throws Exception;
+	User getUser(String userId) throws Exception;
 	
-	List<UserVO> getUserList(SearchVO searchVO) throws Exception;
+	List<User> getUserList(Search search) throws Exception;
 	
-	void updateUser(UserVO userVO) throws Exception;
+	void updateUser(User userVO) throws Exception;
 	
 	boolean checkDuplication(String userId) throws Exception;
 
-	int getUserTotalCount(SearchVO searchVO);
+	int getUserTotalCount(Search search);
 }

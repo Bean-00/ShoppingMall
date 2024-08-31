@@ -1,15 +1,13 @@
 package com.model2.mvc.service.product.dao;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
 
-import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.service.product.vo.ProductStatusVO;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.ProductStatus;
+import com.model2.mvc.service.domain.Product;
 
 import static com.model2.mvc.common.util.DBUtil.*;
 import static com.model2.mvc.common.util.SQLUtil.makeSearchClause;
@@ -19,16 +17,16 @@ public class ProductDAO {
 
     }
 
-    public void addProduct(ProductVO productVO) {
+    public void addProduct(Product productVO) {
         String sql = "insert into product(" + "PROD_NO, PROD_NAME, PROD_DETAIL, MANUFACTURE_DAY," + "PRICE, IMAGE_FILE, REG_DATE)" + "VALUES (\r\n" + "   seq_product_prod_no.nextval,\r\n" + "  ?, ?, ?, ?, ?, ? \r\n" + ")";
         executeUpdate(sql, productVO.getProdName(), productVO.getProdDetail(), productVO.getManuDate(), productVO.getPrice(), productVO.getFileName(), productVO.getRegDate());
     }
 
-    public List<ProductStatusVO> getProductWithStatusList(SearchVO searchVO) {
+    public List<ProductStatus> getProductWithStatusList(Search search) {
 
-        final Function<ResultSet, ProductStatusVO> mapperFn = (rs) -> {
+        final Function<ResultSet, ProductStatus> mapperFn = (rs) -> {
             try {
-                ProductStatusVO productStatusVO = new ProductStatusVO();
+                ProductStatus productStatusVO = new ProductStatus();
                 productStatusVO.setRowNum(rs.getInt("rowNum"));
                 productStatusVO.setProdNo(rs.getInt("prodNo"));
                 productStatusVO.setProductName(rs.getString("prodName"));
@@ -57,21 +55,21 @@ public class ProductDAO {
                 "             NVL(t.tran_status_code, 0)            AS \"statusCode\"\n" +
                 "      from product p\n" +
                 "               left outer join transaction t on p.PROD_NO = t.prod_no\n");
-        if (Objects.nonNull(searchVO.getSearchCondition())) {
-            sql.append(makeSearchClause(searchVO, "p.prod_no", "p.prod_name", "p.price"));
+        if (Objects.nonNull(search.getSearchCondition())) {
+            sql.append(makeSearchClause(search, "p.prod_no", "p.prod_name", "p.price"));
         }
         sql.append(") PT\n WHERE \"ROW_NUM\" BETWEEN ? AND ?\n");
         sql.append(" order by PT.\"regDate\"");
 
-        List<ProductStatusVO> result = executeQuery(sql.toString(), mapperFn, searchVO.getStartIndex(), searchVO.getEndIndex());
+        List<ProductStatus> result = executeQuery(sql.toString(), mapperFn, search.getStartIndex(), search.getEndIndex());
 
         return result;
     }
 
-    public ProductVO getProductByProdNo(String prodNo) throws SQLException {
-        final Function<ResultSet, ProductVO> mapperFn = (rs) -> {
+    public Product getProductByProdNo(String prodNo) throws SQLException {
+        final Function<ResultSet, Product> mapperFn = (rs) -> {
             try {
-                ProductVO productVO = new ProductVO();
+                Product productVO = new Product();
 
                 productVO.setProdNo(rs.getInt("PROD_NO"));
                 productVO.setProdName(rs.getString("PROD_NAME"));
@@ -87,12 +85,12 @@ public class ProductDAO {
             }
         };
         String sql = "select * from PRODUCT where PROD_NO=?";
-        List<ProductVO> productList = executeQuery(sql, mapperFn, prodNo);
+        List<Product> productList = executeQuery(sql, mapperFn, prodNo);
 
         return productList.size() > 0 ? productList.get(0) : null;
     }
 
-    public void updateProduct(ProductVO productVO) {
+    public void updateProduct(Product productVO) {
         String sql = "UPDATE product SET PROD_NAME = ?, PROD_DETAIL = ?, MANUFACTURE_DAY = ?, PRICE = ?, IMAGE_FILE = ?, REG_DATE = ? where PROD_NO = ? ";
         executeUpdate(sql, productVO.getProdName(), productVO.getProdDetail(),
                 productVO.getManuDate(), productVO.getPrice(),

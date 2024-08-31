@@ -1,7 +1,7 @@
-<%@ page import="com.model2.mvc.service.product.vo.ProductVO" %>
+<%@ page import="com.model2.mvc.service.domain.Product" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%
-    ProductVO pvo = (ProductVO) request.getAttribute("productVO");
+    Product pvo = (Product) request.getAttribute("productVO");
 %>
 
 
@@ -40,7 +40,7 @@
                 return;
             }
 
-            document.detailForm.action = '/updateProduct.do?ProdNo=<%= pvo.getProdNo() %>';
+            document.detailForm.action = '/updateProduct.do?ProdNo=<%=pvo.getProdNo()%>';
             document.detailForm.submit();
         }
 
@@ -102,7 +102,7 @@
             </td>
             <td bgcolor="D6D6D6" width="1"></td>
             <td class="ct_write01">
-                <input type="text" name="prodDetail" value="<%= pvo.getProdDetail()%>" class="ct_input_g"
+                <input type="text" name="prodDetail" value="<%=pvo.getProdDetail()%>" class="ct_input_g"
                        style="width: 100px; height: 19px" maxLength="10" minLength="6">
             </td>
         </tr>

@@ -1,10 +1,10 @@
 package com.model2.mvc.service.purchase.impl;
 
-import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.Search;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.dao.PurchaseDAO;
-import com.model2.mvc.service.purchase.vo.PurchaseBuyerVO;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.domain.PurchaseBuyer;
+import com.model2.mvc.service.domain.Purchase;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,33 +18,33 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public PurchaseVO addPurchase(PurchaseVO purchaseVO) {
+    public Purchase addPurchase(Purchase purchaseVO) {
         purchaseDAO.insertPurchase(purchaseVO);
         return null;
     }
 
     @Override
-    public PurchaseVO getPurchase(int purchaseId) {
+    public Purchase getPurchase(int purchaseId) {
         return null;
     }
 
     @Override
-    public List<PurchaseBuyerVO> getPurchaseList(SearchVO searchVO, String buyerId) {
-        return purchaseDAO.getPurchaseList(searchVO, buyerId);
+    public List<PurchaseBuyer> getPurchaseList(Search search, String buyerId) {
+        return purchaseDAO.getPurchaseList(search, buyerId);
     }
 
     @Override
-    public HashMap<String, Object> getSaleList(SearchVO searchVO) {
+    public HashMap<String, Object> getSaleList(Search search) {
         return null;
     }
 
     @Override
-    public PurchaseVO updatePurchase(PurchaseVO purchaseVO) {
+    public Purchase updatePurchase(Purchase purchaseVO) {
         return null;
     }
 
     @Override
-    public void TranCode(PurchaseVO purchaseVO) {
+    public void TranCode(Purchase purchaseVO) {
 
     }
 

@@ -4,8 +4,8 @@ import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.dao.ProductDAO;
 import com.model2.mvc.service.purchase.constant.PurchaseStatus;
 import com.model2.mvc.service.purchase.dao.PurchaseDAO;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +19,8 @@ public class AddPurchaseAction extends Action {
 
         ProductDAO productDAO = new ProductDAO();
 
-        PurchaseVO purchaseVO = new PurchaseVO();
-        purchaseVO.setBuyer((UserVO) request.getSession().getAttribute("user"));
+        Purchase purchaseVO = new Purchase();
+        purchaseVO.setBuyer((User) request.getSession().getAttribute("user"));
         purchaseVO.setDivyAddr(request.getParameter("receiverAddr"));
         purchaseVO.setDivyDate(Date.valueOf(request.getParameter("receiverDate")));
         purchaseVO.setDivyRequest(request.getParameter("receiverRequest"));

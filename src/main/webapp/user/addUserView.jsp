@@ -12,7 +12,7 @@ function fncAddUser() {
 	// Form 유효성 검증
 	var id=document.detailForm.userId.value;
 	var pw=document.detailForm.password.value;
-	var pw_confirm=document.detailForm.password2.value;
+	var pw_confirm=documentailForm.password2.value;
 	var name=document.detailForm.userName.value;
 	
 	if(id == null || id.length <1){

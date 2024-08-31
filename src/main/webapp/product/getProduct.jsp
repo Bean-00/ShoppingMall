@@ -1,11 +1,11 @@
-<%@ page import="com.model2.mvc.service.product.vo.ProductVO" %>
-<%@ page import="com.model2.mvc.service.user.vo.UserVO" %>
+<%@ page import="com.model2.mvc.service.domain.Product" %>
+<%@ page import="com.model2.mvc.service.domain.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
 <%
-    ProductVO pvo = (ProductVO) request.getAttribute("pvo");
-    UserVO user = (UserVO) request.getSession().getAttribute("user");
+    Product pvo = (Product) request.getAttribute("pvo");
+    User user = (User) request.getSession().getAttribute("user");
 %>
 
 <html>
@@ -49,7 +49,7 @@
             <td class="ct_write01">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td width="105"><%= pvo.getProdNo() %>
+                        <td width="105"><%=pvo.getProdNo()%>
                         </td>
                     </tr>
                 </table>
@@ -63,7 +63,7 @@
                 상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
             </td>
             <td bgcolor="D6D6D6" width="1"></td>
-            <td class="ct_write01"><%= pvo.getProdName() %>
+            <td class="ct_write01"><%=pvo.getProdName()%>
             </td>
         </tr>
         <tr>
@@ -86,7 +86,7 @@
                 상품상세정보 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
             </td>
             <td bgcolor="D6D6D6" width="1"></td>
-            <td class="ct_write01"><%= pvo.getProdDetail() %>
+            <td class="ct_write01"><%=pvo.getProdDetail()%>
             </td>
         </tr>
         <tr>
@@ -95,7 +95,7 @@
         <tr>
             <td width="104" class="ct_write">제조일자</td>
             <td bgcolor="D6D6D6" width="1"></td>
-            <td class="ct_write01"><%= pvo.getManuDate()%>
+            <td class="ct_write01"><%=pvo.getManuDate()%>
             </td>
         </tr>
         <tr>
@@ -104,7 +104,7 @@
         <tr>
             <td width="104" class="ct_write">가격</td>
             <td bgcolor="D6D6D6" width="1"></td>
-            <td class="ct_write01"><%= pvo.getPrice()%>
+            <td class="ct_write01"><%=pvo.getPrice()%>
             </td>
         </tr>
         <tr>
@@ -113,7 +113,7 @@
         <tr>
             <td width="104" class="ct_write">등록일자</td>
             <td bgcolor="D6D6D6" width="1"></td>
-            <td class="ct_write01"><%= pvo.getRegDate()%>
+            <td class="ct_write01"><%=pvo.getRegDate()%>
             </td>
         </tr>
         <tr>
@@ -133,7 +133,7 @@
                             <img src="/images/ct_btnbg01.gif" width="17" height="23"/>
                         </td>
                         <td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-                            <a href="/addPurchaseView.do?prodNo=<%= pvo.getProdNo()%>">구매</a>
+                            <a href="/addPurchaseView.do?prodNo=<%=pvo.getProdNo()%>">구매</a>
                         </td>
                         <td width="14" height="23">
                             <img src="/images/ct_btnbg03.gif" width="14" height="23">

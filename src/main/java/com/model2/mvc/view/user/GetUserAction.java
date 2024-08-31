@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.User;
 
 
 public class GetUserAction extends Action{
@@ -17,7 +17,7 @@ public class GetUserAction extends Action{
 		String userId=request.getParameter("userId");
 		
 		UserService service=new UserServiceImpl();
-		UserVO vo=service.getUser(userId);
+		User vo=service.getUser(userId);
 		
 		request.setAttribute("vo", vo);
 

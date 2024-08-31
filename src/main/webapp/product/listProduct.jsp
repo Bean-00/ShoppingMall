@@ -1,13 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <%@ page import="java.util.*" %>
-<%@ page import="com.model2.mvc.service.product.vo.*" %>
 <%@ page import="com.model2.mvc.common.*" %>
-<%@ page import="com.model2.mvc.service.user.vo.UserVO" %>
-<%@ page import="com.model2.mvc.service.purchase.constant.PurchaseStatus" %>
+<%@ page import="com.model2.mvc.service.domain.User" %>
+<%@ page import="com.model2.mvc.service.domain.ProductStatus" %>
 
 <%
-    UserVO vo = (UserVO) session.getAttribute("user");
+    User vo = (User) session.getAttribute("user");
 
     String role = "";
 
@@ -17,21 +16,21 @@
 
 
     Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
-    SearchVO searchVO = (SearchVO) request.getAttribute("searchVO");
+    Search search = (Search) request.getAttribute("search");
 
     int total = 0;
-    ArrayList<ProductStatusVO> list = null;
+    ArrayList<ProductStatus> list = null;
     if (map != null) {
         total = ((Integer) map.get("count")).intValue();
-        list = (ArrayList<ProductStatusVO>) map.get("list");
+        list = (ArrayList<ProductStatus>) map.get("list");
     }
 
-    int currentPage = searchVO.getPage();
+    int currentPage = search.getPage();
 
     int totalPage = 0;
     if (total > 0) {
-        totalPage = total / searchVO.getPageUnit();
-        if (total % searchVO.getPageUnit() > 0)
+        totalPage = total / search.getPageUnit();
+        if (total % search.getPageUnit() > 0)
             totalPage += 1;
     }
 
@@ -113,7 +112,7 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0"
                style="margin-top: 10px;">
             <tr>
-                <td colspan="11">전체 <%= total%> 건수, 현재 <%= currentPage%> 페이지
+                <td colspan="11">전체 <%=total%> 건수, 현재 <%=currentPage%> 페이지
                 </td>
             </tr>
             <tr>
@@ -133,7 +132,7 @@
             <%
                 int no = list.size();
                 for (int i = 0; i < list.size(); i++) {
-                    ProductStatusVO psvo = list.get(i);
+                    ProductStatus psvo = list.get(i);
             %>
             <tr class="ct_list_pop">
                 <td align="center"><%=psvo.getRowNum()%>
@@ -145,16 +144,16 @@
                             if (role.equals("admin")) {
                     %>
                     <a
-                            href="/updateProductView.do?prodNo=<%=psvo.getProdNo() %>&menu=manage"><%= psvo.getProductName() %>
+                            href="/updateProductView.do?prodNo=<%=psvo.getProdNo()%>&menu=manage"><%=psvo.getProductName()%>
                             <% } else {
                                 %>
                             <%
                                 if (psvo.getStatus().getCode().equals("0")){
                             %>
                         <a
-                                href="/getProduct.do?prodNo=<%=psvo.getProdNo() %>&menu=manage">
+                                href="/getProduct.do?prodNo=<%=psvo.getProdNo()%>&menu=manage">
                             <% } %>
-                            <%= psvo.getProductName() %>
+                            <%=psvo.getProductName()%>
                             <%
 
                                     }
@@ -164,10 +163,10 @@
 
                         </a></td>
                 <td></td>
-                <td align="left"><%= psvo.getPrice() %>
+                <td align="left"><%=psvo.getPrice()%>
                 </td>
                 <td></td>
-                <td align="left"><%= psvo.getRegDate() %>
+                <td align="left"><%=psvo.getRegDate()%>
                 </td>
                 <td></td>
                 <%
@@ -179,10 +178,10 @@
                 <td align="left">판매 중</td>
                 <% } else {
                 %>
-                <td align="left"><%= psvo.getStatus().getText()%>
+                <td align="left"><%=psvo.getStatus().getText()%>
                     <%
                         if (psvo.getStatus().getCode().equals("1")) { %>
-                        <a href="/updateTranCode.do?prodNo=<%=psvo.getProdNo()%>&tranCode=<%=psvo.getStatus().getCode()%>&page=<%= currentPage%>">
+                        <a href="/updateTranCode.do?prodNo=<%=psvo.getProdNo()%>&tranCode=<%=psvo.getStatus().getCode()%>&page=<%=currentPage%>">
                             배송하기
                         </a>
                     <%
@@ -207,7 +206,7 @@
                         <%
 						for (int i = 1; i <= totalPage; i++) {
 						%>
-                    <a href="/listProduct.do?page=<%= i%>&menu=manage"><%= i %>
+                    <a href="/listProduct.do?page=<%=i%>&menu=manage"><%=i%>
                     </a>
                         <% } %>
             </tr>

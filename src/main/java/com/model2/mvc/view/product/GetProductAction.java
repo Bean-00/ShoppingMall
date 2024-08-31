@@ -9,7 +9,7 @@ import com.model2.mvc.common.util.SessionUtil;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.domain.Product;
 
 import java.util.StringJoiner;
 
@@ -35,7 +35,7 @@ public class GetProductAction extends Action {
         String productNo = request.getParameter("prodNo");
 
         ProductService productService = new ProductServiceImpl();
-        ProductVO pvo = productService.getProduct(productNo);
+        Product pvo = productService.getProduct(productNo);
 
 
         request.setAttribute("pvo", pvo);

@@ -1,22 +1,22 @@
 package com.model2.mvc.service.product;
 
-import com.model2.mvc.common.SearchVO;
-import com.model2.mvc.service.product.vo.ProductStatusVO;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.ProductStatus;
+import com.model2.mvc.service.domain.Product;
 
 import java.util.List;
 
 
 public interface ProductService {
-	void addProduct (ProductVO productVO);
+	void addProduct (Product productVO);
 
-	void updateProduct (ProductVO productVO);
+	void updateProduct (Product productVO);
 
-	void deleteProduct (ProductVO productVO);
+	void deleteProduct (Product productVO);
 
-	ProductVO getProduct (String productNo);
+	Product getProduct (String productNo);
 	
-	List<ProductStatusVO> getProductWithStatusList (SearchVO searchVO);
+	List<ProductStatus> getProductWithStatusList (Search search);
 
 	int getAllProductCount ();
 }

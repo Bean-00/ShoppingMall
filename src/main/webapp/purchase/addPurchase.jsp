@@ -1,9 +1,9 @@
-<%@ page import="com.model2.mvc.service.purchase.vo.PurchaseVO" %>
+<%@ page import="com.model2.mvc.service.domain.Purchase" %>
 <%@ page import="java.util.Objects" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 
-<% PurchaseVO purchaseVO = (PurchaseVO) request.getAttribute("purchase"); %>
+<% Purchase purchaseVO = (Purchase) request.getAttribute("purchase"); %>
 
 <html>
 <head>
@@ -34,7 +34,7 @@
 				String paymentOption = purchaseVO.getPaymentOption();
 				String paymentMethod = paymentOption.equals("1") ? "현금구매" : "신용구매";
 			%>
-			<%= paymentMethod %>
+			<%=paymentMethod%>
 		
 		</td>
 		<td></td>

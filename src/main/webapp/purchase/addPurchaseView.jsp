@@ -1,11 +1,11 @@
-<%@ page import="com.model2.mvc.service.product.vo.ProductVO" %>
-<%@ page import="com.model2.mvc.service.user.vo.UserVO" %>
+<%@ page import="com.model2.mvc.service.domain.Product" %>
+<%@ page import="com.model2.mvc.service.domain.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 
 <%
-	ProductVO productVO = (ProductVO) request.getAttribute("productVO");
-	UserVO userVO = (UserVO) request.getSession().getAttribute("user");
+	Product productVO = (Product) request.getAttribute("productVO");
+	User userVO = (User) request.getSession().getAttribute("user");
 %>
 
 

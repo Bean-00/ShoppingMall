@@ -10,7 +10,7 @@ import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.dao.UserDAO;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.User;
 
 public class LoginAction extends Action {
 
@@ -23,7 +23,7 @@ public class LoginAction extends Action {
 		UserDAO userDAO = new UserDAO();
 //		UserVO userVO = new UserVO();
 		
-		UserVO userVO = userDAO.findUser(inputId, inputPw);
+		User userVO = userDAO.findUser(inputId, inputPw);
 		
 		if (Objects.isNull(userVO)) {
 			return "forward:/user/fail-loginView.jsp";
@@ -33,7 +33,7 @@ public class LoginAction extends Action {
 		userVO.setPassword(inputPw);
 
 		UserService service = new UserServiceImpl();
-		UserVO dbVO = service.loginUser(userVO);
+		User dbVO = service.loginUser(userVO);
 
 		HttpSession session = request.getSession();
 		session.setAttribute("user", dbVO);

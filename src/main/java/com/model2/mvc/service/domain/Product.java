@@ -1,9 +1,9 @@
-package com.model2.mvc.service.product.vo;
+package com.model2.mvc.service.domain;
 
 import java.sql.Date;
 
 
-public class ProductVO {
+public class Product {
 
     private String fileName;
     private String manuDate;
@@ -13,7 +13,7 @@ public class ProductVO {
     private int prodNo;
     private Date regDate;
 
-    public ProductVO() {
+    public Product() {
     }
 
     public String getFileName() {

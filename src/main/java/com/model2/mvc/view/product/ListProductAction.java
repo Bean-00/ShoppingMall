@@ -7,34 +7,34 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductStatusVO;
+import com.model2.mvc.service.domain.ProductStatus;
 
 public class ListProductAction extends Action {
 
     @Override
     public String execute(HttpServletRequest request,
                           HttpServletResponse response) throws Exception {
-        SearchVO searchVO = new SearchVO();
+        Search search = new Search();
 
         int page = 1;
         if (request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
 
-        searchVO.setPage(page);
-        searchVO.setSearchCondition(request.getParameter("searchCondition"));
-        searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
+        search.setPage(page);
+        search.setSearchCondition(request.getParameter("searchCondition"));
+        search.setSearchKeyword(request.getParameter("searchKeyword"));
 
         String pageUnit = getServletContext().getInitParameter("pageSize");
-        searchVO.setPageUnit(Integer.parseInt(pageUnit));
+        search.setPageUnit(Integer.parseInt(pageUnit));
 
         Map<String, Object> map = new HashMap<>();
 
         ProductService service = new ProductServiceImpl();
-        List<ProductStatusVO> productStatusVOList = service.getProductWithStatusList(searchVO);
+        List<ProductStatus> productStatusVOList = service.getProductWithStatusList(search);
 
         int totalCount = service.getAllProductCount();
 
@@ -42,7 +42,7 @@ public class ListProductAction extends Action {
         map.put("count", totalCount);
 
         request.setAttribute("map", map);
-        request.setAttribute("searchVO", searchVO);
+        request.setAttribute("search", search);
 
         return "forward:/product/listProduct.jsp";
     }

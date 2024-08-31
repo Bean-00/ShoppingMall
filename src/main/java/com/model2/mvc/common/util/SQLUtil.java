@@ -1,8 +1,6 @@
 package com.model2.mvc.common.util;
 
-import com.model2.mvc.common.SearchVO;
-
-import java.sql.Connection;
+import com.model2.mvc.common.Search;
 
 public class SQLUtil {
     public static String makeLikeClause(String columnName, String searchString) {
@@ -22,11 +20,11 @@ public class SQLUtil {
         return sb.toString();
     }
 
-    public static String makeSearchClause(SearchVO searchVO, String... columnNames) {
+    public static String makeSearchClause(Search search, String... columnNames) {
         int index = 0;
         for (String columnName : columnNames) {
-            if (String.valueOf(index++).equals(searchVO.getSearchCondition())) {
-                return makeLikeClause(columnName, searchVO.getSearchKeyword());
+            if (String.valueOf(index++).equals(search.getSearchCondition())) {
+                return makeLikeClause(columnName, search.getSearchKeyword());
             }
         }
         return null;

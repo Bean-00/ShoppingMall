@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.User;
 
 
 public class UpdateUserAction extends Action {
@@ -17,7 +17,7 @@ public class UpdateUserAction extends Action {
 												HttpServletResponse response) throws Exception {
 		String userId= request.getParameter("userId");
 		
-		UserVO userVO=new UserVO();
+		User userVO=new User();
 		userVO.setUserId(userId);
 		userVO.setUserName(request.getParameter("userName"));
 		userVO.setAddr(request.getParameter("addr"));
@@ -28,7 +28,7 @@ public class UpdateUserAction extends Action {
 		service.updateUser(userVO);
 		
 		HttpSession session=request.getSession();
-		String sessionId=((UserVO)session.getAttribute("user")).getUserId();
+		String sessionId=((User)session.getAttribute("user")).getUserId();
 	
 		if(sessionId.equals(userId)){
 			session.setAttribute("user", userVO);
