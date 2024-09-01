@@ -49,7 +49,6 @@
                 <tr>
                     <%--  <td class="ct_write01"><%=user.getUserId() %></td> --%>
                     <td class="ct_write01">${user.userId}</td>
-                    </td>
                     <td></td>
                 </tr>
             </table>

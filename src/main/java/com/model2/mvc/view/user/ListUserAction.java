@@ -39,12 +39,10 @@ public class ListUserAction extends Action {
         search.setDisplayCount(displayCount);
 
         UserService service = new UserServiceImpl();
-        Map<String, Object> map = new HashMap<>();
 
         List<User> userList = service.getUserList(search);
         int totalCount = service.getUserTotalCount(search);
 
-        map.put("list", userList);
 
         PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
         request.setAttribute("list", userList);

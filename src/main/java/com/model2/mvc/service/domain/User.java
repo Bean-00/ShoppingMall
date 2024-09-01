@@ -11,6 +11,9 @@ public class User {
 	private String role;
 	private String ssn;
 	private String phone;
+	private String phone1;
+	private String phone2;
+	private String phone3;
 	private String addr;
 	private String email;
 	private Date regDate;
@@ -75,7 +78,15 @@ public class User {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	
+	public String getPhone1() {
+		return phone1;
+	}
+	public String getPhone2() {
+		return phone2;
+	}
+	public String getPhone3() {
+		return phone3;
+	}
 	@Override
 	public String toString() {
 
