@@ -21,8 +21,7 @@ public class LoginAction extends Action {
 		String inputPw = request.getParameter("password");
 		
 		UserDAO userDAO = new UserDAO();
-//		UserVO userVO = new UserVO();
-		
+
 		User userVO = userDAO.findUser(inputId, inputPw);
 		
 		if (Objects.isNull(userVO)) {

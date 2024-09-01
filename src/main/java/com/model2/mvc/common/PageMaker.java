@@ -36,13 +36,12 @@ public class PageMaker {
             }
         }
     }
+    public int getCurrentPage() {
+        return currentPage;
+    }
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
     }
 
     public int getCurrentStartPageNum() {
@@ -53,7 +52,7 @@ public class PageMaker {
         return currentEndPageNum;
     }
 
-    public boolean isEnablePrev() {
+    public boolean getIsEnablePrev() {
         return this.currentPage <= this.pageNumSize;
     }
 
@@ -61,11 +60,24 @@ public class PageMaker {
         return String.valueOf(this.currentPage - 1);
     }
 
-    public boolean isEnableNext() {
+    public boolean getIsEnableNext() {
         return this.currentEndPageNum >= this.maxPageNum;
     }
 
     public String getNextPage() {
         return String.valueOf(this.currentEndPageNum + 1);
     }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public int getDisplayCount() {
+        return displayCount;
+    }
+
 }

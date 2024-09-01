@@ -1,28 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ page import="java.util.*" %>
-<%@ page import="com.model2.mvc.common.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
 <%@ page import="com.model2.mvc.service.domain.User" %>
-
 <%
-    Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
-    Search search = (Search) request.getAttribute("search");
-
-    List<User> list = null;
-    int totalCount = (Integer) map.get("totalCount");
-    int pageUnit = search.getPageNumSize();
-    int pageSize = search.getDisplayCount();
-    int currentPage = search.getCurrentPage();
-
-    PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);
-    pageInfo.setCurrentPage(search.getCurrentPage());
-
-    if (Objects.nonNull(map)) {
-        pageInfo.setTotalCount(totalCount);
-        list = (List<User>) map.get("list");
-    }
-
-%>
+	User user = (User)request.getAttribute("user");
+%>	/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
 
 <html>
 <head>
@@ -64,41 +48,28 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
             <tr>
-                <%
-                    if (search.getSearchCondition() != null) {
-                %>
+                <%--                <%--%>
+                <%--                    if (search.getSearchCondition() != null) {--%>
+                <%--                %>--%>
                 <td align="right">
                     <select name="searchCondition" class="ct_input_g" style="width:80px">
-                        <%
-                            if (search.getSearchCondition().equals("0")) {
-                        %>
-                        <option value="0" selected>회원ID</option>
-                        <option value="1">회원명</option>
-                        <%
-                        } else {
-                        %>
-                        <option value="0">회원ID</option>
-                        <option value="1" selected>회원명</option>
-                        <%
-                            }
-                        %>
+                        <%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
+				<option value="0" <%= (searchCondition.equals("0") ? "selected" : "")%>>회원ID</option>
+				<option value="1" <%= (searchCondition.equals("1") ? "selected" : "")%>>회원명</option>
+				/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
+                        <option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>
+                            회원ID
+                        </option>
+                        <option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>
+                            회원명
+                        </option>
                     </select>
-                    <input type="text" name="searchKeyword" value="<%=search.getSearchKeyword() %>"
-                           class="ct_input_g" style="width:200px; height:19px">
+                    <%--<input type="text" name="searchKeyword" value="<%= searchKeyword %>"  class="ct_input_g" style="width:200px; height:14px" >--%>
+                    <input type="text" name="searchKeyword"
+                           value="${! empty search.searchKeyword ? search.searchKeyword : ""}"
+                           class="ct_input_g" style="width:200px; height:20px">
                 </td>
-                <%
-                } else {
-                %>
-                <td align="right">
-                    <select name="searchCondition" class="ct_input_g" style="width:80px">
-                        <option value="0">회원ID</option>
-                        <option value="1">회원명</option>
-                    </select>
-                    <input type="text" name="searchKeyword" class="ct_input_g" value="" style="width:200px; height:19px">
-                </td>
-                <%
-                    }
-                %>
+
                 <td align="right" width="70">
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
@@ -119,7 +90,9 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
             <tr>
-                <td colspan="11">전체  <%=totalCount%> 건수, 현재 <%=currentPage%> 페이지</td>
+                <td colspan="11">
+                    전체 ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지
+                </td>
             </tr>
             <tr>
                 <td class="ct_list_b" width="100">No</td>
@@ -133,53 +106,46 @@
             <tr>
                 <td colspan="11" bgcolor="808285" height="1"></td>
             </tr>
-            <%
-                for (int i = 0; i < list.size(); i++) {
-                    User vo = list.get(i);
-            %>
-            <tr class="ct_list_pop">
-                <td align="center"><%=vo.getRowNum()%>
-                </td>
-                <td></td>
-                <td align="left">
-                    <a href="/getUser.do?userId=<%=vo.getUserId() %>"><%=vo.getUserId()%>
-                    </a>
-                </td>
-                <td></td>
-                <td align="left"><%=vo.getUserName()%>
-                </td>
-                <td></td>
-                <td align="left"><%=Optional.ofNullable(vo.getEmail()).orElse("")%>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="11" bgcolor="D6D7D6" height="1"></td>
-            </tr>
-            <% } %>
+            <c:set var="i" value="0"/>
+            <c:forEach var="user" items="${list}">
+                <c:set var="i" value="${ i+1 }"/>
+                <tr class="ct_list_pop">
+                    <td align="center">${user.rowNum}</td>
+                    <td></td>
+                    <td align="left"><a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
+                    <td></td>
+                    <td align="left">${user.userName}</td>
+                    <td></td>
+                    <td align="left">${user.email}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="11" bgcolor="D6D7D6" height="1"></td>
+                </tr>
+            </c:forEach>
         </table>
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
             <tr>
                 <td align="center">
                     <input type="hidden" id="currentPage" name="currentPage" value=""/>
-                    <% if (pageInfo.isEnablePrev()) {
-                       %>
-                    ◀ 이전
-                    <% } else { %>
-                    <a href="javascript:fncGetUserList('<%=pageInfo.getPrevPage()%>')">◀ 이전</a>
-                    <% } %>
-                    <% for (int i = pageInfo.getCurrentStartPageNum(); i <= pageInfo.getCurrentEndPageNum(); i++) {
-                    %>
-                    <a href="javascript:fncGetUserList('<%=i%>');"><%=i%>
-                    </a>
-                    <% } %>
-                    <% if (pageInfo.isEnableNext()) { %>
-                    이후 ▶
-                    <%
-                    } else { %>
-                    <a href="javascript:fncGetUserList('<%=pageInfo.getNextPage()%>')">이후 ▶</a>
-                    <%
-                    } %>
+                    <c:if test="${ pageInfo.isEnablePrev }">
+                        ◀ 이전
+                    </c:if>
+                    <c:if test="${!pageInfo.isEnablePrev}">
+                        <a href="javascript:fncGetUserList('${ pageInfo.prevPage}')">◀ 이전</a>
+                    </c:if>
+
+                    <c:forEach var="i" begin="${pageInfo.currentStartPageNum}" end="${pageInfo.currentEndPageNum}" step="1">
+                        <a href="javascript:fncGetUserList('${ i }');">${ i }</a>
+                    </c:forEach>
+
+                    <c:if test="${ pageInfo.isEnableNext}">
+                        이후 ▶
+                    </c:if>
+                    <c:if test="${ !pageInfo.isEnableNext }">
+                        <a href="javascript:fncGetUserList('${pageInfo.nextPage}')">이후 ▶</a>
+                    </c:if>
                 </td>
             </tr>
         </table>

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.PageMaker;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
@@ -43,10 +44,11 @@ public class ListUserAction extends Action {
         List<User> userList = service.getUserList(search);
         int totalCount = service.getUserTotalCount(search);
 
-        map.put("totalCount", totalCount);
         map.put("list", userList);
 
-        request.setAttribute("map", map);
+        PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
+        request.setAttribute("list", userList);
+        request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("search", search);
 
         return "forward:/user/listUser.jsp";

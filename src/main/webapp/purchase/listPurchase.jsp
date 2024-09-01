@@ -143,7 +143,7 @@
                         <a href="javascript:fncGetPurchaseBuyerList('<%=i%>');"><%=i%>
                         </a>
                         <% } %>
-                        <% if (pageInfo.isEnableNext()) { %>
+                        <% if (pageInfo.getIsEnableNext()) { %>
                         이후 ▶
                         <%
                         } else { %>

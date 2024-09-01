@@ -240,7 +240,7 @@
                     <a href="javascript:fncGetProductList('<%=i%>');"><%=i%>
                     </a>
                         <% } %>
-                        <% if (pageInfo.isEnableNext()) { %>
+                        <% if (pageInfo.getIsEnableNext()) { %>
                     이후 ▶
                         <%
                     } else { %>

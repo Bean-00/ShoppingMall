@@ -19,7 +19,7 @@ public class UpdateUserViewAction extends Action{
 		UserService service=new UserServiceImpl();
 		User userVO=service.getUser(userId);
 		
-		request.setAttribute("userVO", userVO);
+		request.setAttribute("user", userVO);
 		
 		return "forward:/user/updateUser.jsp";
 	}
