@@ -79,12 +79,16 @@ public class User {
 		this.regDate = regDate;
 	}
 	public String getPhone1() {
+		this.phone1 = this.phone.split("-")[0];
 		return phone1;
+
 	}
 	public String getPhone2() {
+		this.phone2 = this.phone.split("-")[1];
 		return phone2;
 	}
 	public String getPhone3() {
+		this.phone3 = this.phone.split("-")[2];
 		return phone3;
 	}
 	@Override

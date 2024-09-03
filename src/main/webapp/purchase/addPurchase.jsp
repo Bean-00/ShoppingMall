@@ -2,6 +2,7 @@
 <%@ page import="java.util.Objects" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <% Purchase purchaseVO = (Purchase) request.getAttribute("purchase"); %>
 
@@ -20,6 +21,7 @@
 	<tr>
 		<td>물품번호</td>
 		<td><%=purchaseVO.getPurchaseProd().getProdNo()%></td>
+<%--		<td>${purchase.purchaseProd.prodNo}</td>--%>
 		<td></td>
 	</tr>
 	<tr>

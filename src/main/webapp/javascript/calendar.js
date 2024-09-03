@@ -1,41 +1,41 @@
 		function show_calendar(str_target, str_datetime) 
 		{ 
 
-		   var arr_months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12"];
-	        var week_days = ["월", "화", "수", "목", "금", "토", "일"];
-			var n_weekstart = 0;
-	
-	        var dt_datetime = ((str_datetime ==null||str_datetime=="")? new Date():tuning2dt(str_datetime,str_target));
+		   const arr_months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12"];
+			const week_days = ["월", "화", "수", "목", "금", "토", "일"];
+			const n_weekstart = 0;
+
+			let dt_datetime = ((str_datetime ==null||str_datetime=="")? new Date():tuning2dt(str_datetime,str_target));
 
 			if(dt_datetime == false)
 			{
 				if (str_target.indexOf(".") > 0)
 				{
-					var num1 = str_target.split(".")[0];
-					var num2 = str_target.split(".")[1];
-					var num3 = str_target.split(".")[2];
+					let num1 = str_target.split(".")[0];
+					let num2 = str_target.split(".")[1];
+					let num3 = str_target.split(".")[2];
 				}
 				return document.all(num3).focus();
 
 			}
 			else
 			{
-				var dt_prev_year = new Date(dt_datetime);
+				let dt_prev_year = new Date(dt_datetime);
 				dt_prev_year.setYear(dt_datetime.getYear()-1+1900);
-				var dt_prev_month = new Date(dt_datetime);
+				let dt_prev_month = new Date(dt_datetime);
 				dt_prev_month.setMonth(dt_datetime.getMonth()-1);
-				var dt_next_month = new Date(dt_datetime);
+				let dt_next_month = new Date(dt_datetime);
 				dt_next_month.setMonth(dt_datetime.getMonth()+1);
-				var dt_next_year = new Date(dt_datetime);
+				let dt_next_year = new Date(dt_datetime);
 				dt_next_year.setYear(dt_datetime.getYear()+1+1900);
 
-				var dt_firstday = new Date(dt_datetime);
+				let dt_firstday = new Date(dt_datetime);
 				dt_firstday.setDate(1);
 				dt_firstday.setDate(1-(7+dt_firstday.getDay()-n_weekstart)%7);
-				var dt_lastday = new Date(dt_next_month);
+				let dt_lastday = new Date(dt_next_month);
 				dt_lastday.setDate(0);
 
-				var str_buffer = new String (
+				let str_buffer = new String (
 					"<html>\n"+
 					"<head>\n"+
 					"<title>Calendar</title>\n"+
@@ -78,11 +78,11 @@
 					"<table width=\"168\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"E5E5E5\">\n"
 				);
 
-				var dt_current_day = new Date(dt_firstday);
+				let dt_current_day = new Date(dt_firstday);
 
 				while (dt_current_day.getMonth() == dt_datetime.getMonth() || dt_current_day.getMonth() == dt_firstday.getMonth()) {
 					str_buffer += "<tr align=\"center\" bgcolor=\"#FFFFFF\">\n";
-					for (var n_current_wday=0; n_current_wday<7; n_current_wday++) {
+					for (let n_current_wday=0; n_current_wday<7; n_current_wday++) {
 						if(dt_current_day.getDate() == dt_datetime.getDate() && dt_current_day.getMonth() == dt_datetime.getMonth()){
 							str_buffer += "<td width=\"24\" bgcolor=\"#EFE6A6\">";
 						}else if (dt_current_day.getDay() == 0){
@@ -124,11 +124,11 @@
 					"</body>\n" +
 					"</html>\n";
 
-				var vWinCal = window.open("", "Calendar",
+				let vWinCal = window.open("", "Calendar",
 					"width=207,height=220,status=no,resizable=no,top=200,left=200");
 				vWinCal.focus();
 				vWinCal.opener = self;
-				var calc_doc = vWinCal.document;
+				let calc_doc = vWinCal.document;
 				calc_doc.write (str_buffer);
 				calc_doc.close();
 			}//else end
@@ -136,7 +136,7 @@
 
 		function str2dt (str_datetime,str_target)
 		{
-			var re_date = /^(\d+)\-(\d+)\-(\d+)$/;
+			let re_date = /^(\d+)\-(\d+)\-(\d+)$/;
 			if (!re_date.exec(str_datetime))
 				return errorTurn("날짜 형식이 잘못 되었습니다. 형식('YYYYMMDD')",str_target);
 
@@ -150,9 +150,9 @@
 
 		function tuning2dt (str_datetime,str_target)
 		{
-			var yr = str_datetime.substr(0,4);
-			var mo = str_datetime.substr(4,2);
-			var dy = str_datetime.substr(6,2);
+			let yr = str_datetime.substr(0,4);
+			let mo = str_datetime.substr(4,2);
+			let dy = str_datetime.substr(6,2);
 
 			if(mo.indexOf('0')==0) mo = mo.substr(1,1);
 			if(dy.indexOf('0')==0) dy = dy.substr(1,1);
@@ -162,8 +162,8 @@
 
 		function tuning (dt_datetime)
 		{
-			var mo ="";
-			var dy ="";
+			let mo ="";
+			let dy ="";
 			if( (dt_datetime.getMonth()+1).toString().length==1) mo = "0" + (dt_datetime.getMonth()+1).toString();
 			else mo = (dt_datetime.getMonth()+1).toString();
 			if( dt_datetime.getDate().toString().length==1) dy = "0" + dt_datetime.getDate().toString();
@@ -173,8 +173,8 @@
 
 		function tuning_date (dt_datetime)
 		{
-			var mo ="";
-			var dy ="";
+			let mo ="";
+			let dy ="";
 			if( (dt_datetime.getMonth()+1).toString().length==1) mo = "0" + (dt_datetime.getMonth()+1).toString();
 			else mo = (dt_datetime.getMonth()+1).toString();
 			if( dt_datetime.getDate().toString().length==1) dy = "0" + dt_datetime.getDate().toString();

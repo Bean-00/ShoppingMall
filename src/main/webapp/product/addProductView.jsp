@@ -13,10 +13,10 @@
         <!--
         function fncAddProduct() {
             //Form 유효성 검증
-            var name = document.detailForm.prodName.value;
-            var detail = document.detailForm.prodDetail.value;
-            var manuDate = document.detailForm.manuDate.value;
-            var price = document.detailForm.price.value;
+            let name = document.detailForm.prodName.value;
+            let detail = document.detailForm.prodDetail.value;
+            let manuDate = document.detailForm.manuDate.value;
+            let price = document.detailForm.price.value;
 
             if (name == null || name.length < 1) {
                 alert("상품명은 반드시 입력하여야 합니다.");

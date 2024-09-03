@@ -162,6 +162,8 @@ values (seq_product_prod_no.nextval, '삼성센스', '노트북', '20120212', 60
 
 commit;
 
+select * from users
+where user_id = 'user01';
 
 SELECT *
 from product;

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.PageMaker;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
@@ -37,15 +38,13 @@ public class ListProductAction extends Action {
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 
         ProductService service = new ProductServiceImpl();
-        Map<String, Object> map = new HashMap<>();
-
         List<ProductStatus> productStatusVOList = service.getProductWithStatusList(search);
         int totalCount = service.getAllProductCount(search);
 
-        map.put("totalCount", totalCount);
-        map.put("list", productStatusVOList);
 
-        request.setAttribute("map", map);
+        PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
+        request.setAttribute("list", productStatusVOList);
+        request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("search", search);
 
         return "forward:/product/listProduct.jsp";

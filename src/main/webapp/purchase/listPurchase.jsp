@@ -8,6 +8,7 @@
 <%@ page import="com.model2.mvc.service.domain.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
     Search search = (Search) request.getAttribute("search");

@@ -10,10 +10,10 @@
 <!--
 function fncAddUser() {
 	// Form 유효성 검증
-	var id=document.detailForm.userId.value;
-	var pw=document.detailForm.password.value;
-	var pw_confirm=documentailForm.password2.value;
-	var name=document.detailForm.userName.value;
+	let id=document.detailForm.userId.value;
+	let pw=document.detailForm.password.value;
+	let pw_confirm=document.detailForm.password2.value;
+	let name=document.detailForm.userName.value;
 	
 	if(id == null || id.length <1){
 		alert("아이디는 반드시 입력하셔야 합니다.");
@@ -49,8 +49,8 @@ function fncAddUser() {
 }
 
 function check_email(frm) {
-	alert
-	var email=document.detailForm.email.value;
+	// alert
+	let email=document.detailForm.email.value;
     if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
     	alert("이메일 형식이 아닙니다.");
 		return false;
@@ -59,9 +59,9 @@ function check_email(frm) {
 }
 
 function checkSsn() {
-	var ssn1, ssn2; 
-	var nByear, nTyear; 
-	var today; 
+	let ssn1, ssn2;
+	let nByear, nTyear;
+	let today;
 
 	ssn = document.detailForm.ssn.value;
 	// 유효한 주민번호 형식인 경우만 나이 계산 진행, PortalJuminCheck 함수는 CommonScript.js 의 공통 주민번호 체크 함수임 
@@ -72,19 +72,19 @@ function checkSsn() {
 }
 
 function PortalJuminCheck(fieldValue){
-    var pattern = /^([0-9]{6})-?([0-9]{7})$/; 
-	var num = fieldValue;
+    let pattern = /^([0-9]{6})-?([0-9]{7})$/;
+	let num = fieldValue;
     if (!pattern.test(num)) return false; 
     num = RegExp.$1 + RegExp.$2;
 
-	var sum = 0;
-	var last = num.charCodeAt(12) - 0x30;
-	var bases = "234567892345";
-	for (var i=0; i<12; i++) {
+	let sum = 0;
+	let last = num.charCodeAt(12) - 0x30;
+	let bases = "234567892345";
+	for (let i=0; i<12; i++) {
 		if (isNaN(num.substring(i,i+1))) return false;
 		sum += (num.charCodeAt(i) - 0x30) * (bases.charCodeAt(i) - 0x30);
 	}
-	var mod = sum % 11;
+	let mod = sum % 11;
 	return ((11 - mod) % 10 == last) ? true : false;
 }
 

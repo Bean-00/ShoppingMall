@@ -36,7 +36,7 @@
         }
 
         function check_email(frm) {
-            var email=document.detailForm.email.value;
+            let email=document.detailForm.email.value;
             if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
                 alert("이메일 형식이 아닙니다.");
                 return false;
@@ -166,6 +166,7 @@
                 -
                 <input type="text" name="phone3" value="${ ! empty user.phone3 ? user.phone3 : ''}"
                        class="ct_input_g" style="width:100px; height:19px" maxLength="9">
+                <input type="hidden" name="phone" class="ct_input_g"/>
             </td>
         </tr>
 

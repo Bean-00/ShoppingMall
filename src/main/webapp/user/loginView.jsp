@@ -9,29 +9,16 @@
 <title>로그인</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script type="text/javascript">
-	function fncLogin() {
-		var id = document.loginForm.userId.value;
-		var pw = document.loginForm.password.value;
-		if (id == null || id.length < 1) {
-			alert('ID 를 입력하지 않으셨습니다.');
-			document.loginForm.userId.focus();
-			return;
-		}
-		if (pw == null || pw.length < 1) {
-			alert('패스워드를 입력하지 않으셨습니다.');
-			document.loginForm.password.focus();
-			return;
-		}
-		document.loginForm.submit();
-	}
-</script>
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<script type="text/javascript">
+	//이 구문이 실행이 됨
+	console.log(">>>> DOM 렌더링 전", document.loginForm);
+	document.loginForm.userId.focus();
+</script>
 
-	<form name="loginForm" method="post" action="/login.do"
+<body bgcolor="#ffffff" text="#000000">
+	<form id="loginForm" name="loginForm" method="post" action="/login.do"
 		target="_parent">
  
 		<div align="center">
@@ -77,9 +64,11 @@
 														<td width="100" height="30"><img
 															src="/images/text_id.gif" width="100" height="30">
 														</td>
-														<td height="30"><input type="text" name="userId"
+														<td height="30">
+															<input type="text" name="userId"
 															class="ct_input_g" style="width: 180px; height: 19px"
-															maxLength='50' /></td>
+															maxLength='50' />
+														</td>
 														<td width="20" height="30">&nbsp;</td>
 													</tr>
 													<tr>
@@ -87,9 +76,10 @@
 														<td width="100" height="30"><img
 															src="/images/text_pas.gif" width="100" height="30">
 														</td>
-														<td height="30"><input type="password"
+														<td height="30">
+															<input type="password"
 															name="password" class="ct_input_g"
-															style="width: 180px; height: 19px" maxLength="50">
+															style="width: 180px; height: 19px" maxLength="50" />
 														</td>
 														<td width="20" height="30">&nbsp;</td>
 													</tr>
@@ -132,5 +122,51 @@
 </html>
 
 <script type="text/javascript">
+	//선언만 하기 떄문에
+	function fncLogin() {
+		//form name으로 window 객체의 document의 프로퍼티로 등록이 된다.
+		// const $loginForm = document.loginForm;
+		const $loginForm = document.getElementById('loginForm');
+		if (!$loginForm
+			|| !$loginForm.userId
+			|| !$loginForm.password) return;
+
+		//Java에서의 ! 연산 : not 연산 (true -> false, false -> true)
+		//JS 에서의 ! 연산 : (false, null, undefined, '', 0) -> true (값이 있는지 없는지 체크)
+		//JS 에서의 !!연산 : 값이 있다. -> false 도 아니고 null 도 아니고 undefined도 아니고 빈 문자열도 아니고 0도 아님
+
+		//Valid Check : $loginForm.userId 가 null 이거나 undefined 이면 어떡하지?
+		//-> if($loginForm.userId !== null && $loginForm.userId !== undefined) return;
+		//-> if(!$loginForm.userId) return -> $loginForm.userId?.value;
+
+		const id = $loginForm.userId.value;
+		const pw = $loginForm.password.value;
+		// if (id == null || id.length < 1) {
+		if (!id) {
+			// alert('ID 를 입력하지 않으셨습니다.');
+			// $loginForm.userId.focus();
+			// return;
+			return alertMsg($loginForm.userId, 'ID');
+		}
+		// if (pw == null || pw.length < 1) {
+		if (!pw && pw !== 0) {
+			// alert('패스워드를 입력하지 않으셨습니다.');
+			// $loginForm.password.focus();
+			// return;
+			return alertMsg($loginForm.password, '패스워드');
+		}
+		$loginForm.submit();
+	}
+
+	function alertMsg($el, title) {
+		<%--alert(`${title} 를 입력하지 않으셨습니다.`);--%>
+		alert(title + ' 를 입력하지 않으셨습니다.');
+		$el.focus();
+	}
+</script>
+<script type="text/javascript">
+	//이 구문이 실행이 됨
+	console.log(">>>> DOM 렌더링 후", document.loginForm);
 	document.loginForm.userId.focus();
 </script>
+

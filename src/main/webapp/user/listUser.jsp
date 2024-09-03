@@ -129,14 +129,15 @@
             <tr>
                 <td align="center">
                     <input type="hidden" id="currentPage" name="currentPage" value=""/>
-                    <c:if test="${ pageInfo.isEnablePrev }">
+                    <c:if test="${pageInfo.isEnablePrev}">
                         ◀ 이전
                     </c:if>
                     <c:if test="${!pageInfo.isEnablePrev}">
                         <a href="javascript:fncGetUserList('${ pageInfo.prevPage}')">◀ 이전</a>
                     </c:if>
 
-                    <c:forEach var="i" begin="${pageInfo.currentStartPageNum}" end="${pageInfo.currentEndPageNum}" step="1">
+                    <c:forEach var="i" begin="${pageInfo.currentStartPageNum}" end="${pageInfo.currentEndPageNum}"
+                               step="1">
                         <a href="javascript:fncGetUserList('${ i }');">${ i }</a>
                     </c:forEach>
 

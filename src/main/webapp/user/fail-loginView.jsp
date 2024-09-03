@@ -8,8 +8,8 @@
 
 <script type="text/javascript">
 	function fncLogin() {
-		var id=document.loginForm.userId.value;
-		var pw=document.loginForm.password.value;
+		let id=document.loginForm.userId.value;
+		let pw=document.loginForm.password.value;
 		if(id == null || id.length <1) {
 			alert('ID 를 입력하지 않으셨습니다.');
 			document.loginForm.userId.focus();

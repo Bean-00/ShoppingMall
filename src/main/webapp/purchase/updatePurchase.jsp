@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <html>
@@ -148,7 +149,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="javascript:history.go(-1);">확인</a>
+						<a href="/layout/left.jsp">확인</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>
