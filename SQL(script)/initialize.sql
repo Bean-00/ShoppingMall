@@ -171,6 +171,10 @@ from product;
 select *
 from transaction;
 
+update transaction
+    set tran_status_code = 1
+where prod_no = 10002;
+
 commit;
 
 delete

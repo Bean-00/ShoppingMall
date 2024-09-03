@@ -142,9 +142,17 @@
                     <c:if test="${user.role =='admin'}">
                         <c:choose>
                             <c:when test="${product.status.code == '1'}">
-                                <a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
-                                    배송하기
-                                </a>
+                                <td align="left">
+                                        ${product.status.text}
+                                    <a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
+                                        배송하기
+                                    </a>
+                                </td>
+                            </c:when>
+                            <c:when test="${product.status.code != '1'}">
+                                <td align="left">
+                                        ${product.status.text}
+                                </td>
                             </c:when>
                         </c:choose>
                     </c:if>
@@ -179,6 +187,7 @@
                     <c:if test="${ !pageInfo.isEnableNext }">
                         <a href="javascript:fncGetProductList('${pageInfo.nextPage}')">이후 ▶</a>
                     </c:if>
+                </td>
             </tr>
         </table>
         <!--  페이지 Navigator 끝 -->

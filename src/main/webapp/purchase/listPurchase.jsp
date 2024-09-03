@@ -1,35 +1,7 @@
-<%@ page import="com.model2.mvc.common.Search" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="com.model2.mvc.service.domain.PurchaseBuyer" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.model2.mvc.common.PageMaker" %>
-<%@ page import="java.util.Objects" %>
-<%@ page import="com.model2.mvc.service.purchase.constant.PurchaseStatus" %>
-<%@ page import="com.model2.mvc.service.domain.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-    Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");
-    Search search = (Search) request.getAttribute("search");
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    User vo=(User)session.getAttribute("user");
-
-    List<PurchaseBuyer> list = null;
-    int totalCount = (Integer) map.get("totalCount");
-    int pageUnit = search.getPageNumSize();
-    int pageSize = search.getDisplayCount();
-    int currentPage = search.getCurrentPage();
-
-    PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);
-    pageInfo.setCurrentPage(search.getCurrentPage());
-
-    if (Objects.nonNull(map)) {
-        pageInfo.setTotalCount(totalCount);
-        list = (List<PurchaseBuyer>) map.get("list");
-    }
-
-%>
 <html>
 <head>
     <title>구매 목록조회</title>
@@ -48,7 +20,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-    <form name="detailForm" action="/listPurchase.do?buyerId=<%=vo.getUserId()%>" method="post">
+    <form name="detailForm" action="/listPurchase.do?buyerId=${user.userId}" method="post">
 
         <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
             <tr>
@@ -66,7 +38,7 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
             <tr>
-                <td colspan="11">전체 <%=totalCount%> 건수, 현재 <%=currentPage%> 페이지</td>
+                <td colspan="11">전체 ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지</td>
             </tr>
             <tr>
                 <td class="ct_list_b" width="100">No</td>
@@ -84,47 +56,40 @@
             <tr>
                 <td colspan="11" bgcolor="808285" height="1"></td>
             </tr>
-
-                <%
-                for (int i = 0; i < list.size(); i++) {
-                    PurchaseBuyer purchaseBuyerVO = list.get(i);
-            %>
+            <c:set var="i" value="0"></c:set>
+            <c:forEach var="purchase" items="${list}">
 
             <tr class="ct_list_pop">
                 <td align="center">
-                    <%=purchaseBuyerVO.getRowNum()%>
+                        ${purchase.rowNum}
                 </td>
                 <td></td>
                 <td align="left">
-                    <a href="/getUser.do?userId=<%=purchaseBuyerVO.getBuyerId()%>"><%=purchaseBuyerVO.getBuyerId()%>
+                    <a href="/getUser.do?userId=${purchase.buyerId}">${purchase.buyerId}
                     </a>
                 </td>
                 <td></td>
-                <td align="left"><%=purchaseBuyerVO.getBuyerName()%>
+                <td align="left">${purchase.buyerName}
                 </td>
                 <td></td>
-                <td align="left"><%=purchaseBuyerVO.getBuyerPhone()%>
+                <td align="left">${purchase.buyerPhone}
                 </td>
                 <td></td>
                 <td align="left">현재
-                    <%=PurchaseStatus.getTextByCode((purchaseBuyerVO.getTranCode()))%>
+                        ${purchase.tranText}
                     상태 입니다.
-
                 </td>
                 <td></td>
                 <td align="left">
-                    <%
-                        if (purchaseBuyerVO.getTranCode().equals("2")) { %>
-                    <a href="/updateTranCode.do?prodNo=<%=purchaseBuyerVO.getProdNo()%>&role=Buyer&buyerId=<%=purchaseBuyerVO.getBuyerId()%>&page=<%=currentPage%>">
-                    물건도착
-                    </a>
-
-                    <% }
-                    %>
+                    <c:if test="${purchase.tranCode == '2'}">
+                        <a href="/updateTranCode.do?prodNo=${purchase.prodNo}&role=Buyer&buyerId=${purchase.buyerId}&page=${pageInfo.currentPage}">
+                            물건도착
+                        </a>
+                    </c:if>
                 </td>
             </tr>
-                <% }
-            %>
+            </c:forEach>
+
             <tr>
                 <td colspan="11" bgcolor="D6D7D6" height="1"></td>
             </tr>
@@ -133,24 +98,24 @@
                 <tr>
                     <td align="center">
                         <input type="hidden" id="currentPage" name="currentPage" value=""/>
-                        <% if (pageInfo.isEnablePrev()) {
-                        %>
-                        ◀ 이전
-                        <% } else { %>
-                        <a href="javascript:fncGetPurchaseBuyerList('<%=pageInfo.getPrevPage()%>')">◀ 이전</a>
-                        <% } %>
-                        <% for (int i = pageInfo.getCurrentStartPageNum(); i <= pageInfo.getCurrentEndPageNum(); i++) {
-                        %>
-                        <a href="javascript:fncGetPurchaseBuyerList('<%=i%>');"><%=i%>
-                        </a>
-                        <% } %>
-                        <% if (pageInfo.getIsEnableNext()) { %>
-                        이후 ▶
-                        <%
-                        } else { %>
-                        <a href="javascript:fncGetPurchaseBuyerList('<%=pageInfo.getNextPage()%>')">이후 ▶</a>
-                        <%
-                            } %>
+                        <c:if test="${ pageInfo.isEnablePrev }">
+                            ◀ 이전
+                        </c:if>
+                        <c:if test="${!pageInfo.isEnablePrev}">
+                            <a href="javascript:fncGetPurchaseBuyerList('${ pageInfo.prevPage}')">◀ 이전</a>
+                        </c:if>
+
+                        <c:forEach var="i" begin="${pageInfo.currentStartPageNum}" end="${pageInfo.currentEndPageNum}"
+                                   step="1">
+                            <a href="javascript:fncGetPurchaseBuyerList('${ i }');">${ i }</a>
+                        </c:forEach>
+
+                        <c:if test="${ pageInfo.isEnableNext}">
+                            이후 ▶
+                        </c:if>
+                        <c:if test="${ !pageInfo.isEnableNext }">
+                            <a href="javascript:fncGetPurchaseBuyerList('${pageInfo.nextPage}')">이후 ▶</a>
+                        </c:if>
                     </td>
                 </tr>
             </table>

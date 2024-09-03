@@ -5,6 +5,7 @@ import com.model2.mvc.service.purchase.dao.PurchaseDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 public class UpdateTranCodeAction extends Action {
     @Override
@@ -15,6 +16,9 @@ public class UpdateTranCodeAction extends Action {
         int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
 
         PurchaseDAO.updateTransCode(prodNo);
+        if (Objects.isNull(request.getParameter("role"))) {
+            return "/listProduct.do?menu=manage&page=" + page;
+        }
         if (request.getParameter("role").equals("Buyer")){
             StringBuilder path = new StringBuilder("forward:/listPurchase.do?buyerId=");
             path.append(request.getParameter("buyerId"));

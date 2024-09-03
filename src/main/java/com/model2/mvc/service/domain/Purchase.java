@@ -97,12 +97,12 @@ public class Purchase {
         return status.getCode();
     }
 
-    public String getTranText() {
-        return status.getText();
-    }
-
     public void setStatus(PurchaseStatus status) {
         this.status = status;
+    }
+
+    public String getTranText() {
+        return status.getText();
     }
 
     public int getTranNo() {
