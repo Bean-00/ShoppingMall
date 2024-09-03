@@ -1,8 +1,6 @@
 package com.model2.mvc.view.product;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.model2.mvc.common.PageMaker;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.domain.ProductStatus;
@@ -41,11 +40,14 @@ public class ListProductAction extends Action {
         List<ProductStatus> productStatusVOList = service.getProductWithStatusList(search);
         int totalCount = service.getAllProductCount(search);
 
+        User user = (User) request.getSession().getAttribute("user");
+
 
         PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
         request.setAttribute("list", productStatusVOList);
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("search", search);
+        request.setAttribute("user", user);
 
         return "forward:/product/listProduct.jsp";
     }

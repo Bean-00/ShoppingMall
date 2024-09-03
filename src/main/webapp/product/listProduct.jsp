@@ -1,9 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ page import="java.util.*" %>
-<%@ page import="com.model2.mvc.common.*" %>
-<%@ page import="com.model2.mvc.service.domain.User" %>
-<%@ page import="com.model2.mvc.service.domain.ProductStatus" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -115,15 +111,15 @@
                     </td>
                     <td></td>
                     <td align="left">
-
                         <c:if test="${! empty user.role}">
-                            <c:if test="user.role == 'admin'">
+                            <c:if test="${user.role == 'admin'}">
                                 <a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
                             </c:if>
-                            <c:if test="user.role == 'user' and product.status.code == '0'">
+                            <c:if test="${user.role == 'user'}">
                                 <a href="/getProduct.do?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
                             </c:if>
                         </c:if>
+                        <c:if test="${empty user}">${product.productName}</c:if>
                     </td>
                     <td></td>
                     <td align="left">${product.price}
@@ -132,22 +128,20 @@
                     <td align="left">${product.regDate}
                     </td>
                     <td></td>
-                    <c:if test="user.role == 'user'">
-                        <c:if test="product.status.code != '0">
+                    <c:if test="${user.role == 'user'}">
+                        <c:if test="${product.status.code != '0'}">
                             <td align="left">재고 없음</td>
                         </c:if>
-                        <c:if test="product.status.code == '0'">
+                        <c:if test="${product.status.code == '0'}">
                             <td align="left">판매 중</td>
                         </c:if>
                     </c:if>
-                    <c:if test="user.role =='admin'">
+                    <c:if test="${empty user}">
+                        <td align="left">상품 상태는 회원만 확인 가능합니다</td>
+                    </c:if>
+                    <c:if test="${user.role =='admin'}">
                         <c:choose>
-                            <c:when test="product.status.code == '1'">
-                                <a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
-                                    배송하기
-                                </a>
-                            </c:when>
-                            <c:when test="product.status.code == '2'">
+                            <c:when test="${product.status.code == '1'}">
                                 <a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
                                     배송하기
                                 </a>

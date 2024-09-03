@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.util.SessionUtil;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.domain.Product;
@@ -37,8 +38,10 @@ public class GetProductAction extends Action {
         ProductService productService = new ProductServiceImpl();
         Product pvo = productService.getProduct(productNo);
 
+        User user = (User) request.getSession().getAttribute("user");
 
-        request.setAttribute("pvo", pvo);
+        request.setAttribute("product", pvo);
+        request.setAttribute("user", user);
 
         return "forward:/product/getProduct.jsp";
     }
