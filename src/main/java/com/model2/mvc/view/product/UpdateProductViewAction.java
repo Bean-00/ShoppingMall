@@ -24,7 +24,7 @@ public class UpdateProductViewAction extends Action {
 		Product pvo = productDAO.getProductByProdNo(String.valueOf(productNo));
 		productService.updateProduct(pvo);
 
-		request.setAttribute("productVO", pvo);
+		request.setAttribute("product", pvo);
 
 		return "forward:/product/updateProductView.jsp";
 	}
