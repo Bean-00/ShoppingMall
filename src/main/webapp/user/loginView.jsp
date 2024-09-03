@@ -131,13 +131,13 @@
 			|| !$loginForm.userId
 			|| !$loginForm.password) return;
 
-		//Java에서의 ! 연산 : not 연산 (true -> false, false -> true)
-		//JS 에서의 ! 연산 : (false, null, undefined, '', 0) -> true (값이 있는지 없는지 체크)
-		//JS 에서의 !!연산 : 값이 있다. -> false 도 아니고 null 도 아니고 undefined도 아니고 빈 문자열도 아니고 0도 아님
-
-		//Valid Check : $loginForm.userId 가 null 이거나 undefined 이면 어떡하지?
-		//-> if($loginForm.userId !== null && $loginForm.userId !== undefined) return;
-		//-> if(!$loginForm.userId) return -> $loginForm.userId?.value;
+		// Java에서의 ! 연산 : not 연산 (true -> false, false -> true)
+		// JS 에서의 ! 연산 : (false, null, undefined, '', 0) -> true (값이 있는지 없는지 체크)
+		// JS 에서의 !!연산 : 값이 있다. -> false 도 아니고 null 도 아니고 undefined도 아니고 빈 문자열도 아니고 0도 아님
+		//
+		// Valid Check : $loginForm.userId 가 null 이거나 undefined 이면 어떡하지?
+		// -> if($loginForm.userId !== null && $loginForm.userId !== undefined) return;
+		// -> if(!$loginForm.userId) return -> $loginForm.userId?.value;
 
 		const id = $loginForm.userId.value;
 		const pw = $loginForm.password.value;

@@ -7,35 +7,6 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--<%--%>
-<%--    User vo = (User) session.getAttribute("user");--%>
-
-<%--    String role = "";--%>
-
-<%--    if (Objects.nonNull(vo)) {--%>
-<%--        role = vo.getRole();--%>
-<%--    }--%>
-
-<%--    Map<String, Object> map = (Map<String, Object>) request.getAttribute("map");--%>
-<%--    Search search = (Search) request.getAttribute("search");--%>
-
-<%--    List<ProductStatus> list = null;--%>
-<%--    int totalCount = (Integer) map.get("totalCount");--%>
-<%--    int pageUnit = search.getPageNumSize();--%>
-<%--    int pageSize = search.getDisplayCount();--%>
-<%--    int currentPage = search.getCurrentPage();--%>
-
-<%--    PageMaker pageInfo = new PageMaker(currentPage, totalCount, pageUnit, pageSize);--%>
-<%--    pageInfo.setCurrentPage(search.getCurrentPage());--%>
-
-<%--    if (Objects.nonNull(map)) {--%>
-<%--        pageInfo.setTotalCount(totalCount);--%>
-<%--        list = (List<ProductStatus>) map.get("list");--%>
-<%--    }--%>
-
-<%--%>--%>
-
-
 <html>
 <head>
     <title>상품 목록조회</title>
@@ -80,15 +51,9 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0"
                style="margin-top: 10px;">
             <tr>
-                <%--                <%--%>
-                <%--                    if (search.getSearchCondition() != null) {--%>
-                <%--                %>--%>
-
                 <td align="right">
                     <select name="searchCondition" class="ct_input_g" style="width:80px">
-                        <%--                        <%--%>
-                        <%--                            if (search.getSearchCondition().equals("0")) {--%>
-                        <%--                        %>--%>
+
                         <option value="0" ${ ! empty search.searchCondition && search.searchCondition == 0 ? "selected" : "" }>
                             상품번호
                         </option
@@ -141,10 +106,7 @@
             <tr>
                 <td colspan="11" bgcolor="808285" height="1"></td>
             </tr>
-            <%--            <%--%>
-            <%--                for (int i = 0; i < list.size(); i++) {--%>
-            <%--                    ProductStatus psvo = list.get(i);--%>
-            <%--            %>--%>
+
             <c:set var="i" value="0"/>
             <c:forEach var="product" items="${list}">
                 <tr class="ct_list_pop">
@@ -153,201 +115,79 @@
                     </td>
                     <td></td>
                     <td align="left">
-                            <%--                        <%--%>
-                            <%--                            if (vo != null) {--%>
-                            <%--                                if (role.equals("admin")) {--%>
-                            <%--                        %>--%>
+
                         <c:if test="${! empty user.role}">
-                        <c:if test="user.role == 'admin'">
-                            <a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.productName}
+                            <c:if test="user.role == 'admin'">
+                                <a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
                             </c:if>
-                            <c:if test="user.role == 'user'">
-                            ${product.productName}
-                                </c:if>
-
-                                </c:if>
-
-                                        <% } else {
-                                %>
-                                        <%
-                                if (psvo.getStatus().getCode().equals("0")){
-                            %>
-                                <a
-                                        href="/getProduct.do?prodNo=<%=psvo.getProdNo()%>&menu=manage">
-                                    <% } %>
-                                    <%=psvo
-                                        .
-                                        getProductName
-                                        (
-                                        )%>
-                                    <%
-
-                                        }
-                                        }
-
-                                    %>
-
-                                </a></td>
-                    <td></td>
-                    <td align="left"><%=psvo
-                        .
-                        getPrice
-                        (
-                        )%>
+                            <c:if test="user.role == 'user' and product.status.code == '0'">
+                                <a href="/getProduct.do?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
+                            </c:if>
+                        </c:if>
                     </td>
                     <td></td>
-                    <td align="left"><%=psvo
-                        .
-                        getRegDate
-                        (
-                        )%>
+                    <td align="left">${product.price}
                     </td>
                     <td></td>
-                    <%
-                        if
-                        (
-                        vo
-                        .
-                        getRole
-                        (
-                        )
-                        .
-                        equals
-                        (
-                        "user"
-                        )
-                        &&
-                        !
-                        psvo
-                        .
-                        getStatus
-                        (
-                        )
-                        .
-                        getCode
-                        (
-                        )
-                        .
-                        equals
-                        (
-                        "0"
-                        )
-                        )
-                        {
-                    %>
-                    <td align="left">재고 없음</td>
-                    <% }
-                        else
-                        if
-                        (
-                        vo
-                        .
-                        getRole
-                        (
-                        )
-                        .
-                        equals
-                        (
-                        "user"
-                        )
-                        &&
-                        psvo
-                        .
-                        getStatus
-                        (
-                        )
-                        .
-                        getCode
-                        (
-                        )
-                        .
-                        equals
-                        (
-                        "0"
-                        )
-                        )
-                        {
-                    %>
-                    <td align="left">판매 중</td>
-                    <% }
-                        else
-                        {
-                    %>
-                    <td align="left"><%=psvo
-                        .
-                        getStatus
-                        (
-                        )
-                        .
-                        getText
-                        (
-                        )%>
-                        <%
-                            if
-                            (
-                            psvo
-                            .
-                            getStatus
-                            (
-                            )
-                            .
-                            getCode
-                            (
-                            )
-                            .
-                            equals
-                            (
-                            "1"
-                            )
-                            )
-                            { %>
-                        <a href="/updateTranCode.do?prodNo=<%=psvo.getProdNo()%>&tranCode=<%=psvo.getStatus().getCode()%>&page=<%=currentPage%>">
-                            배송하기
-                        </a>
-                        <%
-                            }
-                        %></td>
-                    <% }
-                    %>
+                    <td align="left">${product.regDate}
+                    </td>
+                    <td></td>
+                    <c:if test="user.role == 'user'">
+                        <c:if test="product.status.code != '0">
+                            <td align="left">재고 없음</td>
+                        </c:if>
+                        <c:if test="product.status.code == '0'">
+                            <td align="left">판매 중</td>
+                        </c:if>
+                    </c:if>
+                    <c:if test="user.role =='admin'">
+                        <c:choose>
+                            <c:when test="product.status.code == '1'">
+                                <a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
+                                    배송하기
+                                </a>
+                            </c:when>
+                            <c:when test="product.status.code == '2'">
+                                <a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
+                                    배송하기
+                                </a>
+                            </c:when>
+                        </c:choose>
+                    </c:if>
+                    </td>
                 </tr>
-
             </c:forEach>
-            <% }
-            %>
 
             <tr>
                 <td colspan="11" bgcolor="D6D7D6" height="1"></td>
             </tr>
-
         </table>
-
         <table width="100%" border="0" cellspacing="0" cellpadding="0"
                style="margin-top: 10px;">
             <tr>
                 <td align="center">
                     <input type="hidden" id="currentPage" name="currentPage" value=""/>
                     <c:if test="${ pageInfo.isEnablePrev }">
-                    ◀ 이전
+                        ◀ 이전
                     </c:if>
                     <c:if test="${!pageInfo.isEnablePrev}">
-                    <a href="javascript:fncGetProductList('${ pageInfo.prevPage}')">◀ 이전</a>
+                        <a href="javascript:fncGetProductList('${ pageInfo.prevPage}')">◀ 이전</a>
                     </c:if>
 
                     <c:forEach var="i" begin="${pageInfo.currentStartPageNum}" end="${pageInfo.currentEndPageNum}"
                                step="1">
-                    <a href="javascript:fncGetProductList('${ i }');">${ i }</a>
+                        <a href="javascript:fncGetProductList('${ i }');">${ i }</a>
                     </c:forEach>
 
                     <c:if test="${ pageInfo.isEnableNext}">
-                    이후 ▶
+                        이후 ▶
                     </c:if>
                     <c:if test="${ !pageInfo.isEnableNext }">
-                    <a href="javascript:fncGetProductList('${pageInfo.nextPage}')">이후 ▶</a>
+                        <a href="javascript:fncGetProductList('${pageInfo.nextPage}')">이후 ▶</a>
                     </c:if>
             </tr>
         </table>
         <!--  페이지 Navigator 끝 -->
-
     </form>
 
 </div>
