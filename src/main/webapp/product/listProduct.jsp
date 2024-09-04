@@ -48,11 +48,18 @@
                style="margin-top: 10px;">
             <tr>
                 <td align="right">
-                    <select name="searchCondition" class="ct_input_g" style="width:80px">
+<%--                    <form name="sortPrice" action="" style="margin-right: 30px">--%>
+<%--                        <input type="text" name="low_price" value=""> 원 ~--%>
+<%--                        <input type="text" name="high_price" value=""> 원--%>
+<%--                        <button name="price_apply" type="submit">검색</button>--%>
+<%--                    </form>--%>
 
-                        <option value="0" ${ ! empty search.searchCondition && search.searchCondition == 0 ? "selected" : "" }>
-                            상품번호
-                        </option
+                    <select name="searchCondition" class="ct_input_g" style="width:80px">
+                        <c:if test="${user.role == 'admin'}">
+                            <option value="0" ${ ! empty search.searchCondition && search.searchCondition == 0 ? "selected" : "" }>
+                                상품번호
+                            </option
+                        </c:if>
                         <option value="1" ${! empty search.searchCondition && search.searchCondition == 1 ? "selected" : ""}>
                             상품명
                         </option>
@@ -112,7 +119,7 @@
                     <td></td>
                     <td align="left">
                         <c:if test="${! empty user.role}">
-                            <c:if test="${user.role == 'admin'}">
+                            <c:if test="${user.role == 'admin'} and ${product.status.code == '0'}">
                                 <a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
                             </c:if>
                             <c:if test="${user.role == 'user'}">
@@ -149,11 +156,11 @@
                                     </a>
                                 </td>
                             </c:when>
-                            <c:when test="${product.status.code != '1'}">
+                            <c:otherwise>
                                 <td align="left">
                                         ${product.status.text}
                                 </td>
-                            </c:when>
+                            </c:otherwise>
                         </c:choose>
                     </c:if>
                     </td>
