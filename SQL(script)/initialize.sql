@@ -159,29 +159,12 @@ insert into product
 values (seq_product_prod_no.nextval, '삼성센스', '노트북', '20120212', 600000, 'AHlbAAAAug1vsgAA.jpg',
         to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
 
-
 commit;
+
+---------[기본 테이터 생성 부분]-----------
 
 select * from users
 where user_id = 'user01';
-
-SELECT *
-from product;
-
-select *
-from transaction;
-
-update transaction
-    set tran_status_code = 1
-where prod_no = 10002;
-
-commit;
-
-delete
-from transaction
-where tran_no = 10000;
-
-
 
 INSERT INTO TRANSACTION (TRAN_NO, PROD_NO, BUYER_ID, PAYMENT_OPTION, RECEIVER_NAME, RECEIVER_PHONE, DLVY_ADDR,
                          DLVY_REQUEST, TRAN_STATUS_CODE, ORDER_DATA, DLVY_DATE)
@@ -231,8 +214,6 @@ WHERE ROW_NUM BETWEEN 1 AND 3;
 
 SELECT COUNT(user_id) AS "totalCount"
 FROM USERS;
-
-
 
 SELECT *
 from transaction;
@@ -319,16 +300,6 @@ FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS "rowNum",
 WHERE buyer_id = 'user01'
   AND "rowNum" BETWEEN ? AND ?
 ORDER BY order_data;
-
-SELECT ROW_NUM, user_id, user_name, email
-FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
-             user_id,
-             user_name,
-             email
-      FROM USERS) U
-WHERE ROW_NUM BETWEEN ? AND ?
-order by USER_ID;
-
 
 SELECT "rowNum",
        buyer_id         AS "buyerId",
@@ -465,3 +436,29 @@ SET TRAN_STATUS_CODE = TRAN_STATUS_CODE + 1
 WHERE prod_no = 10000;
 
 select * from transaction where prod_no = 10000;
+
+select * from users;
+
+-----[getALLTotalCount]----------------
+
+SELECT
+    count(user_id)
+FROM USERS;
+
+SELECT
+    count(prod_no)
+FROM PRODUCT;
+
+SELECT
+    count(tran_no)
+FROM TRANSACTION;
+
+-----[getSearchConditionCount]------------
+
+SELECT
+    count(user_id)
+FROM USERS
+WHERE user_id LIKE '%user%';
+
+
+

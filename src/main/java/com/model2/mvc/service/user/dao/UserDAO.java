@@ -1,18 +1,29 @@
 package com.model2.mvc.service.user.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.function.Function;
-
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.User;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
-import static com.model2.mvc.common.util.DBUtil.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+
+import static com.model2.mvc.common.util.DBUtil.executeQuery;
+import static com.model2.mvc.common.util.DBUtil.executeUpdate;
 import static com.model2.mvc.common.util.SQLUtil.makeSearchClause;
 
 
+@Repository("userDAO")
 public class UserDAO {
+    @Autowired
+    @Qualifier("sqlSessionTemplate")
+    private SqlSession sqlSession;
+
     private final Function<ResultSet, User> mapperFn = (rs) -> {
         try {
             User userVO = new User();
@@ -111,5 +122,9 @@ public class UserDAO {
     public void updateUser(User userVO) {
         String sql = "update USERS set USER_NAME=?,CELL_PHONE=?,ADDR=?,EMAIL=? where USER_ID=?";
         executeUpdate(sql, userVO.getUserName(), userVO.getPhone(), userVO.getAddr(), userVO.getEmail(), userVO.getUserId());
+    }
+
+    public void deleteUser(String userId) {
+        sqlSession.delete("UserMapper.deleteUser", userId);
     }
 }
