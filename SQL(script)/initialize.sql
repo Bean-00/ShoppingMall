@@ -249,7 +249,7 @@ FROM (SELECT ROW_NUMBER() over (ORDER BY p.reg_date) AS ROW_NUM,
       from product p
                left outer join transaction t on p.PROD_NO = t.prod_no) a
 where ROW_NUM between 1 and 3
-order by a.prod_no;
+order by "rowNum";
 
 SELECT ROW_NUM, user_id, user_name, email
 FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
@@ -368,7 +368,7 @@ FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
       from product p
                left outer join transaction t on p.PROD_NO = t.prod_no
       WHERE rowNum BETWEEN 1 AND 3
-      order by p.reg_date) PT;
+      order by ROW_NUM) PT;
 
 SELECT ROW_NUM, user_id, user_name, email
 FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
@@ -461,4 +461,25 @@ FROM USERS
 WHERE user_id LIKE '%user%';
 
 
+create TABLE user_test(
+    user_id VARCHAR2(100),
+    user_password VARCHAR2(100),
+    user_name VARCHAR2(100)
+);
 
+SELECT user_id,
+       user_name,
+       password,
+       role,
+       cell_phone,
+       addr,
+       email,
+       reg_date
+FROM users
+WHERE user_id = 'user01';
+
+SELECT * FROM PRODUCT;
+
+select * from users;
+
+select * from transaction;

@@ -20,7 +20,7 @@
 
     <!-- SQL Definition :: file include -->
     <mappers>
-        <mapper resource="sql/UserMapper.xml"/>
+        <mapper resource="com/model2/mvc/resources/sql/UserMapper.xml"/>
     </mappers>
 
 </configuration>

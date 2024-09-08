@@ -1,5 +1,6 @@
 package com.model2.mvc.service.user.test;
 
+import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserService;
 import org.junit.Assert;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,12 +27,13 @@ public class UserServiceTest {
     @Qualifier("userServiceImpl")
     private UserService userService;
 
-    @Before
+//    @Before
     public void setUp() {
         userService.deleteUser("testUserId");
     }
 
     @Test
+//    @Ignore
     public void testAddUser() throws Exception {
 
         User user = new User();
@@ -43,10 +47,7 @@ public class UserServiceTest {
 
         userService.addUser(user);
 
-        user = userService.getUser("testUserId");
-
-        //==> console 확인
-        //System.out.println(user);
+        user = userService.getUserByUserId("testUserId");
 
         //==> API 확인
         assertEquals("testUserId", user.getUserId());
@@ -58,20 +59,11 @@ public class UserServiceTest {
     }
 
     @Test
-    @Ignore
     public void testGetUser() throws Exception {
 
-        User user = new User();
-        //==> 필요하다면...
-//		user.setUserId("testUserId");
-//		user.setUserName("testUserName");
-//		user.setPassword("testPasswd");
-//		user.setSsn("1111112222222");
-//		user.setPhone("111-2222-3333");
-//		user.setAddr("경기도");
-//		user.setEmail("test@test.com");
 
-        user = userService.getUser("testUserId");
+        User user = userService.getUserByUserId("testUserId");
+        System.out.println(user.toString());
 
         //==> console 확인
         //System.out.println(user);
@@ -84,15 +76,15 @@ public class UserServiceTest {
         assertEquals("경기도", user.getAddr());
         assertEquals("test@test.com", user.getEmail());
 
-        Assert.assertNotNull(userService.getUser("user02"));
-        Assert.assertNotNull(userService.getUser("user05"));
+        Assert.assertNotNull(userService.getUserByUserId("user02"));
+        Assert.assertNotNull(userService.getUserByUserId("user05"));
     }
 
     @Test
     @Ignore
     public void testUpdateUser() throws Exception{
 
-        User user = userService.getUser("testUserId");
+        User user = userService.getUserByUserId("testUserId");
         Assert.assertNotNull(user);
 
         assertEquals("testUserName", user.getUserName());
@@ -107,7 +99,7 @@ public class UserServiceTest {
 
         userService.updateUser(user);
 
-        user = userService.getUser("testUserId");
+        user = userService.getUserByUserId("testUserId");
         Assert.assertNotNull(user);
 
         //==> console 확인
@@ -121,20 +113,8 @@ public class UserServiceTest {
     }
 
     @Test
-    @Ignore
     public void testCheckDuplication() throws Exception{
 
-        //==> 필요하다면...
-//		User user = new User();
-//		user.setUserId("testUserId");
-//		user.setUserName("testUserName");
-//		user.setPassword("testPasswd");
-//		user.setSsn("1111112222222");
-//		user.setPhone("111-2222-3333");
-//		user.setAddr("경기도");
-//		user.setEmail("test@test.com");
-//
-//		userService.addUser(user);
 
         //==> console 확인
         System.out.println(userService.checkDuplication("testUserId"));
@@ -147,108 +127,70 @@ public class UserServiceTest {
     }
 
     //==>  주석을 풀고 실행하면....
-    //@Test
-//    public void testGetUserListAll() throws Exception{
-//
-//        Search search = new Search();
-//        search.setCurrentPage(1);
-//        search.setPageSize(3);
-//        List<User> map = userService.getUserList(search);
-//
-//        List<Object> list = (List<Object>)map.get("list");
-//        Assert.assertEquals(3, list.size());
-//
-//        //==> console 확인
-//        //System.out.println(list);
-//
-//        Integer totalCount = (Integer)map.get("totalCount");
-//        System.out.println(totalCount);
-//
-//        System.out.println("=======================================");
-//
-//        search.setCurrentPage(1);
-//        search.setPageSize(3);
-//        search.setSearchCondition("0");
-//        search.setSearchKeyword("");
-//        map = userService.getUserList(search);
-//
-//        list = (List<Object>)map.get("list");
-//        Assert.assertEquals(3, list.size());
-//
-//        //==> console 확인
-//        //System.out.println(list);
-//
-//        totalCount = (Integer)map.get("totalCount");
-//        System.out.println(totalCount);
-//    }
-//
-//    //@Test
-//    public void testGetUserListByUserId() throws Exception{
-//
-//        Search search = new Search();
-//        search.setCurrentPage(1);
-//        search.setPageSize(3);
-//        search.setSearchCondition("0");
-//        search.setSearchKeyword("admin");
-//        Map<String,Object> map = userService.getUserList(search);
-//
-//        List<Object> list = (List<Object>)map.get("list");
-//        Assert.assertEquals(1, list.size());
-//
-//        //==> console 확인
-//        //System.out.println(list);
-//
-//        Integer totalCount = (Integer)map.get("totalCount");
-//        System.out.println(totalCount);
-//
-//        System.out.println("=======================================");
-//
-//        search.setSearchCondition("0");
-//        search.setSearchKeyword(""+System.currentTimeMillis());
-//        map = userService.getUserList(search);
-//
-//        list = (List<Object>)map.get("list");
-//        Assert.assertEquals(0, list.size());
-//
-//        //==> console 확인
-//        //System.out.println(list);
-//
-//        totalCount = (Integer)map.get("totalCount");
-//        System.out.println(totalCount);
-//    }
-//
-//    //@Test
-//    public void testGetUserListByUserName() throws Exception{
-//
-//        Search search = new Search();
-//        search.setCurrentPage(1);
-//        search.setPageSize(3);
-//        search.setSearchCondition("1");
-//        search.setSearchKeyword("SCOTT");
-//        Map<String,Object> map = userService.getUserList(search);
-//
-//        List<Object> list = (List<Object>)map.get("list");
-//        Assert.assertEquals(3, list.size());
-//
-//        //==> console 확인
-//        System.out.println(list);
-//
-//        Integer totalCount = (Integer)map.get("totalCount");
-//        System.out.println(totalCount);
-//
-//        System.out.println("=======================================");
-//
-//        search.setSearchCondition("1");
-//        search.setSearchKeyword(""+System.currentTimeMillis());
-//        map = userService.getUserList(search);
-//
-//        list = (List<Object>)map.get("list");
-//        Assert.assertEquals(0, list.size());
-//
-//        //==> console 확인
-//        System.out.println(list);
-//
-//        totalCount = (Integer)map.get("totalCount");
-//        System.out.println(totalCount);
-//    }
+    @Test
+    public void testGetUserListAll() throws Exception{
+
+        Search search = new Search();
+        search.setCurrentPage(1);
+        search.setDisplayCount(3);
+
+        List<User> userList = userService.getUserList(search);
+
+        Assert.assertEquals(3, userList.size());
+
+        //==> console 확인
+        //System.out.println(list);
+
+        Integer totalCount = userService.getTotalUserCount(search);
+        System.out.println(totalCount);
+
+        System.out.println("=======================================");
+
+        search.setCurrentPage(1);
+        search.setDisplayCount(3);
+        search.setSearchCondition("0");
+        search.setSearchKeyword("admin");
+        userList = userService.getUserList(search);
+
+        Assert.assertEquals(1, userList.size());
+
+        //==> console 확인
+        //System.out.println(list);
+
+        totalCount = userService.getTotalUserCount(search);
+        System.out.println(totalCount);
+    }
+
+    @Test
+    public void testGetUserListByUserId() throws Exception{
+
+        Search search = new Search();
+        search.setCurrentPage(1);
+        search.setDisplayCount(3);
+        search.setSearchCondition("0");
+        search.setSearchKeyword("user01");
+
+        User user = userService.getUserByUserId("user01");
+
+        Assert.assertEquals("user01 테스트",
+                user.getUserName(),
+                userService.getUserList(search).get(0).getUserName());
+
+    }
+
+    @Test
+    public void testGetUserListByUserName() throws Exception{
+
+        Search search = new Search();
+        search.setCurrentPage(1);
+        search.setDisplayCount(3);
+        search.setSearchCondition("1");
+        search.setSearchKeyword("SCOTT");
+
+        List<User> userList = userService.getUserList(search);
+
+        Assert.assertEquals("SCOTT 결과", 3, userList.size());
+
+        //==> console 확인
+    }
 }

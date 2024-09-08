@@ -17,7 +17,7 @@ public class UpdateUserViewAction extends Action{
 		String userId=request.getParameter("userId");
 		
 		UserService service=new UserServiceImpl();
-		User userVO=service.getUser(userId);
+		User userVO=service.getUserByUserId(userId);
 		
 		request.setAttribute("user", userVO);
 		

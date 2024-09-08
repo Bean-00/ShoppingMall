@@ -1,12 +1,11 @@
 package com.model2.mvc.service.user.impl;
 
 import com.model2.mvc.common.Search;
-import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.dao.UserDAO;
 import com.model2.mvc.service.domain.User;
+import com.model2.mvc.service.user.UserService;
+import com.model2.mvc.service.user.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,37 +14,34 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    @Qualifier("userDAO")
-    private UserDAO userDAO;
+    @Qualifier("userDaoImpl")
+    private UserDao userDao;
 
-    public void addUser(User userVO) throws Exception {
-        userDAO.insertUser(userVO);
+    public void addUser(User userVO) {
+        userDao.insertUser(userVO);
     }
 
-    public User loginUser(User userVO) throws Exception {
-        User dbUser = userDAO.findUser(userVO.getUserId());
-
-        if (!dbUser.getPassword().equals(userVO.getPassword()))
-            throw new Exception("로그인에 실패했습니다.");
+    public User loginUser(User userVO) {
+        User dbUser = userDao.loginUser(userVO);
 
         return dbUser;
     }
 
-    public User getUser(String userId) throws Exception {
-        return userDAO.findUser(userId);
+    public User getUserByUserId(String userId) {
+        return userDao.getUserById(userId);
     }
 
     public List<User> getUserList(Search search) {
-        return userDAO.getUserList(search);
+        return userDao.getUserList(search);
     }
 
     public void updateUser(User userVO) {
-        userDAO.updateUser(userVO);
+        userDao.updateUser(userVO);
     }
 
     public boolean checkDuplication(String userId) {
         boolean result = true;
-        User userVO = userDAO.findUser(userId);
+        User userVO = userDao.getUserById(userId);
         if (userVO != null) {
             result = false;
         }
@@ -53,12 +49,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getUserTotalCount(Search search) {
-        return UserDAO.getAllUserCount(search);
+    public int getTotalUserCount(Search search) {
+        return userDao.getTotalUserCount(search);
     }
 
     @Override
     public void deleteUser(String userId) {
-		userDAO.deleteUser(userId);
+        userDao.deleteUser(userId);
     }
 }

@@ -11,8 +11,8 @@ public interface UserService {
 	void addUser(User userVO) throws Exception;
 
 	User loginUser(User userVO) throws Exception;
-	
-	User getUser(String userId) throws Exception;
+
+	User getUserByUserId(String userId) throws Exception;
 	
 	List<User> getUserList(Search search) throws Exception;
 	
@@ -20,7 +20,7 @@ public interface UserService {
 	
 	boolean checkDuplication(String userId) throws Exception;
 
-	int getUserTotalCount(Search search);
+	int getTotalUserCount(Search search);
 
 	void deleteUser(String testUserId);
 }

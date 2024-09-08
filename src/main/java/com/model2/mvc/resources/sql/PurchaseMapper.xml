@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PurchaseMapper">
+    <resultMap id="purchaseSelectMap" type="purchase">
+        <result property="tranNo" column="tran_no" jdbcType="INTEGER"/>
+        <result property="prodNo" column="prod_no" jdbcType="INTEGER"/>
+        <result property="buyerId" column="buyer_id" jdbcType="VARCHAR"/>
+        <result property="paymentOption" column="payment_option" jdbcType="VARCHAR"/>
+        <result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
+        <result property="receiverPhone" column="receiver_phone" jdbcType="VARCHAR"/>
+        <result property="divyAddr" column="dlvy_addr" jdbcType="VARCHAR"/>
+        <result property="divyRequest" column="dlvy_request" jdbcType="VARCHAR"/>
+        <result property="tranStatusCode" column="tran_status_code" jdbcType="VARCHAR"/>
+        <result property="orderData" column="order_data" jdbcType="DATE"/>
+        <result property="dlvyDate" column="dlvy_date" jdbcType="DATE"/>
+    </resultMap>
+
+    <delete id="deletePurchase" parameterType="java.lang.String">
+        DELETE
+        FROM transaction
+        WHERE tran_no = #{tranNo}
+    </delete>
+
+    <!-- SQL : INSERT -->
+    <insert id="addPurchase" parameterType="purchase">
+        INSERT
+        INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone,
+                         dlvy_addr, dlvy_request, tran_status_code, order_data, dlvy_date)
+        VALUES (#{tranNo}, #{prodNo}, #{buyerId}, #{paymentOption:VARCHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR},
+                #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR}, '0', #{orderData:DATE}, #{dlvyData:DATE})
+    </insert>
+
+    <select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
+        SELECT rowNum,
+                        buyer_id         AS buyerId,
+                        receiver_name    AS buyerName,
+                        receiver_phone   AS buyerPhone,
+                        tran_status_code AS tranCode,
+                        prod_no          AS prodNo
+                 FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS rowNum,
+                              buyer_id,
+                              receiver_name,
+                              receiver_phone,
+                              tran_status_code,
+                              prod_no,
+                              order_data
+                       FROM TRANSACTION)
+        WHERE buyer_id = #{buyerId}
+            AND rowNum Between #{search.startIndex} AND #{search.endIndex}
+        ORDER BY rowNum
+    </select>
+
+    <select id="getTotalCount" parameterType="string">
+        SELECT count(tran_no) AS "totalCount"
+        FROM transaction
+        WHERE BUYER_ID = #{userId}
+    </select>
+
+    <update id="updateTransCode" parameterType="string">
+        UPDATE TRANSACTION
+        SET TRAN_STATUS_CODE = TRAN_STATUS_CODE + 1
+        WHERE PROD_NO = #{prodNo}
+    </update>
+
+</mapper>

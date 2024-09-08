@@ -1,8 +1,6 @@
 package com.model2.mvc.view.user;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +39,7 @@ public class ListUserAction extends Action {
         UserService service = new UserServiceImpl();
 
         List<User> userList = service.getUserList(search);
-        int totalCount = service.getUserTotalCount(search);
+        int totalCount = service.getTotalUserCount(search);
 
 
         PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
