@@ -16,7 +16,7 @@ public class GetUserAction extends Action{
 												HttpServletResponse response) throws Exception {
 		String userId=request.getParameter("userId");
 		
-		UserService service=new UserServiceImpl();
+		UserService service = getBean("userServiceImpl", UserService.class);
 		User vo=service.getUserByUserId(userId);
 		
 		request.setAttribute("user", vo);

@@ -14,7 +14,7 @@ public interface ProductService {
 
 	void deleteProduct (Product productVO);
 
-	Product getProduct (String productNo);
+	Product getProductByProdNo(int productNo);
 	
 	List<ProductStatus> getProductWithStatusList (Search search);
 

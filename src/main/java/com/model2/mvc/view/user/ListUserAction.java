@@ -36,7 +36,7 @@ public class ListUserAction extends Action {
         search.setPageNumSize(pageNumSize);
         search.setDisplayCount(displayCount);
 
-        UserService service = new UserServiceImpl();
+        UserService service = getBean("userServiceImpl", UserService.class);
 
         List<User> userList = service.getUserList(search);
         int totalCount = service.getTotalUserCount(search);

@@ -210,7 +210,7 @@ FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
              user_name,
              email
       FROM USERS) U
-WHERE ROW_NUM BETWEEN 1 AND 3;
+WHERE ROW_NUM BETWEEN 4 AND 6;
 
 SELECT COUNT(user_id) AS "totalCount"
 FROM USERS;
@@ -483,3 +483,15 @@ SELECT * FROM PRODUCT;
 select * from users;
 
 select * from transaction;
+
+
+SELECT ROW_NUM AS "rowNum",
+       user_id AS "userId",
+       user_name AS "userName",
+       email
+FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
+             user_id,
+             user_name,
+             email
+      FROM USERS) U
+WHERE ROW_NUM BETWEEN 4 AND 6;

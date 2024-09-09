@@ -16,7 +16,7 @@ public class UpdateUserViewAction extends Action{
 												HttpServletResponse response) throws Exception {
 		String userId=request.getParameter("userId");
 		
-		UserService service=new UserServiceImpl();
+		UserService service = getBean("userServiceImpl", UserService.class);
 		User userVO=service.getUserByUserId(userId);
 		
 		request.setAttribute("user", userVO);

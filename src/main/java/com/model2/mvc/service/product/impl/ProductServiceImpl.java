@@ -5,21 +5,23 @@ import com.model2.mvc.service.domain.ProductStatus;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.dao.ProductDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Service("productServiceImpl")
 public class ProductServiceImpl implements ProductService {
-	
+
+	@Autowired
+	@Qualifier("productDaoImpl")
 	private ProductDAO productDAO;
-	
-	public ProductServiceImpl() {
-		productDAO = new ProductDAO();
-	}
 
 	@Override
 	public void addProduct(Product productVO) {
-		productDAO.addProduct(productVO);
+		productDAO.insertProduct(productVO);
 	}
 
 	@Override
@@ -33,12 +35,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProduct(String productNo) {
-        try {
-            return productDAO.getProductByProdNo(productNo);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+	public Product getProductByProdNo(int productNo) {
+        return productDAO.getProductByProdNo(productNo);
     }
 
 
@@ -49,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public int getAllProductCount(Search search) {
-		return productDAO.getProductTotalCount(search);
+		return productDAO.getTotalProductCount(search);
 	}
 
 }

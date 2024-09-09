@@ -45,7 +45,6 @@ public class ActionServlet extends HttpServlet {
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
-
         }
     }
 }

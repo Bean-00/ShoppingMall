@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface PurchaseService {
-    Purchase addPurchase(Purchase purchaseVO);
-
-    Purchase getPurchase(int purchaseId);
 
     List<PurchaseBuyer> getPurchaseList(Search search, String buyerId);
 

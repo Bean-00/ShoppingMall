@@ -36,15 +36,16 @@ public class ListProductAction extends Action {
         search.setSearchCondition(request.getParameter("searchCondition"));
         search.setSearchKeyword(request.getParameter("searchKeyword"));
 
-        ProductService service = new ProductServiceImpl();
-        List<ProductStatus> productStatusVOList = service.getProductWithStatusList(search);
-        int totalCount = service.getAllProductCount(search);
+        ProductService productService = getBean("productServiceImpl", ProductService.class);
+
+        List<ProductStatus> productStatusList = productService.getProductWithStatusList(search);
+        int totalCount = productService.getAllProductCount(search);
 
         User user = (User) request.getSession().getAttribute("user");
 
 
         PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
-        request.setAttribute("list", productStatusVOList);
+        request.setAttribute("list", productStatusList);
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("search", search);
         request.setAttribute("user", user);

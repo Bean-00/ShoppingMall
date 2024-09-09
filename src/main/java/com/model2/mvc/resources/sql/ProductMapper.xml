@@ -15,13 +15,13 @@
         <result property="regDate" column="reg_date" jdbcType="DATE"/>
     </resultMap>
 
-    <delete id="deleteProduct" parameterType="java.lang.String">
+    <delete id="deleteProduct" parameterType="java.lang.Integer">
         DELETE
         FROM product
         WHERE prod_no = #{prodNo}
     </delete>
 
-    <insert id="addProduct" parameterType="product">
+    <insert id="insertProduct" parameterType="product">
         INSERT
         INTO users(prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date)
         VALUES (seq_product_prod_no.nextval,
@@ -33,7 +33,7 @@
                 SYSDATE)
     </insert>
 
-    <select id="getProductByProdNo" parameterType="java.lang.String" resultMap="productSelectMap">
+    <select id="getProductByProdNo" parameterType="java.lang.Integer" resultMap="productSelectMap">
         SELECT *
         FROM product
         WHERE prod_no = #{value}
@@ -69,15 +69,15 @@
         FROM product p
                 left outer join transaction t on p.PROD_NO = t.prod_no
         order by p.reg_date) PT
-        <if test="searchCondition != null">
+        <if test='searchCondition != null'>
             <where>
-                <if test="searchCondition == 0 and searchKeyword !='' ">
+                <if test='searchCondition == 0 and searchKeyword !="" '>
                     p.prod_no  #{searchKeyword}
                 </if>
-                <if test="searchCondition == 1 and searchKeyword !='' ">
+                <if test='searchCondition == 1 and searchKeyword !="" '>
                     p.prod_name = #{searchKeyword}
                 </if>
-                <if test="searchCondition == 2 and searchKeyword !='' ">
+                <if test='searchCondition == 2 and searchKeyword !="" '>
                     p.price = #{searchKeyword}
                 </if>
             </where>
@@ -87,17 +87,17 @@
         WHERE rowNum BETWEEN #{startIndex} AND #{endIndex}
     </select>
 
-    <select id="getProductTotalCount" parameterType="search" resultType="int">
+    <select id="getTotalProductCount" parameterType="search" resultType="int">
         SELECT COUNT(prod_no) as "totalCount" FROM product
         <if test="searchCondition != null">
             <where>
-                <if test="searchCondition == 0 and searchKeyword !='' ">
+                <if test='searchCondition == 0 and searchKeyword !="" '>
                     prod_no = #{searchKeyword}
                 </if>
-                <if test="searchCondition == 1 and searchKeyword !='' ">
+                <if test='searchCondition == 1 and searchKeyword !="" '>
                     prod_name = #{searchKeyword}
                 </if>
-                <if test="searchCondition == 2 and searchKeyword !='' ">
+                <if test='searchCondition == 2 and searchKeyword !="" '>
                     price = #{searchKeyword}
                 </if>
             </where>

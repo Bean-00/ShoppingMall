@@ -33,10 +33,10 @@ public class GetProductAction extends Action {
 
         response.addCookie(cookie);
 
-        String productNo = request.getParameter("prodNo");
+        int productNo = Integer.parseInt(request.getParameter("prodNo"));
 
         ProductService productService = new ProductServiceImpl();
-        Product pvo = productService.getProduct(productNo);
+        Product pvo = productService.getProductByProdNo(productNo);
 
         User user = (User) request.getSession().getAttribute("user");
 

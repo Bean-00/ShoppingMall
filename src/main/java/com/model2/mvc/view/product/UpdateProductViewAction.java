@@ -19,12 +19,11 @@ public class UpdateProductViewAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int productNo = Integer.parseInt(request.getParameter("prodNo"));
 
-		ProductService productService = new ProductServiceImpl();
-		ProductDAO productDAO = new ProductDAO();
-		Product pvo = productDAO.getProductByProdNo(String.valueOf(productNo));
-		productService.updateProduct(pvo);
+		ProductService productService = getBean("productServiceImpl", ProductService.class);
+		Product product = productService.getProductByProdNo(productNo);
+		productService.updateProduct(product);
 
-		request.setAttribute("product", pvo);
+		request.setAttribute("product", product);
 
 		return "forward:/product/updateProductView.jsp";
 	}

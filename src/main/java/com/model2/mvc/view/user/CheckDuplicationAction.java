@@ -15,7 +15,7 @@ public class CheckDuplicationAction extends Action{
 												HttpServletResponse response) throws Exception {
 		String userId=request.getParameter("userId");
 		
-		UserService service=new UserServiceImpl();
+		UserService service = getBean("userServiceImpl", UserService.class);
 		boolean result=service.checkDuplication(userId);
 		
 		request.setAttribute("result",new Boolean(result) );

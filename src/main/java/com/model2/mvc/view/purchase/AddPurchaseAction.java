@@ -1,7 +1,8 @@
 package com.model2.mvc.view.purchase;
 
 import com.model2.mvc.framework.Action;
-import com.model2.mvc.service.product.dao.ProductDAO;
+import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.constant.PurchaseStatus;
 import com.model2.mvc.service.purchase.dao.PurchaseDAO;
 import com.model2.mvc.service.domain.Purchase;
@@ -17,7 +18,9 @@ public class AddPurchaseAction extends Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ProductDAO productDAO = new ProductDAO();
+
+        ProductService productService = getBean("productServiceImpl", ProductService.class);
+        PurchaseService purchaseService = getBean("purchaseServiceImpl", PurchaseService.class);
 
         Purchase purchaseVO = new Purchase();
         purchaseVO.setBuyer((User) request.getSession().getAttribute("user"));
@@ -26,7 +29,7 @@ public class AddPurchaseAction extends Action {
         purchaseVO.setDivyRequest(request.getParameter("receiverRequest"));
         purchaseVO.setOrderDate(Date.valueOf(LocalDate.now()));
         purchaseVO.setPaymentOption(request.getParameter("paymentOption"));
-        purchaseVO.setPurchaseProd(productDAO.getProductByProdNo(request.getParameter("prodNo")));
+        purchaseVO.setPurchaseProd(productService.getProductByProdNo(Integer.parseInt(request.getParameter("prodNo"))));
         purchaseVO.setReceiverName(request.getParameter("receiverName"));
         purchaseVO.setReceiverPhone(request.getParameter("receiverPhone"));
         purchaseVO.setStatus(PurchaseStatus.PURCHASED);
