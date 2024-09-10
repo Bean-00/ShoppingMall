@@ -51,7 +51,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void deleteProduct(int prodNo) {
-        sqlSession.delete("ProductMapper.deleteProduct", prodNo);
+    public void deleteProduct(String prodName) {
+        sqlSession.delete("ProductMapper.deleteProduct", prodName);
     }
 }
