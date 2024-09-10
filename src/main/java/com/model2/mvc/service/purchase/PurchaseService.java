@@ -1,21 +1,20 @@
 package com.model2.mvc.service.purchase;
 
 import com.model2.mvc.common.Search;
-import com.model2.mvc.service.domain.PurchaseBuyer;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.PurchaseBuyer;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface PurchaseService {
 
-    List<PurchaseBuyer> getPurchaseList(Search search, String buyerId);
-
-    HashMap<String, Object> getSaleList(Search search);
-
-    Purchase updatePurchase(Purchase purchaseVO);
-
-    void TranCode(Purchase purchaseVO);
+    List<PurchaseBuyer> getPurchaseList(Search search);
 
     int getAllPurchaseCount(String buyerId);
+
+    void deletePurchase(int tranNo);
+
+    void addPurchase(Purchase purchase);
+
+    void updateTransCode(int prodNo);
 }

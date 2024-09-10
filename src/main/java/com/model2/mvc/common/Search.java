@@ -8,6 +8,7 @@ public class Search {
 	private String searchKeyword;
 	private int pageNumSize;
 	private int displayCount;
+	private String buyerId;
 	
 	public Search(){
 	}
@@ -54,4 +55,14 @@ public class Search {
 	public void setDisplayCount(int pageSize) {
 		this.displayCount = pageSize;
 	}
+
+	public String getBuyerId() {
+		return buyerId;
+	}
+
+	public void setBuyerId(String buyerId) {
+		this.buyerId = buyerId;
+	}
+
+
 }

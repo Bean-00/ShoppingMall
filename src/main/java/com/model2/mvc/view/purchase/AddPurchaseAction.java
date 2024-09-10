@@ -4,7 +4,6 @@ import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.constant.PurchaseStatus;
-import com.model2.mvc.service.purchase.dao.PurchaseDAO;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 
@@ -22,22 +21,21 @@ public class AddPurchaseAction extends Action {
         ProductService productService = getBean("productServiceImpl", ProductService.class);
         PurchaseService purchaseService = getBean("purchaseServiceImpl", PurchaseService.class);
 
-        Purchase purchaseVO = new Purchase();
-        purchaseVO.setBuyer((User) request.getSession().getAttribute("user"));
-        purchaseVO.setDivyAddr(request.getParameter("receiverAddr"));
-        purchaseVO.setDivyDate(Date.valueOf(request.getParameter("receiverDate")));
-        purchaseVO.setDivyRequest(request.getParameter("receiverRequest"));
-        purchaseVO.setOrderDate(Date.valueOf(LocalDate.now()));
-        purchaseVO.setPaymentOption(request.getParameter("paymentOption"));
-        purchaseVO.setPurchaseProd(productService.getProductByProdNo(Integer.parseInt(request.getParameter("prodNo"))));
-        purchaseVO.setReceiverName(request.getParameter("receiverName"));
-        purchaseVO.setReceiverPhone(request.getParameter("receiverPhone"));
-        purchaseVO.setStatus(PurchaseStatus.PURCHASED);
+        Purchase purchase = new Purchase();
+        purchase.setBuyer((User) request.getSession().getAttribute("user"));
+        purchase.setDivyAddr(request.getParameter("receiverAddr"));
+        purchase.setDivyDate(Date.valueOf(request.getParameter("receiverDate")));
+        purchase.setDivyRequest(request.getParameter("receiverRequest"));
+        purchase.setOrderDate(Date.valueOf(LocalDate.now()));
+        purchase.setPaymentOption(request.getParameter("paymentOption"));
+        purchase.setPurchaseProd(productService.getProductByProdNo(Integer.parseInt(request.getParameter("prodNo"))));
+        purchase.setReceiverName(request.getParameter("receiverName"));
+        purchase.setReceiverPhone(request.getParameter("receiverPhone"));
+        purchase.setStatus(PurchaseStatus.PURCHASED);
 
-        PurchaseDAO purchaseDAO = new PurchaseDAO();
-        purchaseDAO.insertPurchase(purchaseVO);
+        purchaseService.addPurchase(purchase);
 
-        request.setAttribute("purchase", purchaseVO);
+        request.setAttribute("purchase", purchase);
 
 
         return "forward:/purchase/addPurchase.jsp";

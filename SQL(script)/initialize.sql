@@ -163,7 +163,8 @@ commit;
 
 ---------[기본 테이터 생성 부분]-----------
 
-select * from users
+select *
+from users
 where user_id = 'user01';
 
 INSERT INTO TRANSACTION (TRAN_NO, PROD_NO, BUYER_ID, PAYMENT_OPTION, RECEIVER_NAME, RECEIVER_PHONE, DLVY_ADDR,
@@ -435,36 +436,36 @@ UPDATE TRANSACTION
 SET TRAN_STATUS_CODE = TRAN_STATUS_CODE + 1
 WHERE prod_no = 10000;
 
-select * from transaction where prod_no = 10000;
+select *
+from transaction
+where prod_no = 10000;
 
-select * from users;
+select *
+from users;
 
 -----[getALLTotalCount]----------------
 
-SELECT
-    count(user_id)
+SELECT count(user_id)
 FROM USERS;
 
-SELECT
-    count(prod_no)
+SELECT count(prod_no)
 FROM PRODUCT;
 
-SELECT
-    count(tran_no)
+SELECT count(tran_no)
 FROM TRANSACTION;
 
 -----[getSearchConditionCount]------------
 
-SELECT
-    count(user_id)
+SELECT count(user_id)
 FROM USERS
 WHERE user_id LIKE '%user%';
 
 
-create TABLE user_test(
-    user_id VARCHAR2(100),
+create TABLE user_test
+(
+    user_id       VARCHAR2(100),
     user_password VARCHAR2(100),
-    user_name VARCHAR2(100)
+    user_name     VARCHAR2(100)
 );
 
 SELECT user_id,
@@ -478,15 +479,18 @@ SELECT user_id,
 FROM users
 WHERE user_id = 'user01';
 
-SELECT * FROM PRODUCT;
+SELECT *
+FROM PRODUCT;
 
-select * from users;
+select *
+from users;
 
-select * from transaction;
+select *
+from transaction;
 
 
-SELECT ROW_NUM AS "rowNum",
-       user_id AS "userId",
+SELECT ROW_NUM   AS "rowNum",
+       user_id   AS "userId",
        user_name AS "userName",
        email
 FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
@@ -495,3 +499,24 @@ FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM,
              email
       FROM USERS) U
 WHERE ROW_NUM BETWEEN 4 AND 6;
+
+SELECT PT.ROW_NUM      AS "rowNum",
+       PT."prodNo"     AS "prodNo",
+       PT."prodName"   AS "prodName",
+       PT."price"      AS "price",
+       PT."regDate"    AS "redDate",
+       PT."statusCode" AS "statusCode"
+FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
+             p.prod_no                             AS "prodNo",
+             p.prod_name                           AS "prodName",
+             p.price                               AS "price",
+             p.reg_date                            AS "regDate",
+             NVL(t.tran_status_code, 0)            AS "statusCode"
+      FROM product p
+               left outer join transaction t on p.PROD_NO = t.prod_no
+      ORDER BY ROW_NUM) PT
+WHERE rowNum BETWEEN ? AND ?;
+
+
+
+

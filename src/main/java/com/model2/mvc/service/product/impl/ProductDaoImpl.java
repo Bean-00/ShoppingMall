@@ -4,7 +4,7 @@ package com.model2.mvc.service.product.impl;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.ProductStatus;
-import com.model2.mvc.service.product.dao.ProductDAO;
+import com.model2.mvc.service.product.dao.ProductDao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("productDaoImpl")
-public class ProductDaoImpl implements ProductDAO {
+public class ProductDaoImpl implements ProductDao {
 
     @Autowired
     @Qualifier("sqlSessionTemplate")
@@ -37,7 +37,7 @@ public class ProductDaoImpl implements ProductDAO {
 
     @Override
     public List<ProductStatus> getProductWithStatusList(Search search) {
-        return sqlSession.selectList("ProductMapper.getProductWithStatusList", search);
+        return sqlSession.selectList("ProductMapper.getProductListWithStatus", search);
     }
 
     @Override

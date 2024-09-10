@@ -17,6 +17,7 @@ public class Purchase {
     private String receiverPhone;
     private PurchaseStatus status;
     private int tranNo;
+    private int rowNum;
 
     public Purchase() {
     }
@@ -122,5 +123,13 @@ public class Purchase {
                 + ", receiverName=" + receiverName + ", receiverPhone="
                 + receiverPhone + ", tranCode=" + status + ", tranNo="
                 + tranNo + "]";
+    }
+
+    public int getRowNum() {
+        return rowNum;
+    }
+
+    public void setRowNum(int rowNum) {
+        this.rowNum = rowNum;
     }
 }

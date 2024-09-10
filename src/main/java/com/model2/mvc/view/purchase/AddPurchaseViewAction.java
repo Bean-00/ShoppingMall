@@ -3,7 +3,6 @@ package com.model2.mvc.view.purchase;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.dao.ProductDAO;
 import com.model2.mvc.service.domain.Product;
 
 import javax.servlet.http.HttpServletRequest;

@@ -17,20 +17,21 @@ public class AddProductAction extends Action {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		Product productVO = new Product();
+		Product product = new Product();
 		
-		productVO.setProdName(request.getParameter("prodName"));
-		productVO.setProdDetail(request.getParameter("prodDetail"));
-		productVO.setRegDate(Date.valueOf(LocalDate.now()));
-		productVO.setPrice(Integer.parseInt(request.getParameter("price")));
-		productVO.setManuDate(request.getParameter("manuDate")); 
-		productVO.setFileName(request.getParameter("fileName"));
+		product.setProdName(request.getParameter("prodName"));
+		product.setProdDetail(request.getParameter("prodDetail"));
+		product.setRegDate(Date.valueOf(LocalDate.now()));
+		product.setPrice(Integer.parseInt(request.getParameter("price")));
+		product.setManuDate(request.getParameter("manuDate"));
+		product.setFileName(request.getParameter("fileName"));
 
-		ProductService service = new ProductServiceImpl();
-		service.addProduct(productVO);
-		request.setAttribute("productVO", productVO);
+		ProductService service = getBean("productServiceImpl", ProductService.class);
+		service.addProduct(product);
+		request.setAttribute("productVO", product);
 
-		return "forward:/product/addProductView.jsp";
+
+		return "forward:/listProduct.do?menu=manage";
 	}
 
 }

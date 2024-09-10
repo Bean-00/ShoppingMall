@@ -125,7 +125,7 @@
                     <td align="left">${product.price}
                     </td>
                     <td></td>
-                    <td align="left">${product.regDate}
+                    <td align="left">${product.regDateString}
                     </td>
                     <td></td>
                     <c:if test="${user.role == 'user'}">

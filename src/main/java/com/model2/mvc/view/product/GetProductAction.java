@@ -35,7 +35,7 @@ public class GetProductAction extends Action {
 
         int productNo = Integer.parseInt(request.getParameter("prodNo"));
 
-        ProductService productService = new ProductServiceImpl();
+        ProductService productService = getBean("productServiceImpl", ProductService.class);
         Product pvo = productService.getProductByProdNo(productNo);
 
         User user = (User) request.getSession().getAttribute("user");

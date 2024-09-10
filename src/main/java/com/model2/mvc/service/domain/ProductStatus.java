@@ -2,7 +2,9 @@ package com.model2.mvc.service.domain;
 
 import com.model2.mvc.service.purchase.constant.PurchaseStatus;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class ProductStatus {
 
@@ -46,6 +48,12 @@ public class ProductStatus {
         this.regDate = regDate;
     }
 
+    public String getRegDateString() {
+        if (Objects.isNull(this.regDate)) return null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+        return sdf.format(this.regDate);
+    }
+
     public int getPrice() {
         return price;
     }
@@ -54,14 +62,13 @@ public class ProductStatus {
         this.price = price;
     }
 
-
     public PurchaseStatus getStatus() {
         return status;
     }
 
-    public void setStatus(PurchaseStatus status) {
-        this.status = status;
-    }
+//    public void setStatus(PurchaseStatus status) {
+//        this.status = status;
+//    }
 
     public void setStatus(String code) {
         this.status = PurchaseStatus.getByCode(code);

@@ -31,7 +31,7 @@ public class UpdateProductAction extends Action {
         productVO.setManuDate(request.getParameter("manuDate"));
         productVO.setFileName(request.getParameter("fileName"));
 
-        ProductService service = new ProductServiceImpl();
+        ProductService service = getBean("productServiceImpl", ProductService.class);
         service.updateProduct(productVO);
         request.setAttribute("prodNo", productVO.getProdNo());
 

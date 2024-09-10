@@ -49,7 +49,7 @@
                               prod_no,
                               order_data
                        FROM TRANSACTION)
-        WHERE buyer_id = #{buyerId}
+        WHERE buyer_id = #{search.buyerId}
             AND rowNum Between #{search.startIndex} AND #{search.endIndex}
         ORDER BY rowNum
     </select>

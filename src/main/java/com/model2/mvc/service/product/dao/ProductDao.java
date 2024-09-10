@@ -6,7 +6,7 @@ import com.model2.mvc.service.domain.ProductStatus;
 
 import java.util.List;
 
-public interface ProductDAO {
+public interface ProductDao {
 
     int getTotalProductCount(Search search);
 

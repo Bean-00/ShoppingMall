@@ -10,7 +10,6 @@
     </script>
 
     <script type="text/javascript">
-        <!--
         function fncAddProduct() {
             //Form 유효성 검증
             let name = document.detailForm.prodName.value;
@@ -43,7 +42,6 @@
             document.detailForm.reset();
         }
 
-        -->
     </script>
 </head>
 

@@ -3,35 +3,43 @@ package com.model2.mvc.service.purchase.impl;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.PurchaseBuyer;
-import com.model2.mvc.service.purchase.dao.PurchaseDAO;
+import com.model2.mvc.service.purchase.dao.PurchaseDao;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 
-public class PurchaseDaoImpl implements PurchaseDAO {
+@Repository("purchaseDaoImpl")
+public class PurchaseDaoImpl implements PurchaseDao {
 
-    private PurchaseDAO purchaseDao;
+    @Autowired
+    @Qualifier("sqlSessionTemplate")
+    private SqlSessionTemplate sqlSession;
 
     @Override
-    public void insertPurchase(Purchase purchaseVO) {
-        purchaseDao.insertPurchase(purchaseVO);
+    public void insertPurchase(Purchase purchase) {
+        sqlSession.insert("PurchaseMapper.addPurchase", purchase);
     }
 
     @Override
-    public List<PurchaseBuyer> getPurchaseList(Search search, String buyerId) {
-        return purchaseDao.getPurchaseList(search, buyerId);
+    public List<PurchaseBuyer> getPurchaseList(Search search) {
+        return sqlSession.selectList("PurchaseMapper.getPurchaseList", search);
     }
 
     @Override
     public int getPurchaseTotalCount(String buyerId) {
-        return purchaseDao.getPurchaseTotalCount(buyerId);
+        return sqlSession.selectOne("PurchaseMapper.getPurchaseTotalCount", buyerId);
     }
 
     @Override
-    public void updateTransCode(String prodNo) {
-        purchaseDao.updateTransCode(prodNo);
+    public void updateTransCode(int prodNo) {
+        sqlSession.update("PurchaseMapper.updateTransCode", prodNo);
+    }
+
+    @Override
+    public void deletePurchase(int prodNo) {
+        sqlSession.delete("PurchaseMapper.deletePurchase", prodNo);
     }
 }

@@ -36,8 +36,9 @@ public class ListPurchaseAction extends Action {
 
         search.setPageNumSize(pageNumSize);
         search.setDisplayCount(displayCount);
+        search.setBuyerId(buyerId);
 
-        List<PurchaseBuyer> purchaseBuyerList = service.getPurchaseList(search, buyerId);
+        List<PurchaseBuyer> purchaseBuyerList = service.getPurchaseList(search);
 
 
         request.setAttribute("pageInfo", new PageMaker(currentPage, totalCount, pageNumSize, displayCount));

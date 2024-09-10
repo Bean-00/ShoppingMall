@@ -6,6 +6,7 @@
 
 <mapper namespace="ProductMapper">
     <resultMap id="productSelectMap" type="product">
+        <result property="rowNum" column="row_num" jdbcType="NUMERIC"/>
         <result property="prodNo" column="prod_no" jdbcType="NUMERIC"/>
         <result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
         <result property="prodDetail" column="prod_detail" jdbcType="VARCHAR"/>
@@ -13,6 +14,7 @@
         <result property="price" column="price" jdbcType="NUMERIC"/>
         <result property="fileName" column="image_file" jdbcType="VARCHAR"/>
         <result property="regDate" column="reg_date" jdbcType="DATE"/>
+        <result property="transCode" column="trans_code" jdbcType="NUMERIC"/>
     </resultMap>
 
     <delete id="deleteProduct" parameterType="java.lang.Integer">
@@ -23,12 +25,12 @@
 
     <insert id="insertProduct" parameterType="product">
         INSERT
-        INTO users(prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date)
+        INTO product(prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date)
         VALUES (seq_product_prod_no.nextval,
                 #{prodName:VARCHAR},
                 #{prodDetail:VARCHAR},
                 #{manuDate:VARCHAR},
-                #{price:NUMBERIC},
+                #{price:NUMERIC},
                 #{fileName:VARCHAR},
                 SYSDATE)
     </insert>
@@ -41,11 +43,11 @@
 
 
     <update id="updateProduct" parameterType="product">
-        UPDATE users
+        UPDATE product
         <set>
             prod_name = #{prodName},
             prod_detail = #{prodDetail},
-            manufacture_day = #{manuDay},
+            manufacture_day = #{manuDate},
             price = #{price},
             image_file = #{fileName},
             reg_date = #{regDate}
@@ -53,38 +55,35 @@
         WHERE prod_no = #{prodNo}
     </update>
 
-    <select id="getProductListWithStatusList" parameterType="search" resultMap="productSelectMap">
-        SELECT  PT.ROW_NUM AS "rowNum",
-                PT."prodNo" AS "prodNo",
-                PT."prodName" AS "prodName",
-                PT."price" AS "price",
-                PT."regDate" AS "redDate",
-                PT."statusCode" AS "statusCode"
-        FROM  (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
-                p.prod_no                             AS "prodNo",
-                p.prod_name                           AS "prodName",
-                p.price                               AS "price",
-                p.reg_date                            AS "regDate",
-                NVL(t.tran_status_code, 0)            AS "statusCode"
+    <select id="getProductListWithStatus" parameterType="search" resultType="com.model2.mvc.service.domain.ProductStatus">
+        SELECT PT.row_num AS "rowNum",
+        PT.prod_no AS "prodNo",
+        PT.prod_name AS "productName",
+        PT.price AS "price",
+        PT.reg_date AS "regDate",
+        PT.trans_code AS "status"
+        FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS row_num,
+        p.prod_no,
+        p.prod_name,
+        p.price,
+        p.reg_date,
+        NVL(t.tran_status_code, 0) AS trans_code
         FROM product p
-                left outer join transaction t on p.PROD_NO = t.prod_no
-        order by p.reg_date) PT
-        <if test='searchCondition != null'>
-            <where>
-                <if test='searchCondition == 0 and searchKeyword !="" '>
-                    p.prod_no  #{searchKeyword}
-                </if>
-                <if test='searchCondition == 1 and searchKeyword !="" '>
-                    p.prod_name = #{searchKeyword}
-                </if>
-                <if test='searchCondition == 2 and searchKeyword !="" '>
-                    p.price = #{searchKeyword}
-                </if>
-            </where>
+        left outer join transaction t on p.PROD_NO = t.prod_no
+        <if test='searchCondition != null and searchKeyword != null'>
+            <if test='searchCondition == 0 and searchKeyword != ""'>
+                WHERE p.prod_no = #{searchKeyword}
+            </if>
+            <if test='searchCondition == 1 and searchKeyword != ""'>
+                WHERE p.prod_name = #{searchKeyword}
+            </if>
+            <if test='searchCondition == 2 and searchKeyword != ""'>
+                WHERE p.price = #{searchKeyword}
+            </if>
         </if>
-        ORDER BY ROW_NUM) PT
---         WHERE ROWNUM &lt;= #{endRowNum} )
-        WHERE rowNum BETWEEN #{startIndex} AND #{endIndex}
+        ) PT
+        WHERE row_num BETWEEN #{startIndex} AND #{endIndex}
+        ORDER BY row_num
     </select>
 
     <select id="getTotalProductCount" parameterType="search" resultType="int">

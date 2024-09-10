@@ -10,7 +10,6 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.domain.ProductStatus;
 
 public class ListProductAction extends Action {
@@ -42,7 +41,6 @@ public class ListProductAction extends Action {
         int totalCount = productService.getAllProductCount(search);
 
         User user = (User) request.getSession().getAttribute("user");
-
 
         PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
         request.setAttribute("list", productStatusList);

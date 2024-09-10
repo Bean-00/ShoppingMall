@@ -13,6 +13,7 @@ public class Product {
     private int prodNo;
     private Date regDate;
 
+
     public Product() {
     }
 
@@ -87,4 +88,5 @@ public class Product {
                 + "[manuDate]" + manuDate + "[price]" + price + "[prodDetail]" + prodDetail
                 + "[prodName]" + prodName + "[prodNo]" + prodNo;
     }
+
 }
