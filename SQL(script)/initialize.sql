@@ -488,7 +488,6 @@ from users;
 select *
 from transaction;
 
-
 SELECT ROW_NUM   AS "rowNum",
        user_id   AS "userId",
        user_name AS "userName",
@@ -518,5 +517,65 @@ FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS "ROW_NUM",
 WHERE rowNum BETWEEN ? AND ?;
 
 
+SELECT "rowNum",
+       buyer_id         AS buyerId,
+       receiver_name    AS buyerName,
+       receiver_phone   AS buyerPhone,
+       tran_status_code AS tranCode,
+       prod_no          AS prodNo
+FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS "rowNum",
+             buyer_id,
+             receiver_name,
+             receiver_phone,
+             tran_status_code,
+             prod_no,
+             order_date
+      FROM TRANSACTION)
+WHERE buyer_id = 'user01'
+  AND rowNum Between 1 AND 1
+ORDER BY rowNum
 
 
+
+SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS "rowNum",
+       buyer_id,
+       receiver_name,
+       receiver_phone,
+       tran_status_code,
+       prod_no,
+       order_date
+FROM TRANSACTION
+;
+
+SELECT row_num AS "rowNum",
+       buyer_id,
+       user_name,
+       cell_phone,
+       receiver_name,
+       receiver_phone,
+       tran_status_code,
+       prod_no
+FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS row_num,
+             buyer_id,
+             user_name,
+             cell_phone,
+             receiver_name,
+             receiver_phone,
+             tran_status_code,
+             prod_no,
+             order_date
+      FROM TRANSACTION T
+               INNER JOIN USERS U on U.USER_ID = T.BUYER_ID
+      WHERE buyer_id = 'user01')
+WHERE row_num Between 1 AND 4
+ORDER BY row_num;
+
+SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS row_num,
+    buyer_id,
+    receiver_name,
+    receiver_phone,
+    tran_status_code,
+    prod_no,
+    order_date
+from transaction
+where buyer_id = 'user01';

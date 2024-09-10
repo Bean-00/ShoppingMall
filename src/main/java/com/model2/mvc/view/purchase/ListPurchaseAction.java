@@ -28,7 +28,7 @@ public class ListPurchaseAction extends Action {
 
         String buyerId = request.getParameter("buyerId");
 
-        PurchaseService service = new PurchaseServiceImpl();
+        PurchaseService service = getBean("purchaseServiceImpl", PurchaseService.class);
 
         int pageNumSize = Integer.parseInt(getServletContext().getInitParameter("pageNumSize"));
         int displayCount = Integer.parseInt(getServletContext().getInitParameter("displayCount"));

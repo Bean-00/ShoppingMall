@@ -23,15 +23,15 @@ public class AddPurchaseAction extends Action {
 
         Purchase purchase = new Purchase();
         purchase.setBuyer((User) request.getSession().getAttribute("user"));
-        purchase.setDivyAddr(request.getParameter("receiverAddr"));
-        purchase.setDivyDate(Date.valueOf(request.getParameter("receiverDate")));
-        purchase.setDivyRequest(request.getParameter("receiverRequest"));
+        purchase.setDlvyAddr(request.getParameter("receiverAddr"));
+        purchase.setDlvyDate(Date.valueOf(request.getParameter("receiverDate")));
+        purchase.setDlvyRequest(request.getParameter("receiverRequest"));
         purchase.setOrderDate(Date.valueOf(LocalDate.now()));
         purchase.setPaymentOption(request.getParameter("paymentOption"));
         purchase.setPurchaseProd(productService.getProductByProdNo(Integer.parseInt(request.getParameter("prodNo"))));
         purchase.setReceiverName(request.getParameter("receiverName"));
         purchase.setReceiverPhone(request.getParameter("receiverPhone"));
-        purchase.setStatus(PurchaseStatus.PURCHASED);
+        purchase.setStatus(PurchaseStatus.PURCHASED.getCode());
 
         purchaseService.addPurchase(purchase);
 

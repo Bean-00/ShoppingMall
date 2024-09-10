@@ -7,16 +7,23 @@
 <mapper namespace="PurchaseMapper">
     <resultMap id="purchaseSelectMap" type="purchase">
         <result property="tranNo" column="tran_no" jdbcType="INTEGER"/>
-        <result property="prodNo" column="prod_no" jdbcType="INTEGER"/>
-        <result property="buyerId" column="buyer_id" jdbcType="VARCHAR"/>
         <result property="paymentOption" column="payment_option" jdbcType="VARCHAR"/>
         <result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
         <result property="receiverPhone" column="receiver_phone" jdbcType="VARCHAR"/>
         <result property="divyAddr" column="dlvy_addr" jdbcType="VARCHAR"/>
         <result property="divyRequest" column="dlvy_request" jdbcType="VARCHAR"/>
-        <result property="tranStatusCode" column="tran_status_code" jdbcType="VARCHAR"/>
-        <result property="orderData" column="order_data" jdbcType="DATE"/>
+        <result property="status" column="tran_status_code" jdbcType="VARCHAR"/>
+        <result property="orderDate" column="order_date" jdbcType="DATE"/>
         <result property="dlvyDate" column="dlvy_date" jdbcType="DATE"/>
+        <result property="rowNum" column="rowNum" jdbcType="NUMERIC"/>
+        <association property="buyer" javaType="user">
+            <id property="userId" column="buyer_id"></id>
+            <result property="userName" column="user_name"></result>
+            <result property="phone" column="cell_phone"></result>
+        </association>
+        <association property="purchaseProd" javaType="product">
+            <id property="prodNo" column="prod_no"></id>
+        </association>
     </resultMap>
 
     <delete id="deletePurchase" parameterType="java.lang.String">
@@ -29,38 +36,42 @@
     <insert id="addPurchase" parameterType="purchase">
         INSERT
         INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone,
-                         dlvy_addr, dlvy_request, tran_status_code, order_data, dlvy_date)
-        VALUES (#{tranNo}, #{prodNo}, #{buyerId}, #{paymentOption:VARCHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR},
-                #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR}, '0', #{orderData:DATE}, #{dlvyData:DATE})
+                         dlvy_addr, dlvy_request, tran_status_code, order_date, dlvy_date)
+        VALUES (seq_transaction_tran_no.nextval, #{prodNo}, #{buyerId}, #{paymentOption:VARCHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR},
+                #{dlvyAddr:VARCHAR}, #{dlvyRequest:VARCHAR}, '1', #{orderDate:DATE}, #{dlvyDate:DATE})
     </insert>
 
     <select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
-        SELECT rowNum,
-                        buyer_id         AS buyerId,
-                        receiver_name    AS buyerName,
-                        receiver_phone   AS buyerPhone,
-                        tran_status_code AS tranCode,
-                        prod_no          AS prodNo
-                 FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS rowNum,
+        SELECT row_num AS "rowNum",
+                        buyer_id,
+                        user_name,
+                        cell_phone,
+                        receiver_name,
+                        receiver_phone,
+                        tran_status_code,
+                        prod_no
+                 FROM (SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS row_num,
                               buyer_id,
+                              user_name,
+                              cell_phone,
                               receiver_name,
                               receiver_phone,
                               tran_status_code,
                               prod_no,
-                              order_data
-                       FROM TRANSACTION)
-        WHERE buyer_id = #{search.buyerId}
-            AND rowNum Between #{search.startIndex} AND #{search.endIndex}
-        ORDER BY rowNum
+                              order_date
+                       FROM TRANSACTION T INNER JOIN USERS U on U.USER_ID = T.BUYER_ID
+                        WHERE buyer_id = #{buyerId})
+        WHERE row_num Between #{startIndex} AND #{endIndex}
+        ORDER BY row_num
     </select>
 
-    <select id="getTotalCount" parameterType="string">
+    <select id="getPurchaseTotalCount" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT count(tran_no) AS "totalCount"
         FROM transaction
         WHERE BUYER_ID = #{userId}
     </select>
 
-    <update id="updateTransCode" parameterType="string">
+    <update id="updateTransCode" parameterType="java.lang.Integer">
         UPDATE TRANSACTION
         SET TRAN_STATUS_CODE = TRAN_STATUS_CODE + 1
         WHERE PROD_NO = #{prodNo}

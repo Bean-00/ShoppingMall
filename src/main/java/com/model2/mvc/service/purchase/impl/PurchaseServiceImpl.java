@@ -35,12 +35,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public void addPurchase(Purchase purchase) {
-
+        purchaseDao.insertPurchase(purchase);
     }
 
     @Override
     public void updateTransCode(int prodNo) {
-
+        purchaseDao.updateTransCode(prodNo);
     }
 
 }

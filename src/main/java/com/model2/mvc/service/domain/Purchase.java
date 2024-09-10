@@ -7,9 +7,9 @@ import com.model2.mvc.service.purchase.constant.PurchaseStatus;
 
 public class Purchase {
     private User buyer;
-    private String divyAddr;
-    private Date divyDate;
-    private String divyRequest;
+    private String dlvyAddr;
+    private Date dlvyDate;
+    private String dlvyRequest;
     private Date orderDate;
     private String paymentOption;
     private Product purchaseProd;
@@ -18,6 +18,7 @@ public class Purchase {
     private PurchaseStatus status;
     private int tranNo;
     private int rowNum;
+    private int prodNo;
 
     public Purchase() {
     }
@@ -30,28 +31,28 @@ public class Purchase {
         this.buyer = buyer;
     }
 
-    public String getDivyAddr() {
-        return divyAddr;
+    public String getDlvyAddr() {
+        return dlvyAddr;
     }
 
-    public void setDivyAddr(String divyAddr) {
-        this.divyAddr = divyAddr;
+    public void setDlvyAddr(String dlvyAddr) {
+        this.dlvyAddr = this.dlvyAddr;
     }
 
-    public Date getDivyDate() {
-        return divyDate;
+    public Date getDlvyDate() {
+        return dlvyDate;
     }
 
-    public void setDivyDate(Date divyDate) {
-        this.divyDate = divyDate;
+    public void setDlvyDate(Date dlvyDate) {
+        this.dlvyDate = dlvyDate;
     }
 
-    public String getDivyRequest() {
-        return divyRequest;
+    public String getDlvyRequest() {
+        return dlvyRequest;
     }
 
-    public void setDivyRequest(String divyRequest) {
-        this.divyRequest = divyRequest;
+    public void setDlvyRequest(String divyRequest) {
+        this.dlvyRequest = divyRequest;
     }
 
     public Date getOrderDate() {
@@ -98,8 +99,8 @@ public class Purchase {
         return status.getCode();
     }
 
-    public void setStatus(PurchaseStatus status) {
-        this.status = status;
+    public void setStatus(String code) {
+        this.status = PurchaseStatus.getByCode(code);
     }
 
     public String getTranText() {
@@ -114,10 +115,18 @@ public class Purchase {
         this.tranNo = tranNo;
     }
 
+    public int getProdNo() {
+        return this.purchaseProd.getProdNo();
+    }
+
+    public String getBuyerId() {
+        return this.buyer.getUserId();
+    }
+
     @Override
     public String toString() {
-        return "PurchaseVO [buyer=" + buyer + ", divyAddr=" + divyAddr
-                + ", divyDate=" + divyDate + ", divyRequest=" + divyRequest
+        return "PurchaseVO [buyer=" + buyer + ", dlvyAddr=" + dlvyAddr
+                + ", divyDate=" + dlvyDate + ", dlvyRequest=" + dlvyRequest
                 + ", orderDate=" + orderDate + ", paymentOption="
                 + paymentOption + ", purchaseProd=" + purchaseProd
                 + ", receiverName=" + receiverName + ", receiverPhone="
@@ -131,5 +140,9 @@ public class Purchase {
 
     public void setRowNum(int rowNum) {
         this.rowNum = rowNum;
+    }
+
+    public void setProdNo(int prodNo) {
+        this.prodNo = prodNo;
     }
 }

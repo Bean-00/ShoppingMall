@@ -65,14 +65,14 @@
                 </td>
                 <td></td>
                 <td align="left">
-                    <a href="/getUser.do?userId=${purchase.buyerId}">${purchase.buyerId}
+                    <a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}
                     </a>
                 </td>
                 <td></td>
-                <td align="left">${purchase.buyerName}
+                <td align="left">${purchase.buyer.userName}
                 </td>
                 <td></td>
-                <td align="left">${purchase.buyerPhone}
+                <td align="left">${purchase.buyer.phone}
                 </td>
                 <td></td>
                 <td align="left">현재
@@ -81,8 +81,8 @@
                 </td>
                 <td></td>
                 <td align="left">
-                    <c:if test="${purchase.tranCode == '2'}">
-                        <a href="/updateTranCode.do?prodNo=${purchase.prodNo}&role=Buyer&buyerId=${purchase.buyerId}&page=${pageInfo.currentPage}">
+                    <c:if test="${purchase.status == '2'}">
+                        <a href="/updateTranCode.do?prodNo=${purchase.purchaseProd.prodNo}&role=Buyer&buyerId=${purchase.buyer.userId}&page=${pageInfo.currentPage}">
                             물건도착
                         </a>
                     </c:if>
