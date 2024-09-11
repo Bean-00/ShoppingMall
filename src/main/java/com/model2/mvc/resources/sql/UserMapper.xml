@@ -82,18 +82,19 @@
         user_id,
         user_name,
         email
-        FROM USERS) U
-        <if test='searchCondition != null and searchKeyword != null'>
-            <where>
+        FROM USERS
+        <where>
+            <if test='searchCondition != null and searchKeyword != null'>
                 <if test='searchCondition == 0 and searchKeyword !=""'>
                     user_id LIKE '%${searchKeyword}%'
                 </if>
                 <if test='searchCondition == 1 and searchKeyword !=""'>
                     user_name LIKE '%${searchKeyword}%'
                 </if>
-            </where>
-        </if>
-        WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+            </if>
+            ) U
+            WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+        </where>
     </select>
     <!--  위 두번째 subQuery 의
             WHERE ROWNUM &lt;= #{endRowNum} ) 는

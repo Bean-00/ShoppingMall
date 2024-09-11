@@ -17,9 +17,15 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:config/commonservice.xml"})
+
+//==> Meta-Data 를 다양하게 Wiring 하자...
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+        "classpath:config/context-aspect.xml",
+        "classpath:config/context-mybatis.xml",
+        "classpath:config/context-transaction.xml" })
+
 public class UserServiceTest {
 
     //==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
@@ -148,11 +154,10 @@ public class UserServiceTest {
 
         search.setCurrentPage(1);
         search.setDisplayCount(3);
-        search.setSearchCondition("0");
-        search.setSearchKeyword("admin");
+        search.setPageNumSize(5);
         userList = userService.getUserList(search);
 
-        Assert.assertEquals(1, userList.size());
+        Assert.assertEquals(3, userList.size());
 
         //==> console 확인
         //System.out.println(list);
@@ -167,6 +172,8 @@ public class UserServiceTest {
         Search search = new Search();
         search.setCurrentPage(1);
         search.setDisplayCount(3);
+        search.setPageNumSize(5);
+
         search.setSearchCondition("0");
         search.setSearchKeyword("user01");
 

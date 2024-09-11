@@ -1,12 +1,10 @@
-package com.model2.mvc.service.purchase.test.test;
+package com.model2.mvc.service.purchase.test;
 
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.constant.PurchaseStatus;
 import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +17,14 @@ import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:config/commonservice.xml"})
+//==> Meta-Data 를 다양하게 Wiring 하자...
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+        "classpath:config/context-aspect.xml",
+        "classpath:config/context-mybatis.xml",
+        "classpath:config/context-transaction.xml" })
+
 public class PurchaseServiceTest {
 
     //==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
