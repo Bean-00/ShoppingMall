@@ -3,11 +3,8 @@ package com.model2.mvc.service.product.test;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.ProductStatus;
-import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.user.UserService;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +32,6 @@ public class ProductServiceTest {
     }
 
     @Test
-//    @Ignore
     public void testAddProduct() throws Exception {
 
         Product product = new Product();
@@ -45,7 +40,7 @@ public class ProductServiceTest {
 
         product.setFileName("123");
         product.setPrice(1000);
-        product.setRegDate(Date.valueOf("20000122"));
+        product.setRegDate(Date.valueOf("2000-01-22"));
         product.setManuDate("99-01-22");
         product.setProdDetail("detail");
         product.setProdName("testName");
@@ -55,7 +50,10 @@ public class ProductServiceTest {
 
         Search search = new Search();
         search.setSearchCondition("1");
-        search.setSearchKeyword("testName");
+        search.setSearchKeyword("testN");
+        search.setCurrentPage(1);
+        search.setDisplayCount(3);
+        search.setPageNumSize(5);
 
 
         productStatus = productService.getProductWithStatusList(search).get(0);
@@ -72,7 +70,10 @@ public class ProductServiceTest {
 
         Search search = new Search();
         search.setSearchCondition("1");
-        search.setSearchKeyword("testName");
+        search.setSearchKeyword("testN");
+        search.setCurrentPage(1);
+        search.setDisplayCount(3);
+        search.setPageNumSize(5);
 
         productStatus = productService.getProductWithStatusList(search).get(0);
 
@@ -83,14 +84,16 @@ public class ProductServiceTest {
     }
 
     @Test
-    @Ignore
     public void testUpdateProduct() throws Exception{
 
         ProductStatus productStatus = new ProductStatus();
 
         Search search = new Search();
         search.setSearchCondition("1");
-        search.setSearchKeyword("testName");
+        search.setSearchKeyword("testN");
+        search.setCurrentPage(1);
+        search.setDisplayCount(3);
+        search.setPageNumSize(5);
 
         productStatus = productService.getProductWithStatusList(search).get(0);
 

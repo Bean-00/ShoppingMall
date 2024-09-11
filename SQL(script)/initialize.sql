@@ -579,3 +579,5 @@ SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS row_num,
     order_date
 from transaction
 where buyer_id = 'user01';
+
+select * from product;
