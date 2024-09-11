@@ -9,7 +9,7 @@
     <a href="javascript:fncGetUserList('${ pageInfo.currentPage-1}')">◀ 이전</a>
 </c:if>
 
-letEach let="i"  begin="${pageInfo.beginUnitPage}" end="${pageInfo.endUnitPage}" step="1">
+<c:forEach begin="${pageInfo.beginUnitPage}" end="${pageInfo.endUnitPage}" step="1">
     <a href="javascript:fncGetUserList('${ i }');">${ i }</a>
 </c:forEach>
 
