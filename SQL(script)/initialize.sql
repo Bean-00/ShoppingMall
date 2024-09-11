@@ -544,8 +544,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS "rowNum",
        tran_status_code,
        prod_no,
        order_date
-FROM TRANSACTION
-;
+FROM TRANSACTION;
 
 SELECT row_num AS "rowNum",
        buyer_id,
@@ -571,13 +570,14 @@ WHERE row_num Between 1 AND 4
 ORDER BY row_num;
 
 SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS row_num,
-    buyer_id,
-    receiver_name,
-    receiver_phone,
-    tran_status_code,
-    prod_no,
-    order_date
+       buyer_id,
+       receiver_name,
+       receiver_phone,
+       tran_status_code,
+       prod_no,
+       order_date
 from transaction
 where buyer_id = 'user01';
 
-select * from product;
+select *
+from users;

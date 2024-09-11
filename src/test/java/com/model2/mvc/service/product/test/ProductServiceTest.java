@@ -16,9 +16,14 @@ import java.sql.Date;
 
 import static org.junit.Assert.assertEquals;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:config/commonservice.xml"})
+
+//==> Meta-Data 를 다양하게 Wiring 하자...
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+        "classpath:config/context-aspect.xml",
+        "classpath:config/context-mybatis.xml",
+        "classpath:config/context-transaction.xml" })
 public class ProductServiceTest {
 
     //==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
