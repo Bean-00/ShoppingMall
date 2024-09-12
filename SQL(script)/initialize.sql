@@ -581,3 +581,7 @@ where buyer_id = 'user01';
 
 select *
 from users;
+
+select * from transaction;
+
+select * from product where prod_no = 10002 OR prod_no = 10003, OR

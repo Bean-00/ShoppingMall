@@ -1,8 +1,10 @@
 package com.model2.mvc.web.purchase;
 
+import com.model2.mvc.common.PageMaker;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.PurchaseBuyer;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -80,6 +83,12 @@ public class PurchaseController {
 
         int totalCount = purchaseService.getAllPurchaseCount(buyerId);
 
+        List<PurchaseBuyer> purchaseBuyerList = purchaseService.getPurchaseList(search);
+
+        model.addAttribute("pageInfo", new PageMaker(currentPage, totalCount, pageNumSize, displayCount));
+        model.addAttribute("list", purchaseBuyerList);
+
+        return new ModelAndView("redirect:/purchase/listPurchase.jsp");
 
     }
 
