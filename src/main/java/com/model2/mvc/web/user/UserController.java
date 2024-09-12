@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
+@RequestMapping("/user/*")
 public class UserController {
 
     @Autowired
@@ -32,25 +33,25 @@ public class UserController {
     //@Value("#{commonProperties['pageSize'] ?: 2}")
     int pageNumSize;
 
-    @RequestMapping("/addUserView.do")
+    @RequestMapping("/addUserView")
     public String addUserView() {
-        System.out.println("/addUserView.do");
+        System.out.println("/addUserView");
 
         return "redirect:/user/addUserView.jsp";
     }
 
-    @RequestMapping("/addUser.do")
+    @RequestMapping("/addUser")
     public String addUser(@ModelAttribute("user") User user) throws Exception {
-        System.out.println("/addUser.do");
+        System.out.println("/addUser");
 
         userService.addUser(user);
 
         return "redirect:/user/loginView.jsp";
     }
 
-    @RequestMapping("/getUser.do")
+    @RequestMapping("/getUser")
     public String getUser(@RequestParam("userId") String userId, Model model) throws Exception {
-        System.out.println("/getUser.do");
+        System.out.println("/getUser");
 
         User user = userService.getUserByUserId(userId);
 
@@ -59,9 +60,9 @@ public class UserController {
         return "forward:/user/getUser.jsp";
     }
 
-    @RequestMapping("/updateUserView.do")
+    @RequestMapping("/updateUserView")
     public String userUpdateView(@RequestParam("userId") String userId, Model model) throws Exception {
-        System.out.println("/updateUserView.do");
+        System.out.println("/updateUserView");
 
         User user = userService.getUserByUserId(userId);
 
@@ -70,9 +71,9 @@ public class UserController {
         return "foward:/user/updateUser.jsp";
     }
 
-    @RequestMapping("updateUser.do")
+    @RequestMapping("updateUser")
     public String updateUser(@ModelAttribute("user") User user, HttpSession session) throws Exception {
-        System.out.println("/updateUser.do");
+        System.out.println("/updateUser");
 
         userService.updateUser(user);
 
@@ -84,16 +85,16 @@ public class UserController {
         return "redirect:/getUser.do?userId=" + user.getUserId();
     }
 
-    @RequestMapping("/loginView.do")
+    @RequestMapping("/loginView")
     public String loginView() {
-        System.out.println("/loginView.do");
+        System.out.println("/loginView");
 
         return "forward:/user/loginView.jsp";
     }
 
-    @RequestMapping("/login.do")
+    @RequestMapping("/login")
     public String login(@ModelAttribute("user") User user, HttpSession session) throws Exception {
-        System.out.println("/login.do");
+        System.out.println("/login");
 
         User loginUser = userService.loginUser(user);
 
@@ -104,16 +105,16 @@ public class UserController {
         return "redirect:index.jsp";
     }
 
-    @RequestMapping("/logout.do")
+    @RequestMapping("/logout")
     public String logout(HttpSession session) {
-        System.out.println("/logout.do");
+        System.out.println("/logout");
 
         session.invalidate();
 
         return "redirect:/index.jsp";
     }
 
-    @RequestMapping("/checkDuplication.do")
+    @RequestMapping("/checkDuplication")
     public String checkDuplication(@RequestParam("userId") String userId, Model model) throws Exception {
         boolean result = userService.checkDuplication(userId);
 
@@ -123,9 +124,9 @@ public class UserController {
         return "forward:/user/checkDuplication.jsp";
     }
 
-    @RequestMapping("/listUser.do")
+    @RequestMapping("/listUser")
     public String listUser(@ModelAttribute("search") Search search, Model model) throws Exception {
-        System.out.println("/listUser.do");
+        System.out.println("/listUser");
 
         int currentPage = search.getCurrentPage();
         currentPage = Objects.nonNull(currentPage) && currentPage > 0? search.getCurrentPage() : 1;

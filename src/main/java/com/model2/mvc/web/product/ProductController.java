@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 @Controller
+@RequestMapping("/product/*")
 public class ProductController {
     @Autowired
     @Qualifier("productServiceImpl")
@@ -36,23 +37,23 @@ public class ProductController {
     //@Value("#{commonProperties['pageSize'] ?: 2}")
     int pageNumSize;
 
-    @RequestMapping("/addProductView.do")
+    @RequestMapping("/addProductView")
     public String addProductView() {
-        System.out.println("/addProductView.do");
+        System.out.println("/addProductView");
 
         return "redirect:product/addProductView.jsp";
     }
 
-    @RequestMapping("/addProduct.do")
+    @RequestMapping("/addProduct")
     public String addProduct(@ModelAttribute("product") Product product) {
-        System.out.println("/addProduct.do");
+        System.out.println("/addProduct");
 
         productService.addProduct(product);
 
         return "redirect:/listProduct.do?menu=manage";
     }
 
-    @RequestMapping("getProduct.do")
+    @RequestMapping("getProduct")
     public String getProduct(@ModelAttribute("prodNo") String prodNo,  Model model, HttpServletRequest request, HttpServletResponse response) {
 
         String cookieValue = SessionUtil.getCookieValue(request.getCookies(), SessionUtil.HISTORY_NAME)
@@ -78,7 +79,7 @@ public class ProductController {
         return "forward:/product/getProduct.jsp";
     }
 
-    @RequestMapping("/listProduct.do")
+    @RequestMapping("/listProduct")
     public String listProduct(@ModelAttribute("search") Search search,Model model, HttpServletRequest request) {
         int currentPage = search.getCurrentPage();
         currentPage = Objects.nonNull(currentPage) && currentPage > 0? search.getCurrentPage() : 1;
