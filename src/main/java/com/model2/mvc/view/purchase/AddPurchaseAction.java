@@ -17,7 +17,6 @@ public class AddPurchaseAction extends Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
         ProductService productService = getBean("productServiceImpl", ProductService.class);
         PurchaseService purchaseService = getBean("purchaseServiceImpl", PurchaseService.class);
 
