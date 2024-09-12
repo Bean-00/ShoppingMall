@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
@@ -126,7 +124,7 @@ public class UserController {
     }
 
     @RequestMapping("/listUser.do")
-    public String listUser(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception {
+    public String listUser(@ModelAttribute("search") Search search, Model model) throws Exception {
         System.out.println("/listUser.do");
 
         int currentPage = search.getCurrentPage();

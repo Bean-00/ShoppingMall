@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @RequestMapping("getProduct.do")
-    public String getProduct(@ModelAttribute("prodNo") String prodNo, @ModelAttribute("user") User user, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public String getProduct(@ModelAttribute("prodNo") String prodNo,  Model model, HttpServletRequest request, HttpServletResponse response) {
 
         String cookieValue = SessionUtil.getCookieValue(request.getCookies(), SessionUtil.HISTORY_NAME)
                 .map(str -> {
@@ -70,6 +70,8 @@ public class ProductController {
 
         response.addCookie(cookie);
 
+        User user = (User) request.getSession().getAttribute("user");
+
         model.addAttribute("product", product);
         model.addAttribute("user", user);
 
@@ -77,12 +79,14 @@ public class ProductController {
     }
 
     @RequestMapping("/listProduct.do")
-    public String listProduct(@ModelAttribute("search") Search search, @ModelAttribute("user") User user, Model model, HttpServletRequest request) {
+    public String listProduct(@ModelAttribute("search") Search search,Model model, HttpServletRequest request) {
         int currentPage = search.getCurrentPage();
         currentPage = Objects.nonNull(currentPage) && currentPage > 0? search.getCurrentPage() : 1;
 
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
+
+        User user = (User) request.getSession().getAttribute("user");
 
         List<ProductStatus> productStatusList = productService.getProductWithStatusList(search);
         int totalCount = productService.getAllProductCount(search);
