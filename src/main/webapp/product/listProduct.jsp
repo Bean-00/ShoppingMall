@@ -111,15 +111,13 @@
                     </td>
                     <td></td>
                     <td align="left">
-                        <c:if test="${! empty user.role}">
-                            <c:if test="${user.role == 'admin'}">
-                                <a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
+                        <c:if test="${user.role == 'admin' || (user.role == 'user' && product.status.code == '0')}">
+                        <a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">
                             </c:if>
-                            <c:if test="${user.role == 'user'}">
-                                <a href="/getProduct.do?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
-                            </c:if>
+                                ${product.productName}
+                            <c:if test="${user.role == 'admin' || (user.role == 'user' && product.status.code == '0')}">
+                        </a>
                         </c:if>
-                        <c:if test="${empty user}">${product.productName}</c:if>
                     </td>
                     <td></td>
                     <td align="left">${product.price}
