@@ -14,10 +14,10 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:config/context-aspect.xml,
-            classpath:config/context-common.xml,
-            classpath:config/context-mybatis.xml,
-            classpath:config/context-transaction.xml
+            classpath:/com/model2/mvc/resources/config/context-aspect.xml,
+            classpath:/com/model2/mvc/resources/config/context-common.xml,
+            classpath:/com/model2/mvc/resources/config/context-mybatis.xml,
+            classpath:/com/model2/mvc/resources/config/context-transaction.xml
         </param-value>
     </context-param>
 
@@ -41,8 +41,7 @@
 
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/config/springMVC/common-servlet.xml</param-value>
-            <!-- Servlet Meta-data / Spring Meta-data 占쎌맄燁삼옙 �겫袁ⓥ봺占쎈맙 -->
+            <param-value>classpath:/com/model2/mvc/resources/config/common-servlet.xml</param-value>
         </init-param>
 
         <load-on-startup>1</load-on-startup>

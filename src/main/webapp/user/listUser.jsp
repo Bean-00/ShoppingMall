@@ -2,12 +2,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
-<%@ page import="com.model2.mvc.service.domain.User" %>
-<%
-	User user = (User)request.getAttribute("user");
-%>	/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
-
 <html>
 <head>
     <title>회원 목록조회</title>
@@ -26,7 +20,7 @@
 
 <div style="width:98%; margin-left:10px;">
 
-    <form name="detailForm" action="/listUser.do" method="post">
+    <form name="detailForm" action="/user/listUser" method="post">
 
         <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
             <tr>
@@ -112,7 +106,7 @@
                 <tr class="ct_list_pop">
                     <td align="center">${user.rowNum}</td>
                     <td></td>
-                    <td align="left"><a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
+                    <td align="left"><a href="/user/getUser?userId=${user.userId}">${user.userId}</a></td>
                     <td></td>
                     <td align="left">${user.userName}</td>
                     <td></td>

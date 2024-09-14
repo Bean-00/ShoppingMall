@@ -1,6 +1,3 @@
-<%@page import="java.util.Objects"%>
-<%@page import="com.model2.mvc.service.domain.User"%>
-<%@page import="com.model2.mvc.service.user.dao.UserDao"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 
 
@@ -18,7 +15,7 @@
 </script>
 
 <body bgcolor="#ffffff" text="#000000">
-	<form id="loginForm" name="loginForm" method="post" action="/login.do"
+	<form id="loginForm" name="loginForm" method="post" action="/user/login"
 		target="_parent">
  
 		<div align="center">

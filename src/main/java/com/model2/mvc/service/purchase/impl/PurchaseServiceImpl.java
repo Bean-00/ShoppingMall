@@ -29,6 +29,11 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
+    public int checkPurchaseLog(String prodNo) {
+        return purchaseDao.checkPurchaseLog(prodNo);
+    }
+
+    @Override
     public void deletePurchase(int tranNo) {
         purchaseDao.deletePurchase(tranNo);
     }

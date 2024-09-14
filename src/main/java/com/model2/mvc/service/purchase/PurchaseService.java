@@ -12,6 +12,8 @@ public interface PurchaseService {
 
     int getAllPurchaseCount(String buyerId);
 
+    int checkPurchaseLog(String prodNo);
+
     void deletePurchase(int tranNo);
 
     void addPurchase(Purchase purchase);

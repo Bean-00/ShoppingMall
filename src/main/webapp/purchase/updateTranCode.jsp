@@ -19,7 +19,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listUser.do" method="post">
+<form name="detailForm" action="/user/listUser" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -60,11 +60,11 @@
 	
 	<tr class="ct_list_pop">
 		<td align="center">
-			<a href="/getPurchase.do?tranNo=10009">1</a>
+			<a href="/purchase/getPurchase?tranNo=10009">1</a>
 		</td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=user06">user06</a>
+			<a href="/user/getUser?userId=user06">user06</a>
 		</td>
 		<td></td>
 		<td align="left">SCOTT</td>
@@ -90,7 +90,7 @@
 	<tr>
 		<td align="center">
 		 
-			<a href="/listPurchase.do?page=1">1</a> 
+			<a href="/purchase/listPurchase?page=1">1</a>
 		
 		</td>
 	</tr>

@@ -44,7 +44,7 @@ function history(){
 		%>
 		<tr>
 		<td class="Depth03">
-			<a href="/getUser.do?userId=<%=vo.getUserId() %>" target="rightFrame">개인정보조회</a>
+			<a href="/user/getUser?userId=<%=vo.getUserId() %>" target="rightFrame">개인정보조회</a>
 		</td>
 		</tr>
 		<%
@@ -55,7 +55,7 @@ function history(){
 		%>
 		<tr>
 		<td class="Depth03" >
-			<a href="/listUser.do" target="rightFrame">회원정보조회</a>
+			<a href="/user/listUser" target="rightFrame">회원정보조회</a>
 		</td>
 		</tr>
 		<%
@@ -82,7 +82,7 @@ function history(){
 		</tr>
 		<tr>
 			<td class="Depth03">
-					<a href="/listProduct.do?menu=manage" target="rightFrame">판매상품관리</a>
+					<a href="/product/listProduct?menu=manage" target="rightFrame">판매상품관리</a>
 			</td>
 		</tr>
 		<tr>
@@ -101,7 +101,7 @@ function history(){
 	<table  border="0" cellspacing="0" cellpadding="0" width="159">
 		<tr>
 			<td class="Depth03">
-				<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색</a>
+				<a href="/product/listProduct?menu=search" target="rightFrame">상 품 검 색</a>
 			</td>
 		</tr>
 		<%
@@ -110,7 +110,7 @@ function history(){
 		%>
 		<tr>
 			<td class="Depth03">
-				<a href="/listPurchase.do?buyerId=<%=vo.getUserId() %>" target="rightFrame">구매이력조회</a>
+				<a href="/purchase/listPurchase?buyerId=<%=vo.getUserId() %>" target="rightFrame">구매이력조회</a>
 			</td>
 		</tr>
 		<%

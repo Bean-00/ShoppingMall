@@ -582,6 +582,49 @@ where buyer_id = 'user01';
 select *
 from users;
 
-select * from transaction;
+select *
+from transaction;
 
-select * from product where prod_no = 10002 OR prod_no = 10003, OR
+select count(prod_no)
+from product;
+
+SELECT PT.row_num    AS "rowNum",
+       PT.prod_no    AS "prodNo",
+       PT.prod_name  AS "productName",
+       PT.price      AS "price",
+       PT.reg_date   AS "regDate",
+       PT.trans_code AS "status"
+FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS row_num,
+             p.prod_no,
+             p.prod_name,
+             p.price,
+             p.reg_date,
+             NVL(t.tran_status_code, 0)            AS trans_code
+      FROM product p
+               left outer join transaction t on p.PROD_NO = t.prod_no
+
+
+      WHERE p.prod_no LIKE '%${searchKeyword}%') PT
+WHERE row_num BETWEEN 1 AND 3
+ORDER BY row_num;
+
+select *
+from transaction
+where prod_no = 10001;
+
+commit;
+
+
+delete
+FROM TRANSACTION
+WHERE prod_no IN (select prod_no
+                  from transaction
+                  group by prod_no
+                  having count(prod_no) != 1);
+
+SELECT
+    count(prod_no)
+FROM transaction
+WHERE prod_no = 10010;
+
+select * from transaction where prod_no = 10001;

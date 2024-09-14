@@ -68,7 +68,7 @@ public class UserController {
 
         model.addAttribute("user", user);
 
-        return "foward:/user/updateUser.jsp";
+        return "forward:/user/updateUser.jsp";
     }
 
     @RequestMapping("updateUser")
@@ -82,7 +82,7 @@ public class UserController {
             session.setAttribute("user", user);
         }
 
-        return "redirect:/getUser.do?userId=" + user.getUserId();
+        return "redirect:/getUser?userId=" + user.getUserId();
     }
 
     @RequestMapping("/loginView")
@@ -102,7 +102,7 @@ public class UserController {
             return "forward:/user/fail-loginView.jsp";
         }
         session.setAttribute("user", loginUser);
-        return "redirect:index.jsp";
+        return "redirect:/index.jsp";
     }
 
     @RequestMapping("/logout")
@@ -128,8 +128,6 @@ public class UserController {
     public String listUser(@ModelAttribute("search") Search search, Model model) throws Exception {
         System.out.println("/listUser");
 
-        int currentPage = search.getCurrentPage();
-        currentPage = Objects.nonNull(currentPage) && currentPage > 0? search.getCurrentPage() : 1;
 
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
@@ -137,7 +135,7 @@ public class UserController {
         List<User> userList = userService.getUserList(search);
         int totalCount = userService.getTotalUserCount(search);
 
-        PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
+        PageMaker pageInfo = new PageMaker(search.getCurrentPage(), totalCount, search.getPageNumSize(), search.getDisplayCount());
 
         model.addAttribute("userList", userList);
         model.addAttribute("pageInfo", pageInfo);

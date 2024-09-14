@@ -22,7 +22,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-    <form name="detailForm" action="/listProduct.do?menu=manage"
+    <form name="detailForm" action="/product/listProduct?menu=manage"
           method="post">
 
         <table width="100%" height="37" border="0" cellpadding="0"
@@ -109,12 +109,14 @@
                     </td>
                     <td></td>
                     <td align="left">
-                        <c:if test="${user.role == 'admin' || (user.role == 'user' && product.status.code == '0')}">
-                        <a href="/updateProductView.do?prodNo=${product.prodNo}&menu=manage">
-                            </c:if>
-                                ${product.productName}
-                            <c:if test="${user.role == 'admin' || (user.role == 'user' && product.status.code == '0')}">
-                        </a>
+                        <c:if test="${user.role == 'admin'}">
+                            <a href="/product/updateProductView?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
+                        </c:if>
+                        <c:if test="${user.role == 'user'}">
+                            <a href="/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
+                        </c:if>
+                        <c:if test="${user.role == null}">
+                            ${product.productName}
                         </c:if>
                     </td>
                     <td></td>
@@ -140,7 +142,7 @@
                             <c:when test="${product.status.code == '1'}">
                                 <td align="left">
                                         ${product.status.text}
-                                    <a href="/updateTranCode.do?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
+                                    <a href="/purchase/updateTranCode?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">
                                         배송하기
                                     </a>
                                 </td>

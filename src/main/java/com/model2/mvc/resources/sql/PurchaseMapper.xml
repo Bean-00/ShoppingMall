@@ -65,6 +65,13 @@
         ORDER BY row_num
     </select>
 
+    <select id="checkPurchaseLog" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+            count(prod_no)
+        FROM transaction
+        WHERE prod_no = #{prodNo}
+    </select>
+
     <select id="getPurchaseTotalCount" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT count(tran_no) AS "totalCount"
         FROM transaction

@@ -29,6 +29,11 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
+    public int checkPurchaseLog(String prodNo) {
+        return sqlSession.selectOne("PurchaseMapper.checkPurchaseLog", prodNo);
+    }
+
+    @Override
     public int getPurchaseTotalCount(String buyerId) {
         return sqlSession.selectOne("PurchaseMapper.getPurchaseTotalCount", buyerId);
     }

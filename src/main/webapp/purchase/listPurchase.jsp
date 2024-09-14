@@ -20,7 +20,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-    <form name="detailForm" action="/listPurchase.do?buyerId=${user.userId}" method="post">
+    <form name="detailForm" action="/listPurchase?buyerId=${user.userId}" method="post">
 
         <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
             <tr>
@@ -65,7 +65,7 @@
                 </td>
                 <td></td>
                 <td align="left">
-                    <a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}
+                    <a href="/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}
                     </a>
                 </td>
                 <td></td>
@@ -82,7 +82,7 @@
                 <td></td>
                 <td align="left">
                     <c:if test="${purchase.status == '2'}">
-                        <a href="/updateTranCode.do?prodNo=${purchase.purchaseProd.prodNo}&role=Buyer&buyerId=${purchase.buyer.userId}&page=${pageInfo.currentPage}">
+                        <a href="/updateTranCode?prodNo=${purchase.purchaseProd.prodNo}&role=Buyer&buyerId=${purchase.buyer.userId}&page=${pageInfo.currentPage}">
                             물건도착
                         </a>
                     </c:if>

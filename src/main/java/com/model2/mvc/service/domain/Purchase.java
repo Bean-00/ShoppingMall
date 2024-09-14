@@ -36,7 +36,7 @@ public class Purchase {
     }
 
     public void setDlvyAddr(String dlvyAddr) {
-        this.dlvyAddr = this.dlvyAddr;
+        this.dlvyAddr = dlvyAddr;
     }
 
     public Date getDlvyDate() {

@@ -60,10 +60,15 @@ public class PurchaseController {
     public ModelAndView addPurchase(@ModelAttribute Purchase purchase, @ModelAttribute("prodNo") String prodNo, HttpServletRequest request, Model model) {
         System.out.println("/addPurchase");
 
-        purchase.setDlvyDate(Date.valueOf(request.getParameter("receiverDate")));
+        if (purchaseService.checkPurchaseLog(prodNo) != 0)
+            return new ModelAndView("redirect:/product/listProduct");
+
+        User user = (User) request.getSession().getAttribute("user");
+        purchase.setDlvyDate(Date.valueOf(request.getParameter("dlvyDate")));
         purchase.setOrderDate(Date.valueOf(LocalDate.now()));
         purchase.setPurchaseProd(productService.getProductByProdNo(Integer.parseInt(prodNo)));
         purchase.setStatus(PurchaseStatus.PURCHASED.getCode());
+        purchase.setBuyer(user);
 
         purchaseService.addPurchase(purchase);
 
@@ -72,12 +77,10 @@ public class PurchaseController {
         return new ModelAndView("forward:/purchase/addPurchase.jsp");
     }
 
-    @RequestMapping
+    @RequestMapping("/listPurchase")
     public ModelAndView listPurchase(@ModelAttribute("search") Search search, @ModelAttribute("buyerId") String buyerId, Model model) {
         System.out.println("/listPurchase");
 
-        int currentPage = search.getCurrentPage();
-        currentPage = Objects.nonNull(currentPage) && currentPage > 0? search.getCurrentPage() : 1;
 
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
@@ -86,11 +89,32 @@ public class PurchaseController {
 
         List<PurchaseBuyer> purchaseBuyerList = purchaseService.getPurchaseList(search);
 
-        model.addAttribute("pageInfo", new PageMaker(currentPage, totalCount, pageNumSize, displayCount));
+        model.addAttribute("pageInfo", new PageMaker(search.getCurrentPage(), totalCount, search.getPageNumSize(), search.getDisplayCount()));
         model.addAttribute("list", purchaseBuyerList);
 
-        return new ModelAndView("redirect:/purchase/listPurchase.jsp");
+        return new ModelAndView("forward:/purchase/listPurchase.jsp");
 
+    }
+
+    @RequestMapping("/updateTranCode")
+    public ModelAndView updateTranCode(@ModelAttribute("prodNo") String prodNo, @ModelAttribute("page") String pageNum,
+                                            @ModelAttribute("role") String role, HttpServletRequest request) {
+        System.out.println("/updateTranCode");
+
+        int page = Integer.parseInt(pageNum);
+
+        purchaseService.updateTransCode(Integer.parseInt(prodNo));
+        if (Objects.isNull(role)) {
+            return new ModelAndView("redirect:/purchase/listProduct?menu=manage&page=" + page);
+        }
+        if (role.equals("Buyer")){
+            StringBuilder path = new StringBuilder("redirect:/purchase/listPurchase?buyerId=");
+            path.append(request.getParameter("buyerId"));
+            path.append("&page=");
+            path.append(page);
+            return new ModelAndView(path.toString());
+        }
+        return new ModelAndView("redirect:/purchase/listProduct?menu=manage&page=" + page);
     }
 
 

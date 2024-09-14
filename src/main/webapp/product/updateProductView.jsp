@@ -11,7 +11,6 @@
     </script>
 
     <script type="text/javascript">
-        <!--
         function fncAddProduct() {
             //Form 유효성 검증
             let name = document.detailForm.prodName.value;
@@ -36,11 +35,10 @@
                 return;
             }
 
-            document.detailForm.action = '/updateProduct.do?ProdNo=${product.prodNo}';
+            document.detailForm.action = '/product/updateProduct?ProdNo=${product.prodNo}';
             document.detailForm.submit();
         }
 
-        -->
     </script>
 </head>
 

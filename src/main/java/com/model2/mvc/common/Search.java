@@ -1,6 +1,8 @@
 package com.model2.mvc.common;
 
 
+import java.util.Objects;
+
 public class Search {
 	
 	private int currentPage;
@@ -21,7 +23,7 @@ public class Search {
 	}
 	
 	public int getCurrentPage() {
-		return currentPage;
+		return  Objects.nonNull(currentPage) && currentPage > 0 ? currentPage : 1;
 	}
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;

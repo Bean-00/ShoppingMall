@@ -31,7 +31,7 @@
                 document.detailForm.phone.value = "";
             }
 
-            document.detailForm.action='/updateUser.do';
+            document.detailForm.action = '/user/updateUser';
             document.detailForm.submit();
         }
 

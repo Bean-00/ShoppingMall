@@ -12,6 +12,8 @@ public interface PurchaseDao {
 
     List<PurchaseBuyer> getPurchaseList(Search search);
 
+    int checkPurchaseLog(String prodNo);
+
     int getPurchaseTotalCount(String buyerId);
 
     void updateTransCode(int prodNo);

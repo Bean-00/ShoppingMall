@@ -41,7 +41,7 @@ public class ProductController {
     public String addProductView() {
         System.out.println("/addProductView");
 
-        return "redirect:product/addProductView.jsp";
+        return "redirect:/product/addProductView.jsp";
     }
 
     @RequestMapping("/addProduct")
@@ -50,10 +50,10 @@ public class ProductController {
 
         productService.addProduct(product);
 
-        return "redirect:/listProduct.do?menu=manage";
+        return "redirect:/product/listProduct?menu=manage";
     }
 
-    @RequestMapping("getProduct")
+    @RequestMapping("/getProduct")
     public String getProduct(@ModelAttribute("prodNo") String prodNo,  Model model, HttpServletRequest request, HttpServletResponse response) {
 
         String cookieValue = SessionUtil.getCookieValue(request.getCookies(), SessionUtil.HISTORY_NAME)
@@ -81,9 +81,6 @@ public class ProductController {
 
     @RequestMapping("/listProduct")
     public String listProduct(@ModelAttribute("search") Search search,Model model, HttpServletRequest request) {
-        int currentPage = search.getCurrentPage();
-        currentPage = Objects.nonNull(currentPage) && currentPage > 0? search.getCurrentPage() : 1;
-
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
 
@@ -92,7 +89,7 @@ public class ProductController {
         List<ProductStatus> productStatusList = productService.getProductWithStatusList(search);
         int totalCount = productService.getAllProductCount(search);
 
-        PageMaker pageInfo = new PageMaker(currentPage, totalCount, search.getPageNumSize(), search.getDisplayCount());
+        PageMaker pageInfo = new PageMaker(search.getCurrentPage(), totalCount, search.getPageNumSize(), search.getDisplayCount());
 
         model.addAttribute("list", productStatusList);
         model.addAttribute("pageInfo", pageInfo);
