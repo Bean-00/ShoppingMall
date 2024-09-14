@@ -87,10 +87,10 @@ public class PurchaseController {
 
         int totalCount = purchaseService.getAllPurchaseCount(buyerId);
 
-        List<PurchaseBuyer> purchaseBuyerList = purchaseService.getPurchaseList(search);
+        List<Purchase> purchaseList = purchaseService.getPurchaseList(search);
 
         model.addAttribute("pageInfo", new PageMaker(search.getCurrentPage(), totalCount, search.getPageNumSize(), search.getDisplayCount()));
-        model.addAttribute("list", purchaseBuyerList);
+        model.addAttribute("list", purchaseList);
 
         return new ModelAndView("forward:/purchase/listPurchase.jsp");
 
@@ -105,7 +105,7 @@ public class PurchaseController {
 
         purchaseService.updateTransCode(Integer.parseInt(prodNo));
         if (Objects.isNull(role)) {
-            return new ModelAndView("redirect:/purchase/listProduct?menu=manage&page=" + page);
+            return new ModelAndView("redirect:/product/listProduct?menu=manage&page=" + page);
         }
         if (role.equals("Buyer")){
             StringBuilder path = new StringBuilder("redirect:/purchase/listPurchase?buyerId=");
@@ -114,7 +114,7 @@ public class PurchaseController {
             path.append(page);
             return new ModelAndView(path.toString());
         }
-        return new ModelAndView("redirect:/purchase/listProduct?menu=manage&page=" + page);
+        return new ModelAndView("redirect:/product/listProduct?menu=manage&page=" + page);
     }
 
 

@@ -19,7 +19,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     private PurchaseDao purchaseDao;
 
     @Override
-    public List<PurchaseBuyer> getPurchaseList(Search search) {
+    public List<Purchase> getPurchaseList(Search search) {
         return purchaseDao.getPurchaseList(search);
     }
 

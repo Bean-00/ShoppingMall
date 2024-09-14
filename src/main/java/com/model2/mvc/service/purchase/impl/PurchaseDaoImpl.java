@@ -24,7 +24,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public List<PurchaseBuyer> getPurchaseList(Search search) {
+    public List<Purchase> getPurchaseList(Search search) {
         return sqlSession.selectList("PurchaseMapper.getPurchaseList", search);
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PurchaseService {
 
-    List<PurchaseBuyer> getPurchaseList(Search search);
+    List<Purchase> getPurchaseList(Search search);
 
     int getAllPurchaseCount(String buyerId);
 
