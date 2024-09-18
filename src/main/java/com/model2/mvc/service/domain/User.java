@@ -1,6 +1,7 @@
 package com.model2.mvc.service.domain;
 
 import java.sql.Date;
+import java.util.Objects;
 
 
 public class User {
@@ -84,15 +85,21 @@ public class User {
 		this.regDate = regDate;
 	}
 	public String getPhone1() {
+		if (Objects.isNull(this.phone))
+			return "";
 		this.phone1 = this.phone.split("-")[0];
 		return phone1;
 
 	}
 	public String getPhone2() {
+		if (Objects.isNull(this.phone))
+			return "";
 		this.phone2 = this.phone.split("-")[1];
 		return phone2;
 	}
 	public String getPhone3() {
+		if (Objects.isNull(this.phone))
+			return "";
 		this.phone3 = this.phone.split("-")[2];
 		return phone3;
 	}

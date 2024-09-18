@@ -628,3 +628,7 @@ FROM transaction
 WHERE prod_no = 10010;
 
 select * from transaction where prod_no = 10001;
+
+select * from product;
+
+select * from users where user_id = 'user09'

@@ -16,7 +16,6 @@
 
 
         function fncUpdateUser() {
-            console.log("######## ", document.detailForm)
             // Form 유효성 검증
             const name = document.detailForm.userName.value;
 
@@ -35,8 +34,8 @@
             document.detailForm.submit();
         }
 
-        function check_email(frm) {
-            let email=document.detailForm.email.value;
+        function check_email(form) {
+            let email = document.detailForm.email.value;
             if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
                 alert("이메일 형식이 아닙니다.");
                 return false;
@@ -133,11 +132,7 @@
             <td class="ct_write01">
                 <select name="phone1" class="ct_input_g" style="width:50px"
                         onChange="document.detailForm.phone2.focus();">
-                    <%--                    <option value="010">010</option>--%>
-                    <%--                    <option value="011">011</option>--%>
-                    <%--                    <option value="016">016</option>--%>
-                    <%--                    <option value="018">018</option>--%>
-                    <%--                    <option value="019">019</option>--%>
+
                     <option value="010" ${ ! empty user.phone1 && user.phone1 == "010" ? "selected" : ""  } >010
                     </option>
                     <option value="011" ${ ! empty user.phone1 && user.phone1 == "011" ? "selected" : ""  } >011
@@ -149,18 +144,7 @@
                     <option value="019" ${ ! empty user.phone1 && user.phone1 == "019" ? "selected" : ""  } >019
                     </option>
                 </select>
-                <%--                <input type="text" name="phone2"--%>
-                <%--                    <%if (vo.getPhone() != null) {%>--%>
-                <%--                       value="<%=vo.getPhone().split("-")[1] %>"--%>
-                <%--                    <%} %>--%>
-                <%--                       class="ct_input_g" style="width:100px; height:19px" maxLength="9">--%>
-                <%--                ---%>
-                <%--                <input type="text" name="phone3"--%>
-                <%--                    <%if (vo.getPhone() != null) {%>--%>
-                <%--                       value="<%=vo.getPhone().split("-")[2] %>"--%>
-                <%--                    <%} %>--%>
-                <%--                       class="ct_input_g" style="width:100px; height:19px" maxLength="9">--%>
-                <%--                <input type="hidden" name="phone" class="ct_input_g">--%>
+
                 <input type="text" name="phone2" value="${ ! empty user.phone2 ? user.phone2 : ''}"
                        class="ct_input_g" style="width:100px; height:19px" maxLength="9">
                 -
@@ -180,8 +164,7 @@
                 <table border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td height="26">
-                            <%--                            <input type="text" name="email" value="<%=vo.getEmail() %>" class="ct_input_g"--%>
-                            <%--                                   style="width:100px; height:19px" onChange="check_email(this.form);">--%>
+
                             <input type="text" name="email" value="${user.email}" class="ct_input_g"
                                    style="width:100px; height:19px" onChange="check_email(this.form);">
                         </td>

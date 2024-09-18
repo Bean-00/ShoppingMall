@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
 <%@ page import="com.model2.mvc.service.domain.User" %>
@@ -44,15 +44,8 @@
             아이디 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
         </td>
         <td bgcolor="D6D6D6" width="1"></td>
-        <td class="ct_write01">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <%--  <td class="ct_write01"><%=user.getUserId() %></td> --%>
-                    <td class="ct_write01">${user.userId}</td>
-                    <td></td>
-                </tr>
-            </table>
-        </td>
+        <td class="ct_write01">${user.userId}</td>
+        <td></td>
     </tr>
     <tr>
         <td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -65,7 +58,6 @@
         <td bgcolor="D6D6D6" width="1"></td>
         <%--<td class="ct_write01"><%=user.getUserName() %></td> --%>
         <td class="ct_write01">${user.userName}</td>
-        </td>
     </tr>
     <tr>
         <td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -84,7 +76,7 @@
         <td width="104" class="ct_write">휴대전화번호</td>
         <td bgcolor="D6D6D6" width="1"></td>
         <%--<td class="ct_write01"><%=user.getPhone() %>	</td> --%>
-        <td class="ct_write01">${ !empty user.phone ? user.phone : ''}	</td>
+        <td class="ct_write01">${ !empty user.phone ? user.phone : ''} </td>
     </tr>
     <tr>
         <td height="1" colspan="3" bgcolor="D6D6D6"></td>
