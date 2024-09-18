@@ -24,9 +24,12 @@
     </delete>
 
     <insert id="insertProduct" parameterType="product">
+        <selectKey keyProperty="prodNo" resultType="int" order="BEFORE">
+            SELECT seq_product_prod_no.nextval FROM DUAL
+        </selectKey>
         INSERT
         INTO product(prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date)
-        VALUES (seq_product_prod_no.nextval,
+        VALUES (#{prodNo},
                 #{prodName:VARCHAR},
                 #{prodDetail:VARCHAR},
                 #{manuDate:VARCHAR},
@@ -50,7 +53,7 @@
             manufacture_day = #{manuDate},
             price = #{price},
             image_file = #{fileName},
-            reg_date = #{regDate}
+            reg_date = SYSDATE
         </set>
         WHERE prod_no = #{prodNo}
     </update>
