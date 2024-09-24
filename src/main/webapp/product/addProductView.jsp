@@ -9,33 +9,35 @@
     <script type="text/javascript" src="../javascript/calendar.js">
     </script>
 
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
         function fncAddProduct() {
             //Form 유효성 검증
-            let name = document.detailForm.prodName.value;
-            let detail = document.detailForm.prodDetail.value;
-            let manuDate = document.detailForm.manuDate.value;
-            let price = document.detailForm.price.value;
+            let $name = $("input[name='prodName']").val()
+            let $detail = $("input[name='prodDetail']").val()
+            let $manuDate = $("input[name='manuDate']").val()
+            let $price = $("input[name='price']").val()
 
-            if (name == null || name.length < 1) {
+            if (!$name) {
                 alert("상품명은 반드시 입력하여야 합니다.");
                 return;
             }
-            if (detail == null || detail.length < 1) {
+            if (!$detail) {
                 alert("상품상세정보는 반드시 입력하여야 합니다.");
                 return;
             }
-            if (manuDate == null || manuDate.length < 1) {
+            if (!$manuDate) {
                 alert("제조일자는 반드시 입력하셔야 합니다.");
                 return;
             }
-            if (price == null || price.length < 1) {
+            if (!$price) {
                 alert("가격은 반드시 입력하셔야 합니다.");
                 return;
             }
 
             document.detailForm.action = '/product/addProduct';
             document.detailForm.submit();
+            $("form").attr("method", "POST")
         }
 
         function resetData() {
@@ -47,7 +49,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post">
+<form name="detailForm">
 
     <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -76,7 +78,7 @@
             <td width="104" class="ct_write">
                 상품명
                 <img src
-                ="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
+                             ="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
             </td>
             <td bgcolor="D6D6D6" width="1"></td>
             <td class="ct_write01">
@@ -115,7 +117,7 @@
                 <input type="text" name="manuDate" readonly="readonly" class="ct_input_g"
                        style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
                 &nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15"
-                           onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>
+                           onclick="show_calendar('document.detailForm.manuDate', $('form[name=detailForm] input[name=manuDate]').val())"/>
             </td>
         </tr>
         <tr>
@@ -138,7 +140,7 @@
             <td width="104" class="ct_write">상품이미지</td>
             <td bgcolor="D6D6D6" width="1"></td>
             <td class="ct_write01">
-                <input type="input" name="fileName" class="ct_input_g"
+                <input type="file" name="fileName" class="ct_input_g"
                        style="width: 200px; height: 19px" maxLength="13"/>
             </td>
         </tr>

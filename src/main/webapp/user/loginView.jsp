@@ -143,7 +143,7 @@
 		// -> if(!$loginForm.userId) return -> $loginForm.userId?.value;
 
 		const $id = $("input:text").val();
-		console.log("$id: ", $id)
+
 		const $pw = $("input:password").val();
 		// if (id == null || id.length < 1) {
 		if (!$id) {
