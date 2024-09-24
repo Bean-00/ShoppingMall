@@ -7,10 +7,13 @@
     <title>회원 목록조회</title>
 
     <link rel="stylesheet" href="/css/admin.css" type="text/css">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
 
     <script type="text/javascript">
         function fncGetUserList(currentPage) {
-            document.getElementById("currentPage").value = currentPage;
+            // document.getElementById("currentPage").value = currentPage;
+            $("#currentPage").text(currentPage)
             document.detailForm.submit();
         }
     </script>
@@ -42,15 +45,10 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
             <tr>
-                <%--                <%--%>
-                <%--                    if (search.getSearchCondition() != null) {--%>
-                <%--                %>--%>
+
                 <td align="right">
                     <select name="searchCondition" class="ct_input_g" style="width:80px">
-                        <%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
-				<option value="0" <%= (searchCondition.equals("0") ? "selected" : "")%>>회원ID</option>
-				<option value="1" <%= (searchCondition.equals("1") ? "selected" : "")%>>회원명</option>
-				/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
+
                         <option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>
                             회원ID
                         </option>
@@ -58,7 +56,7 @@
                             회원명
                         </option>
                     </select>
-                    <%--<input type="text" name="searchKeyword" value="<%= searchKeyword %>"  class="ct_input_g" style="width:200px; height:14px" >--%>
+
                     <input type="text" name="searchKeyword"
                            value="${! empty search.searchKeyword ? search.searchKeyword : ""}"
                            class="ct_input_g" style="width:200px; height:20px">

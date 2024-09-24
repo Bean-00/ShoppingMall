@@ -7,17 +7,18 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 </head>
-
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 	//이 구문이 실행이 됨
-	console.log(">>>> DOM 렌더링 전", document.loginForm);
-	document.loginForm.userId.focus();
+	console.log(">>>> DOM 렌더링 전", document.loginForm)
+	const $userId = $("#userId")
+	$userId.focus()
 </script>
 
 <body bgcolor="#ffffff" text="#000000">
 	<form id="loginForm" name="loginForm" method="post" action="/user/login"
 		target="_parent">
- 
+
 		<div align="center">
 
 			<TABLE WITH="100%" HEIGHT="100%" BORDER="0" CELLPADDING="0"
@@ -117,16 +118,21 @@
 
 </body>
 </html>
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 	//선언만 하기 떄문에
 	function fncLogin() {
+		console.log("$$$$$$$$$$4")
 		//form name으로 window 객체의 document의 프로퍼티로 등록이 된다.
 		// const $loginForm = document.loginForm;
-		const $loginForm = document.getElementById('loginForm');
+		const $loginForm = document.loginForm
+
 		if (!$loginForm
 			|| !$loginForm.userId
-			|| !$loginForm.password) return;
+			|| !$loginForm.password) {
+			console.log("#########")
+			return;
+		}
 
 		// Java에서의 ! 연산 : not 연산 (true -> false, false -> true)
 		// JS 에서의 ! 연산 : (false, null, undefined, '', 0) -> true (값이 있는지 없는지 체크)
@@ -136,17 +142,18 @@
 		// -> if($loginForm.userId !== null && $loginForm.userId !== undefined) return;
 		// -> if(!$loginForm.userId) return -> $loginForm.userId?.value;
 
-		const id = $loginForm.userId.value;
-		const pw = $loginForm.password.value;
+		const $id = $("input:text").val();
+		console.log("$id: ", $id)
+		const $pw = $("input:password").val();
 		// if (id == null || id.length < 1) {
-		if (!id) {
+		if (!$id) {
 			// alert('ID 를 입력하지 않으셨습니다.');
 			// $loginForm.userId.focus();
 			// return;
 			return alertMsg($loginForm.userId, 'ID');
 		}
 		// if (pw == null || pw.length < 1) {
-		if (!pw && pw !== 0) {
+		if (!$pw && $pw !== 0) {
 			// alert('패스워드를 입력하지 않으셨습니다.');
 			// $loginForm.password.focus();
 			// return;
@@ -164,6 +171,6 @@
 <script type="text/javascript">
 	//이 구문이 실행이 됨
 	console.log(">>>> DOM 렌더링 후", document.loginForm);
-	document.loginForm.userId.focus();
+	$("userId").focus();
 </script>
 

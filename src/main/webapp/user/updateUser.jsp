@@ -1,38 +1,40 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<%@ page import="com.model2.mvc.service.domain.User" %>--%>
-
-<%--<%--%>
-<%--	User vo=(User)request.getAttribute("userVO");--%>
-<%--%>--%>
 
 <html>
 <head>
     <title>회원정보수정</title>
 
     <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
 
 
         function fncUpdateUser() {
             console.log("######## ", document.detailForm)
             // Form 유효성 검증
-            const name = document.detailForm.userName.value;
+            const $name = $("input[name = 'userName']").val();
 
-            if(name == null || name.length <1){
+            if(!$name){
                 alert("이름은  반드시 입력하셔야 합니다.");
                 return;
             }
 
-            if(document.detailForm.phone2.value != "" && document.detailForm.phone2.value != "") {
-                document.detailForm.phone.value = document.detailForm.phone1.value + "-" + document.detailForm.phone2.value + "-" + document.detailForm.phone3.value;
-            } else {
-                document.detailForm.phone.value = "";
+            let value = "";
+            if( $("input[name='phone2']").val() != ""  &&  $("input[name='phone3']").val() != "") {
+                value = $("option:selected").val() + "-"
+                    + $("input[name='phone2']").val() + "-"
+                    + $("input[name='phone3']").val();
             }
 
-            document.detailForm.action = '/user/updateUser';
-            document.detailForm.submit();
+            $("input:hidden[name='phone']").val(value)
+
+            // document.detailForm.action = '/user/updateUser';
+            // document.detailForm.submit();
+            if ($("form").attr("method" , "POST").attr("action" , "/user/updateUser")) {
+                console.log("###########", $("form").attr("method" , "POST").attr("action" , "/user/updateUser"))
+            }
+            $("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit()
         }
 
         function check_email(frm) {
@@ -53,10 +55,9 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post">
+<form name="detailForm">
 
     <input type="hidden" name="userId" value="${user.userId }">
-    <%--    <input type="hidden" name="userId" value="<%=user.getUserId() %>">--%>
 
     <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -104,8 +105,6 @@
             </td>
             <td bgcolor="D6D6D6" width="1"></td>
             <td class="ct_write01">
-                <%--            <input type="text" name="userName" value="<%=vo.getUserName() %>" class="ct_input_g"--%>
-                <%--                   style="width:100px; height:19px" maxLength="50">--%>
                 <input type="text" name="userName" value="${user.userName}" class="ct_input_g"
                        style="width:100px; height:19px" maxLength="50">
             </td>
@@ -118,8 +117,6 @@
             <td width="104" class="ct_write">주소</td>
             <td bgcolor="D6D6D6" width="1"></td>
             <td class="ct_write01">
-                <%--            <input type="text" name="addr" value="<%=vo.getAddr() %>" class="ct_input_g"--%>
-                <%--                   style="width:370px; height:19px" maxLength="100">--%>
                 <input type="text" name="addr" value="${user.addr}" class="ct_input_g"
                        style="width:370px; height:19px" maxLength="100">
             </td>
@@ -133,11 +130,6 @@
             <td class="ct_write01">
                 <select name="phone1" class="ct_input_g" style="width:50px"
                         onChange="document.detailForm.phone2.focus();">
-                    <%--                    <option value="010">010</option>--%>
-                    <%--                    <option value="011">011</option>--%>
-                    <%--                    <option value="016">016</option>--%>
-                    <%--                    <option value="018">018</option>--%>
-                    <%--                    <option value="019">019</option>--%>
                     <option value="010" ${ ! empty user.phone1 && user.phone1 == "010" ? "selected" : ""  } >010
                     </option>
                     <option value="011" ${ ! empty user.phone1 && user.phone1 == "011" ? "selected" : ""  } >011
@@ -149,18 +141,7 @@
                     <option value="019" ${ ! empty user.phone1 && user.phone1 == "019" ? "selected" : ""  } >019
                     </option>
                 </select>
-                <%--                <input type="text" name="phone2"--%>
-                <%--                    <%if (vo.getPhone() != null) {%>--%>
-                <%--                       value="<%=vo.getPhone().split("-")[1] %>"--%>
-                <%--                    <%} %>--%>
-                <%--                       class="ct_input_g" style="width:100px; height:19px" maxLength="9">--%>
-                <%--                ---%>
-                <%--                <input type="text" name="phone3"--%>
-                <%--                    <%if (vo.getPhone() != null) {%>--%>
-                <%--                       value="<%=vo.getPhone().split("-")[2] %>"--%>
-                <%--                    <%} %>--%>
-                <%--                       class="ct_input_g" style="width:100px; height:19px" maxLength="9">--%>
-                <%--                <input type="hidden" name="phone" class="ct_input_g">--%>
+
                 <input type="text" name="phone2" value="${ ! empty user.phone2 ? user.phone2 : ''}"
                        class="ct_input_g" style="width:100px; height:19px" maxLength="9">
                 -
@@ -180,8 +161,7 @@
                 <table border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td height="26">
-                            <%--                            <input type="text" name="email" value="<%=vo.getEmail() %>" class="ct_input_g"--%>
-                            <%--                                   style="width:100px; height:19px" onChange="check_email(this.form);">--%>
+
                             <input type="text" name="email" value="${user.email}" class="ct_input_g"
                                    style="width:100px; height:19px" onChange="check_email(this.form);">
                         </td>
