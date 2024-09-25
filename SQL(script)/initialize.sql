@@ -622,11 +622,17 @@ WHERE prod_no IN (select prod_no
                   group by prod_no
                   having count(prod_no) != 1);
 
-SELECT
-    count(prod_no)
+SELECT count(prod_no)
 FROM transaction
 WHERE prod_no = 10010;
 
-select * from transaction where prod_no = 10001;
+select *
+from transaction
+where prod_no = 10001;
 
-select * from users;
+select *
+from users;
+
+SELECT ROW_NUM AS "rowNum", user_id, user_name, email
+FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM, user_id, user_name, email FROM USERS WHERE) U
+WHERE ROW_NUM BETWEEN ? AND ?
