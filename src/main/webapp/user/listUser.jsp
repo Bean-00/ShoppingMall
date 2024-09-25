@@ -12,7 +12,6 @@
 
     <script type="text/javascript">
         function fncGetUserList(currentPage) {
-            // document.getElementById("currentPage").value = currentPage;
             $("#currentPage").text(currentPage)
             document.detailForm.submit();
         }
@@ -99,7 +98,7 @@
                 <td colspan="11" bgcolor="808285" height="1"></td>
             </tr>
             <c:set var="i" value="0"/>
-            <c:forEach var="user" items="${list}">
+            <c:forEach var="user" items="${userList}">
                 <c:set var="i" value="${ i+1 }"/>
                 <tr class="ct_list_pop">
                     <td align="center">${user.rowNum}</td>
