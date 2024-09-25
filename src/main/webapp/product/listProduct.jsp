@@ -13,7 +13,7 @@
     <script type="text/javascript">
 
         function fncGetProductList(currentPage) {
-            $("currentPage").val(currentPage)
+            $("#currentPage").val(currentPage)
             document.detailForm.submit()
         }
 
