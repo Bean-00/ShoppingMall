@@ -34,7 +34,7 @@ public class PurchaseRestController {
     //@Value("#{commonProperties['pageSize'] ?: 2}")
     int pageNumSize;
 
-    @PostMapping("/")
+    @PostMapping({"/", ""})
     public ResponseEntity<Void> addPurchase(@RequestBody Purchase purchase) {
 
         purchaseService.addPurchase(purchase);
