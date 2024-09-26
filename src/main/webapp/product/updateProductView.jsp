@@ -1,4 +1,4 @@
-<%@ page import="com.model2.mvc.service.domain.Product" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <html>
@@ -10,33 +10,32 @@
     <script type="text/javascript" src="../javascript/calendar.js">
     </script>
 
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
-        function fncAddProduct() {
+        function fncUpdateProduct() {
             //Form 유효성 검증
-            let $name = $("input[name='prodName']").val()
-            let $detail = $("input[name='prodDetail']").val()
-            let $manuDate = $("input[name='manuDate']").val()
-            let $price = $("input[name='price']").val()
+            let name = document.detailForm.prodName.value;
+            let detail = document.detailForm.prodDetail.value;
+            let manuDate = document.detailForm.manuDate.value;
+            let price = document.detailForm.price.value;
 
-            if (!$name) {
+            if (name == null || name.length < 1) {
                 alert("상품명은 반드시 입력하여야 합니다.");
                 return;
             }
-            if (!$detail) {
+            if (detail == null || detail.length < 1) {
                 alert("상품상세정보는 반드시 입력하여야 합니다.");
                 return;
             }
-            if (!$manuDate) {
+            if (manuDate == null || manuDate.length < 1) {
                 alert("제조일자는 반드시 입력하셔야 합니다.");
                 return;
             }
-            if (!$price) {
+            if (price == null || price.length < 1) {
                 alert("가격은 반드시 입력하셔야 합니다.");
                 return;
             }
 
-            document.detailForm.action = '/product/updateProduct?ProdNo=${product.prodNo}';
+            document.detailForm.action = '/product/updateProduct';
             document.detailForm.submit();
         }
 
@@ -45,7 +44,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post">
+<form name="detailForm" method="post" enctype="multipart/form-data">
 
     <input type="hidden" name="prodNo" value="${product.prodNo}"/>
 
@@ -136,7 +135,7 @@
             <td width="104" class="ct_write">상품이미지</td>
             <td bgcolor="D6D6D6" width="1"></td>
             <td class="ct_write01">
-                <input type="text" name="fileName" class="ct_input_g"
+                <input type="file" name="fileName" class="ct_input_g"
                        style="width: 200px; height: 19px" maxLength="13" value="${product.fileName}"/>
             </td>
         </tr>
@@ -154,9 +153,11 @@
                         <td width="17" height="23">
                             <img src="/images/ct_btnbg01.gif" width="17" height="23"/>
                         </td>
-                        <td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-                            <a href="javascript:fncAddProduct();">수정</a>
-                        </td>
+                        <c:if test="${status == 0}">
+                            <td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+                                <a href="javascript:fncUpdateProduct();">수정</a>
+                            </td>
+                        </c:if>
                         <td width="14" height="23">
                             <img src="/images/ct_btnbg03.gif" width="14" height="23"/>
                         </td>

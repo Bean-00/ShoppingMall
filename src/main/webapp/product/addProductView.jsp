@@ -9,35 +9,33 @@
     <script type="text/javascript" src="../javascript/calendar.js">
     </script>
 
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
         function fncAddProduct() {
             //Form 유효성 검증
-            let $name = $("input[name='prodName']").val()
-            let $detail = $("input[name='prodDetail']").val()
-            let $manuDate = $("input[name='manuDate']").val()
-            let $price = $("input[name='price']").val()
+            let name = document.detailForm.prodName.value;
+            let detail = document.detailForm.prodDetail.value;
+            let manuDate = document.detailForm.manuDate.value;
+            let price = document.detailForm.price.value;
 
-            if (!$name) {
+            if (name == null || name.length < 1) {
                 alert("상품명은 반드시 입력하여야 합니다.");
                 return;
             }
-            if (!$detail) {
+            if (detail == null || detail.length < 1) {
                 alert("상품상세정보는 반드시 입력하여야 합니다.");
                 return;
             }
-            if (!$manuDate) {
+            if (manuDate == null || manuDate.length < 1) {
                 alert("제조일자는 반드시 입력하셔야 합니다.");
                 return;
             }
-            if (!$price) {
+            if (price == null || price.length < 1) {
                 alert("가격은 반드시 입력하셔야 합니다.");
                 return;
             }
 
             document.detailForm.action = '/product/addProduct';
             document.detailForm.submit();
-            $("form").attr("method", "POST")
         }
 
         function resetData() {
@@ -49,7 +47,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm">
+<form name="detailForm" method="post" enctype="multipart/form-data">
 
     <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -117,7 +115,7 @@
                 <input type="text" name="manuDate" readonly="readonly" class="ct_input_g"
                        style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
                 &nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15"
-                           onclick="show_calendar('document.detailForm.manuDate', $('form[name=detailForm] input[name=manuDate]').val())"/>
+                           onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>
             </td>
         </tr>
         <tr>
