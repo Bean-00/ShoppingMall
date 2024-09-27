@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository("productDaoImpl")
@@ -53,5 +54,10 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void deleteProduct(String prodName) {
         sqlSession.delete("ProductMapper.deleteProduct", prodName);
+    }
+
+    @Override
+    public List<String> getProductNameList(String searchKeyword) {
+        return sqlSession.selectList("ProductMapper.getProductNameList", searchKeyword);
     }
 }

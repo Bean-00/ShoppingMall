@@ -22,4 +22,5 @@ public interface ProductDao {
     
     void deleteProduct(String prodName);
 
+    List<String> getProductNameList(String searchKeyword);
 }

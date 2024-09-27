@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service("productServiceImpl")
@@ -47,6 +48,11 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int getAllProductCount(Search search) {
 		return productDAO.getTotalProductCount(search);
+	}
+
+	@Override
+	public List<String> getProductNameList(String searchKeyword) {
+		return productDAO.getProductNameList(searchKeyword);
 	}
 
 }

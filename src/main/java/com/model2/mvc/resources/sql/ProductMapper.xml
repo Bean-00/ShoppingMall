@@ -86,6 +86,14 @@
         ORDER BY row_num
     </select>
 
+    <select id="getProductNameList" parameterType="String" resultType="String">
+        SELECT
+            prod_name
+        FROM product
+        WHERE prod_name LIKE '${value}%'
+        ORDER BY prod_name
+    </select>
+
     <select id="getTotalProductCount" parameterType="search" resultType="int">
         SELECT COUNT(prod_no) as "totalCount" FROM product
         <if test="searchCondition != null">

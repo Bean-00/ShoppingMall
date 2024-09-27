@@ -62,4 +62,11 @@ public class ProductRestController {
         return ResponseEntity.ok(response);
 
     }
+
+    @PostMapping("search/{searchKeyword}")
+    public ResponseEntity<List<String>> listProductName(@PathVariable String searchKeyword) {
+        List<String> productNameList = productService.getProductNameList(searchKeyword);
+
+        return ResponseEntity.ok(productNameList);
+    }
 }

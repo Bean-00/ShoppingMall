@@ -635,4 +635,8 @@ from users;
 
 SELECT ROW_NUM AS "rowNum", user_id, user_name, email
 FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM, user_id, user_name, email FROM USERS WHERE) U
-WHERE ROW_NUM BETWEEN ? AND ?
+WHERE ROW_NUM BETWEEN ? AND ?;
+
+SELECT
+    prod_name
+FROM PRODUCT;
