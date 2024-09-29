@@ -3,8 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Model2 MVC Shop</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
 
+<div id ="test123" data-toggle="modal" data-target="#myModal">123</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">상품 상세 조회</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="flex-item justify-around">
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="margin-top:6px">상품 번호</label>
+                        <div class="col-sm-5">
+                            <input type="email" readonly class="form-control" id="inputEmail3" value="10000" style="width: 100%">
+                        </div>
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="margin-top:6px">상품 명</label>
+                        <div class="col-sm-5">
+                            <input type="email" readonly class="form-control" id="inputEmail3" value="vaio vgn FS70B" style="width: 100%">
+                        </div>
+                    </div>
+                    <div class="flex-item" style="margin-left:15px">
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="margin-top:6px">상세 설명</label>
+                        <div class="col-sm-5" style="margin-left:30px">
+                            <input type="date" readonly class="form-control" id="inputEmail3" value="2000.01.11" style="width: 535px">
+                        </div>
+                    </div>
+
+                    <div class="flex-item justify-around">
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="margin-top:6px">등록 날짜</label>
+                        <div class="col-sm-5">
+                            <input type="date" readonly class="form-control" id="inputEmail3" value="2000.01.11" style="width: 182px">
+                        </div>
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="margin-top:6px">상품 가격</label>
+                        <div class="col-sm-5">
+                            <input type="number" readonly class="form-control" id="inputEmail3" value="20000">
+                        </div>
+                    </div>
+
+                    <div class="flex-item justify-around">
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="margin-top:6px">구매 일자</label>
+                        <div class="col-sm-5">
+                            <input type="date" readonly class="form-control" id="inputEmail3" value="2000.01.11" style="width: 182px">
+                        </div>
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="margin-top:6px">첨부 파일</label>
+                        <div class="col-sm-5">
+                            <input type="input" readonly class="form-control" id="inputEmail3" value="popo.txt" style="width: 182px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<style>
+    .justify-around{
+        justify-content: space-around;
+    }
+    .flex-item{
+
+        display: flex;
+        width: 709px;
+        margin-bottom: 20px;
+    }
+
+</style>
 </html>

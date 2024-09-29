@@ -7,9 +7,13 @@
 <head>
     <title>상품 목록조회</title>
 
-    <link rel="stylesheet" href="/css/admin.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
     <script type="text/javascript">
 
         function fncGetProductList(currentPage) {
@@ -111,8 +115,11 @@
                     </td>
                     <td></td>
                     <td align="left">
-                        <c:if test="${user.role == 'admin'}">
+                        <c:if test="${user.role == 'admin' && product.status.code == 0}">
                             <a href="/product/updateProductView?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
+                        </c:if>
+                        <c:if test="${user.role == 'admin' && product.status.code != 0}">
+                            <span data-toggle="modal" data-target="#myModal">${product.prodNo}</span>
                         </c:if>
                         <c:if test="${user.role == 'user'}">
                             <a href="/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
@@ -194,5 +201,72 @@
     </form>
 
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">상품 상세 조회</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="flex-item justify-around">
+                        <label for="prod-num" class="col-sm-2 control-label" style="margin-top:6px; padding: 0px">상품 번호</label>
+                        <div class="col-sm-5">
+                            <input type="number" readonly class="form-control" id="prod-num" value="10000" style="width: 100%">
+                        </div>
+                        <label for="prod-name" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상품 명</label>
+                        <div class="col-sm-5">
+                            <input type="text" readonly class="form-control" id="prod-name" value="vaio vgn FS70B" style="width: 100%">
+                        </div>
+                    </div>
+
+                    <div class="flex-item">
+                        <label for="prod-detail" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상세 설명</label>
+                        <div class="col-sm-13">
+                            <input type="text" readonly class="form-control" id="prod-detail" value="이 상품의 상세한 설명 어쩌구" style="width: 445px">
+                        </div>
+                    </div>
+
+                    <div class="flex-item justify-around">
+                        <label for="prod-regDate" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">등록 날짜</label>
+                        <div class="col-sm-5">
+                            <input type="date" readonly class="form-control" id="prod-regDate" value="2000-01-11" style="width: 100%">
+                        </div>
+                        <label for="prod-price" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상품 가격</label>
+                        <div class="col-sm-5">
+                            <input type="number" readonly class="form-control" id="prod-price" value="20000">
+                        </div>
+                    </div>
+
+                    <div class="flex-item justify-around">
+                        <label for="prod-menuDate" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">구매 일자</label>
+                        <div class="col-sm-5">
+                            <input type="date" readonly class="form-control" id="prod-menuDate" value="2000-01-11" style="width: 100%">
+                        </div>
+                        <label for="prod-fileName" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">첨부 파일</label>
+                        <div class="col-sm-5">
+                            <input type="text" readonly class="form-control" id="prod-fileName" value="popo.txt" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<style>
+    .justify-around{
+        justify-content: space-between;
+    }
+    .flex-item{
+        display: flex;
+        width: 549px;
+        margin-bottom: 20px;
+    }
+
+</style>
 </html>
