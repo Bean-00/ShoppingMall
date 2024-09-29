@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/purchases/*")
+@RequestMapping("/api/purchases")
 public class PurchaseRestController {
     @Autowired
     @Qualifier("purchaseServiceImpl")
@@ -34,7 +34,7 @@ public class PurchaseRestController {
     //@Value("#{commonProperties['pageSize'] ?: 2}")
     int pageNumSize;
 
-    @PostMapping({"/", ""})
+    @PostMapping({ "", "/"})
     public ResponseEntity<Void> addPurchase(@RequestBody Purchase purchase) {
 
         purchaseService.addPurchase(purchase);
@@ -42,11 +42,12 @@ public class PurchaseRestController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{buyerId}")
-    public ResponseEntity<Map<String, Object>> listPurchase(@PathVariable String buyerId) {
+    @GetMapping({"", "/"})
+    public ResponseEntity<Map<String, Object>> listPurchase(@RequestParam(name="buyerId") String buyerId,
+                                                            @RequestParam(name="currentPage", required = false, defaultValue = "1") int currentPage) {
 
         Search search = new Search();
-        search.setCurrentPage(0);
+        search.setCurrentPage(currentPage);
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
         search.setBuyerId(buyerId);
@@ -62,8 +63,8 @@ public class PurchaseRestController {
         return ResponseEntity.ok(response);
     }
 
-    @RequestMapping("/{prodNo}")
-    public ResponseEntity<Void> updateTranCode(@PathVariable int prodNo) {
+    @PatchMapping({"", "/"})
+    public ResponseEntity<Void> updateTranCode(@RequestParam(name = "prodNo") int prodNo) {
 
         purchaseService.updateTransCode(prodNo);
 

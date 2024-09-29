@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/products/*")
+@RequestMapping("/api/products")
 public class ProductRestController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class ProductRestController {
     @Value("#{commonProperties['pageNumSize']}")
     int pageNumSize;
 
-    @PostMapping("/")
+    @PostMapping({ "", "/" })
     public ResponseEntity<Void> addProduct(@RequestBody Product product) {
 
         productService.addProduct(product);
@@ -36,7 +36,7 @@ public class ProductRestController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/prodNo/{prodNo}")
+    @GetMapping("/{prodNo}")
     public ResponseEntity<Product> getProduct(@PathVariable int prodNo) {
 
         Product product = productService.getProductByProdNo(prodNo);
@@ -44,9 +44,14 @@ public class ProductRestController {
         return ResponseEntity.ok().body(product);
     }
 
-    @PostMapping("/{currentPage}")
-    public ResponseEntity<Map<String, Object>> listProduct(@PathVariable int currentPage, @RequestBody Search search) {
+    @GetMapping({ "", "/" })
+    public ResponseEntity<Map<String, Object>> listProduct(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage,
+                                                            @RequestParam(name= "searchKeyword", required = false) String searchKeyword,
+                                                            @RequestParam(name= "searchCondition", required = false) String searchCondition) {
 
+        Search search = new Search();
+        search.setSearchCondition(searchCondition);
+        search.setSearchKeyword(searchKeyword);
         search.setCurrentPage(currentPage);
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
@@ -63,8 +68,9 @@ public class ProductRestController {
 
     }
 
-    @PostMapping("search/{searchKeyword}")
-    public ResponseEntity<List<String>> listProductName(@PathVariable String searchKeyword) {
+    @GetMapping("/name")
+    public ResponseEntity<List<String>> listProductName(@RequestParam(name = "searchKeyword", required = false) String searchKeyword) {
+        //ToDo: js 호출 시 encodeURIComponent 사용
         List<String> productNameList = productService.getProductNameList(searchKeyword);
 
         return ResponseEntity.ok(productNameList);

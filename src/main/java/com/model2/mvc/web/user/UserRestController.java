@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/users/*")
+@RequestMapping("/api/users")
 public class UserRestController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class UserRestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/userId/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<User> getUser(@PathVariable String userId) throws Exception {
 
         User user = userService.getUserByUserId(userId);
@@ -60,9 +60,14 @@ public class UserRestController {
         return ResponseEntity.ok().body(loginUser);
     }
 
-    @PostMapping("/{currentPage}")
-    public ResponseEntity<Map<String, Object>> listUser(@PathVariable int currentPage, @RequestBody Search search) throws Exception {
+    @GetMapping({"", "/"})
+    public ResponseEntity<Map<String, Object>> listUser(@RequestParam(name="currentPage", required = false, defaultValue = "1") int currentPage,
+                                                        @RequestParam(name= "searchKeyword", required = false) String searchKeyword,
+                                                        @RequestParam(name= "searchCondition", required = false) String searchCondition) throws Exception {
 
+        Search search = new Search();
+        search.setSearchCondition(searchCondition);
+        search.setSearchKeyword(searchKeyword);
         search.setCurrentPage(currentPage);
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
