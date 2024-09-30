@@ -49,7 +49,6 @@
         function resetData() {
             document.detailForm.reset();
         }
-
     </script>
 </head>
 
