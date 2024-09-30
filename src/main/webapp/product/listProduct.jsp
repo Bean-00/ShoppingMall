@@ -14,6 +14,7 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" ></script>
     <script type="text/javascript">
 
         function fncGetProductList(currentPage) {
@@ -119,7 +120,7 @@
                             <a href="/product/updateProductView?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
                         </c:if>
                         <c:if test="${user.role == 'admin' && product.status.code != 0}">
-                            <span id="product-name">${product.productName}</span>
+                            <span id="product-name"onclick="viewProductInfo(${product.prodNo})">${product.productName}</span>
                         </c:if>
                         <c:if test="${user.role == 'user'}">
                             <a href="/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
@@ -202,10 +203,10 @@
 
 </div>
 
-<button hidden="hidden" data-toggle="modal" data-target="#myModal">
+<button id = "prod-modal-btn" hidden="hidden" data-toggle="modal" data-target="#prod-modal">
 </button>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div id="prod-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -217,40 +218,40 @@
                     <div class="flex-item justify-around">
                         <label for="prod-num" class="col-sm-2 control-label" style="margin-top:6px; padding: 0px">상품 번호</label>
                         <div class="col-sm-5">
-                            <input type="number" readonly class="form-control" id="prod-num" value="10000" style="width: 100%">
+                            <input id="prod-num" type="number" readonly class="form-control" style="width: 100%">
                         </div>
                         <label for="prod-name" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상품 명</label>
                         <div class="col-sm-5">
-                            <input type="text" readonly class="form-control" id="prod-name" value="vaio vgn FS70B" style="width: 100%">
+                            <input id="prod-name" type="text" readonly class="form-control" style="width: 100%">
                         </div>
                     </div>
 
                     <div class="flex-item">
                         <label for="prod-detail" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상세 설명</label>
                         <div class="col-sm-13">
-                            <input type="text" readonly class="form-control" id="prod-detail" value="이 상품의 상세한 설명 어쩌구" style="width: 445px">
+                            <input id="prod-detail"  type="text" readonly class="form-control" style="width: 445px">
                         </div>
                     </div>
 
                     <div class="flex-item justify-around">
                         <label for="prod-regDate" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">등록 날짜</label>
                         <div class="col-sm-5">
-                            <input type="date" readonly class="form-control" id="prod-regDate" value="2000-01-11" style="width: 100%">
+                            <input id="prod-regDate" type="date" readonly class="form-control" style="width: 100%">
                         </div>
                         <label for="prod-price" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상품 가격</label>
                         <div class="col-sm-5">
-                            <input type="number" readonly class="form-control" id="prod-price" value="20000">
+                            <input id="prod-price" type="number" readonly class="form-control">
                         </div>
                     </div>
 
                     <div class="flex-item justify-around">
                         <label for="prod-menuDate" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">구매 일자</label>
                         <div class="col-sm-5">
-                            <input type="date" readonly class="form-control" id="prod-menuDate" value="2000-01-11" style="width: 100%">
+                            <input id="prod-menuDate" type="date" readonly class="form-control" style="width: 100%">
                         </div>
                         <label for="prod-fileName" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">첨부 파일</label>
                         <div class="col-sm-5">
-                            <input type="text" readonly class="form-control" id="prod-fileName" value="popo.txt" style="width: 100%">
+                            <input id="prod-fileName" type="text" readonly class="form-control" style="width: 100%">
                         </div>
                     </div>
                 </div>
@@ -263,12 +264,25 @@
 </div>
 </body>
 
-<script type = "text/javascript" src="../javascript/ajax.js">
-   $(function () {
-       $("product-name").on("click", function () {
+<script type = "text/javascript" src="../javascript/ajax.js"></script>
+<script>
+    const viewProductInfo = (prodNo) => {
+        sendGetAjax(`/api/products/` + prodNo, res => {
+            if (!res)
+                return alert("상품 조회에 실패했습니다");
+            console.log("prodNo: ", prodNo)
+            console.log("###", res)
+            $("#prod-modal #prod-num").val(res.prodNo);
+            $("#prod-modal #prod-detail").val(res.prodDetail);
+            $("#prod-modal #prod-fileName").val(res.fileName);
+            $("#prod-modal #prod-menuDate").val(moment(res.menuDate).format('YYYY-MM-DD'));
+            $("#prod-modal #prod-name").val(res.prodName);
+            $("#prod-modal #prod-price").val(res.price);
+            $("#prod-modal #prod-regDate").val(moment(res.regDate).format('YYYY-MM-DD'));
+            $("#prod-modal-btn").click();
+        })
+    }
 
-       })
-   })
 
 </script>
 
