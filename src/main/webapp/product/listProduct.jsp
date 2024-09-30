@@ -119,7 +119,7 @@
                             <a href="/product/updateProductView?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
                         </c:if>
                         <c:if test="${user.role == 'admin' && product.status.code != 0}">
-                            <span data-toggle="modal" data-target="#myModal">${product.prodNo}</span>
+                            <span id="product-name">${product.productName}</span>
                         </c:if>
                         <c:if test="${user.role == 'user'}">
                             <a href="/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
@@ -201,6 +201,10 @@
     </form>
 
 </div>
+
+<button hidden="hidden" data-toggle="modal" data-target="#myModal">
+</button>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -258,6 +262,16 @@
     </div>
 </div>
 </body>
+
+<script type = "text/javascript" src="../javascript/ajax.js">
+   $(function () {
+       $("product-name").on("click", function () {
+
+       })
+   })
+
+</script>
+
 <style>
     .justify-around{
         justify-content: space-between;
