@@ -7,14 +7,23 @@
 <head>
     <title>상품 목록조회</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+
+    <style>
+        .row {
+            margin-top: 16px;
+        }
+    </style>
+
     <script type="text/javascript">
 
         function fncGetProductList(currentPage) {
@@ -54,7 +63,7 @@
                style="margin-top: 10px;">
             <tr>
                 <td align="right">
-                    <select name="searchCondition" class="ct_input_g" style="width:80px">
+                    <select id="search-select" name="searchCondition" class="ct_input_g" style="width:80px">
 
                         <option value="0" ${! empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>
                             상품번호
@@ -66,9 +75,14 @@
                             상품가격
                         </option>
                     </select>
-                    <input type="text" name="searchKeyword"
-                           value="${! empty search.searchKeyword ? search.searchKeyword: ""}"
-                           class="ct_input_g" style="width:200px; height:19px">
+                    <div class="d-inline-block position-relative">
+                        <input id="input-keyword" type="text" name="searchKeyword"
+                               value="${! empty search.searchKeyword ? search.searchKeyword: ""}"
+                               class="ct_input_g" style="width:200px; height:19px"
+                               onkeyup="searchProductName()" autocomplete="off">
+                        <ul id="search-bar" class="dropdown-menu" style="width: 100%">
+                        </ul>
+                    </div>
                 </td>
                 <td align="right" width="70">
                     <table border="0" cellspacing="0" cellpadding="0">
@@ -120,7 +134,8 @@
                             <a href="/product/updateProductView?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
                         </c:if>
                         <c:if test="${user.role == 'admin' && product.status.code != 0}">
-                            <span id="product-name"onclick="viewProductInfo(${product.prodNo})">${product.productName}</span>
+                            <span id="product-name"
+                                  onclick="viewProductInfo(${product.prodNo})">${product.productName}</span>
                         </c:if>
                         <c:if test="${user.role == 'user'}">
                             <a href="/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>
@@ -203,68 +218,69 @@
 
 </div>
 
-<button id = "prod-modal-btn" hidden="hidden" data-toggle="modal" data-target="#prod-modal">
+<button id="prod-modal-btn" hidden="hidden" data-bs-toggle="modal" data-bs-target="#prod-modal">
 </button>
 
+
 <div id="prod-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">상품 상세 조회</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <div class="flex-item justify-around">
-                        <label for="prod-num" class="col-sm-2 control-label" style="margin-top:6px; padding: 0px">상품 번호</label>
-                        <div class="col-sm-5">
-                            <input id="prod-num" type="number" readonly class="form-control" style="width: 100%">
+                    <div class="row">
+                        <label for="prod-num" class="col-md-1 col-sm-6 control-label">상품 번호</label>
+                        <div class="col-md-5 col-sm-6">
+                            <input id="prod-num" type="number" readonly class="form-control">
                         </div>
-                        <label for="prod-name" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상품 명</label>
-                        <div class="col-sm-5">
-                            <input id="prod-name" type="text" readonly class="form-control" style="width: 100%">
-                        </div>
-                    </div>
-
-                    <div class="flex-item">
-                        <label for="prod-detail" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상세 설명</label>
-                        <div class="col-sm-13">
-                            <input id="prod-detail"  type="text" readonly class="form-control" style="width: 445px">
+                        <label for="prod-name" class="col-md-1 col-sm-6 control-label">상품 명</label>
+                        <div class="col-md-5 col-sm-6">
+                            <input id="prod-name" type="text" readonly class="form-control">
                         </div>
                     </div>
 
-                    <div class="flex-item justify-around">
-                        <label for="prod-regDate" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">등록 날짜</label>
-                        <div class="col-sm-5">
-                            <input id="prod-regDate" type="date" readonly class="form-control" style="width: 100%">
+                    <div class="row">
+                        <label for="prod-detail" class="col-md-1 col-sm-6 control-label">상세 설명</label>
+                        <div class="col-md-11 col-sm-6">
+                            <input id="prod-detail" type="text" readonly class="form-control">
                         </div>
-                        <label for="prod-price" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">상품 가격</label>
-                        <div class="col-sm-5">
+                    </div>
+
+                    <div class="row">
+                        <label for="prod-regDate" class="col-md-1 col-sm-2 control-label">등록 날짜</label>
+                        <div class="col-5 col-sm-4">
+                            <input id="prod-regDate" type="date" readonly class="form-control">
+                        </div>
+                        <label for="prod-price" class="col-md-1 col-sm-2 control-label">상품 가격</label>
+                        <div class="col-md-5 col-sm-4">
                             <input id="prod-price" type="number" readonly class="form-control">
                         </div>
                     </div>
 
-                    <div class="flex-item justify-around">
-                        <label for="prod-menuDate" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">구매 일자</label>
-                        <div class="col-sm-5">
-                            <input id="prod-menuDate" type="date" readonly class="form-control" style="width: 100%">
+                    <div class="row" style="margin-bottom: 16px">
+                        <label for="prod-menuDate" class="col-md-1 col-sm-2 control-label">구매 일자</label>
+                        <div class="col-md-5 col-sm-4">
+                            <input id="prod-menuDate" type="date" readonly class="form-control">
                         </div>
-                        <label for="prod-fileName" class="col-sm-2 control-label"style="margin-top:6px; padding: 0px">첨부 파일</label>
-                        <div class="col-sm-5">
-                            <input id="prod-fileName" type="text" readonly class="form-control" style="width: 100%">
+                        <label for="prod-fileName" class="col-md-1 col-sm-2 control-label">첨부 파일</label>
+                        <div class="col-md-5 col-sm-4">
+                            <input id="prod-fileName" type="text" readonly class="form-control">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 </body>
 
-<script type = "text/javascript" src="../javascript/ajax.js"></script>
+<script type="text/javascript" src="../javascript/ajax.js"></script>
 <script>
     const viewProductInfo = (prodNo) => {
         sendGetAjax(`/api/products/` + prodNo, res => {
@@ -283,18 +299,47 @@
         })
     }
 
+    const searchProductName = () => {
+        const $input = $("#input-keyword");
+        const $select = $("#search-select");
+        if (!$select || $select.val() !== '1')
+            return;
+        const keyword = $input.val();
+        const $searchBar = $("#search-bar");
+        if (keyword) {
+            //TODO: debounce 검색해서 알아보고 적용하기
+            sendGetAjax('/api/products/name?searchKeyword=' + keyword, (res) => {
+                let html = '';
+                if (res.length) {
+                    for(let name of res) {
+                        html += createSearchLiElement(name, false);
+                    }
+                    $searchBar.html(html);
+
+                } else {
+                    html += createSearchLiElement('검색 결과가 없습니다.', true);
+                    $searchBar.html(html);
+                }
+                $searchBar.html(html);
+                $searchBar.addClass('show');
+            })
+        } else {
+            $searchBar.removeClass('show');
+        }
+    }
+
+    const createSearchLiElement = (value, ignoreClick) => {
+        return '<li><a class="dropdown-item" onclick="setSearchKeyword(\'' + value + '\',' + ignoreClick + ')">' + value + '</a></li>';
+    }
+
+    const setSearchKeyword = (value, ignoreClick) => {
+        if (ignoreClick) return;
+        console.log(value);
+        $("#input-keyword").val(value);
+        $("#search-bar").removeClass('show');
+    }
+
 
 </script>
 
-<style>
-    .justify-around{
-        justify-content: space-between;
-    }
-    .flex-item{
-        display: flex;
-        width: 549px;
-        margin-bottom: 20px;
-    }
-
-</style>
 </html>
