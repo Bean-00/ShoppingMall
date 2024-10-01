@@ -17,6 +17,7 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 
     <style>
         .row {
@@ -251,7 +252,7 @@
 
                     <div class="row">
                         <label for="prod-regDate" class="col-md-1 col-sm-2 control-label">등록 날짜</label>
-                        <div class="col-5 col-sm-4">
+                        <div class="col-md-5 col-sm-4">
                             <input id="prod-regDate" type="date" readonly class="form-control">
                         </div>
                         <label for="prod-price" class="col-md-1 col-sm-2 control-label">상품 가격</label>
@@ -302,16 +303,12 @@
     const searchProductName = () => {
         const $input = $("#input-keyword");
         const $select = $("#search-select");
-        if (!$select || $select.val() !== '1')
-            return;
-        const keyword = $input.val();
-        const $searchBar = $("#search-bar");
-        if (keyword) {
-            //TODO: debounce 검색해서 알아보고 적용하기
+
+        const debouncedGetAjax = _.debounce((keyword) => {
             sendGetAjax('/api/products/name?searchKeyword=' + keyword, (res) => {
                 let html = '';
                 if (res.length) {
-                    for(let name of res) {
+                    for (let name of res) {
                         html += createSearchLiElement(name, false);
                     }
                     $searchBar.html(html);
@@ -322,7 +319,16 @@
                 }
                 $searchBar.html(html);
                 $searchBar.addClass('show');
-            })
+                console.log("123");
+            });
+        }, 300);
+
+        if (!$select || $select.val() !== '1')
+            return;
+        const keyword = $input.val();
+        const $searchBar = $("#search-bar");
+        if (keyword) {
+            debouncedGetAjax(keyword);
         } else {
             $searchBar.removeClass('show');
         }
