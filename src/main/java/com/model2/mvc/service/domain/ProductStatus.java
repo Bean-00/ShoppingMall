@@ -14,6 +14,7 @@ public class ProductStatus {
     private Date regDate;
     private PurchaseStatus status;
     private int rowNum;
+    private String fileName;
 
     public int getRowNum() {
         return rowNum;
@@ -72,5 +73,13 @@ public class ProductStatus {
 
     public void setStatus(String code) {
         this.status = PurchaseStatus.getByCode(code);
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
