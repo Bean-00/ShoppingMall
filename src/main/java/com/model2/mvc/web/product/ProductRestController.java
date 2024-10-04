@@ -44,8 +44,8 @@ public class ProductRestController {
         return ResponseEntity.ok().body(product);
     }
 
-    @GetMapping({ "", "/" })
-    public ResponseEntity<Map<String, Object>> listProduct(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage,
+    @GetMapping( "/totalCount" )
+    public ResponseEntity<Integer> getProductTotalCount(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage,
                                                             @RequestParam(name= "searchKeyword", required = false) String searchKeyword,
                                                             @RequestParam(name= "searchCondition", required = false) String searchCondition) {
 
@@ -56,16 +56,26 @@ public class ProductRestController {
         search.setDisplayCount(this.displayCount);
         search.setPageNumSize(this.pageNumSize);
 
-        List<ProductStatus> productStatusList = productService.getProductWithStatusList(search);
         int totalCount = productService.getAllProductCount(search);
 
-        Map<String, Object> response = new HashMap<>();
+        return ResponseEntity.ok().body(totalCount);
+    }
 
-        response.put("list", productStatusList);
-        response.put("totalCount", totalCount);
+    @GetMapping({ "", "/" })
+    public ResponseEntity<List<ProductStatus>> getProductList(@RequestParam(name = "currentPage", required = false, defaultValue = "1") int currentPage,
+                                                           @RequestParam(name= "searchKeyword", required = false) String searchKeyword,
+                                                           @RequestParam(name= "searchCondition", required = false) String searchCondition) {
 
-        return ResponseEntity.ok(response);
+        Search search = new Search();
+        search.setSearchCondition(searchCondition);
+        search.setSearchKeyword(searchKeyword);
+        search.setCurrentPage(currentPage);
+        search.setDisplayCount(this.displayCount);
+        search.setPageNumSize(this.pageNumSize);
 
+        List<ProductStatus> productStatusList = productService.getProductWithStatusList(search);
+
+        return ResponseEntity.ok().body(productStatusList);
     }
 
     @GetMapping("/name")

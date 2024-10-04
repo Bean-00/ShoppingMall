@@ -63,7 +63,7 @@
         PT.reg_date AS "regDate",
         PT.trans_code AS "status",
         PT.image_file AS "fileName"
-        FROM (select ROW_NUMBER() over (ORDER BY reg_date) AS row_num,
+        FROM (select ROW_NUMBER() over (ORDER BY p.PROD_NO) AS row_num,
         p.prod_no,
         p.prod_name,
         p.price,

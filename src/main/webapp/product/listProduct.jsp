@@ -41,15 +41,6 @@
             document.detailForm.submit()
         }
 
-        $(window).scroll(function(){
-            let scrT = $(window).scrollTop();
-            console.log(scrT); //스크롤 값 확인용
-            if(scrT == $(document).height() - $(window).height()){
-                console.log("바닥")
-            } else {
-                console.log("바닥 아님")
-            }
-        })
     </script>
 </head>
 
@@ -75,47 +66,6 @@
                                                 width="12" height="37"/></td>
             </tr>
         </table>
-
-        <%--        <table width="100%" border="0" cellspacing="0" cellpadding="0"--%>
-        <%--               style="margin-top: 10px;">--%>
-        <%--            <tr>--%>
-        <%--                <td align="right">--%>
-        <%--                    <select id="search-select" name="searchCondition" class="ct_input_g" style="width:80px">--%>
-
-        <%--                        <option value="0" ${! empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""}>--%>
-        <%--                            상품번호--%>
-        <%--                        </option>--%>
-        <%--                        <option value="1" ${! empty search.searchCondition && search.searchCondition == 1 ? "selected" : ""}>--%>
-        <%--                            상품명--%>
-        <%--                        </option>--%>
-        <%--                        <option value="2" ${! empty search.searchCondition && search.searchCondition == 2 ? "selected" : ""}>--%>
-        <%--                            상품가격--%>
-        <%--                        </option>--%>
-        <%--                    </select>--%>
-        <%--                    <div class="d-inline-block position-relative">--%>
-        <%--                        <input id="input-keyword" type="text" name="searchKeyword"--%>
-        <%--                               value="${! empty search.searchKeyword ? search.searchKeyword: ""}"--%>
-        <%--                               class="ct_input_g" style="width:200px; height:19px"--%>
-        <%--                               onkeyup="searchProductName()" autocomplete="off">--%>
-        <%--                        <ul id="search-bar" class="dropdown-menu" style="width: 100%">--%>
-        <%--                        </ul>--%>
-        <%--                    </div>--%>
-        <%--                </td>--%>
-        <%--                <td align="right" width="70">--%>
-        <%--                    <table border="0" cellspacing="0" cellpadding="0">--%>
-        <%--                        <tr>--%>
-        <%--                            <td width="17" height="23"><img--%>
-        <%--                                    src="/images/ct_btnbg01.gif" width="17" height="23"></td>--%>
-        <%--                            <td background="/images/ct_btnbg02.gif" class="ct_btn01"--%>
-        <%--                                style="padding-top: 3px;">--%>
-        <%--                                <a href="javascript:fncGetProductList();">검색</a></td>--%>
-        <%--                            <td width="14" height="23"><img--%>
-        <%--                                    src="/images/ct_btnbg03.gif" width="14" height="23"></td>--%>
-        <%--                        </tr>--%>
-        <%--                    </table>--%>
-        <%--                </td>--%>
-        <%--            </tr>--%>
-        <%--        </table>--%>
 
         <div class="row justify-content-between" style="margin-top: 10px">
             <span id="product-total-count" class="col-4" style="display: flex">
@@ -143,129 +93,10 @@
             </div>
         </div>
 
-<%--        <table width="100%" border="0" cellspacing="0" cellpadding="0"--%>
-<%--               style="margin-top: 10px;">--%>
-<%--            <tr>--%>
-<%--                <td colspan="11">전체 ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지--%>
-<%--                </td>--%>
-<%--            </tr>--%>
-
-<%--            <tr>--%>
-<%--                <td class="ct_list_b" width="100">No</td>--%>
-<%--                <td class="ct_line02"></td>--%>
-<%--                <td class="ct_list_b" width="150">상품명</td>--%>
-<%--                <td class="ct_line02"></td>--%>
-<%--                <td class="ct_list_b" width="150">가격</td>--%>
-<%--                <td class="ct_line02"></td>--%>
-<%--                <td class="ct_list_b">등록일</td>--%>
-<%--                <td class="ct_line02"></td>--%>
-<%--                <td class="ct_list_b">현재상태</td>--%>
-<%--            </tr>--%>
-<%--            <tr>--%>
-<%--                <td colspan="11" bgcolor="808285" height="1"></td>--%>
-<%--            </tr>--%>
-
-<%--            <c:set var="i" value="0"/>--%>
-<%--            <c:forEach var="product" items="${list}">--%>
-<%--                <tr class="ct_list_pop">--%>
-<%--                    <td align="center">--%>
-<%--                            ${product.rowNum}--%>
-<%--                    </td>--%>
-<%--                    <td></td>--%>
-<%--                    <td align="left">--%>
-<%--                        <c:if test="${user.role == 'admin' && product.status.code == 0}">--%>
-<%--                            <a href="/product/updateProductView?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${user.role == 'admin' && product.status.code != 0}">--%>
-<%--                            <span id="product-name1"--%>
-<%--                                  onclick="viewProductInfo(${product.prodNo})">${product.productName}</span>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${user.role == 'user'}">--%>
-<%--                            <a href="/product/getProduct?prodNo=${product.prodNo}&menu=manage">${product.productName}</a>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${user.role == null}">--%>
-<%--                            ${product.productName}--%>
-<%--                        </c:if>--%>
-<%--                    </td>--%>
-<%--                    <td></td>--%>
-<%--                    <td align="left">${product.price}--%>
-<%--                    </td>--%>
-<%--                    <td></td>--%>
-<%--                    <td align="left">${product.regDateString}--%>
-<%--                    </td>--%>
-<%--                    <td></td>--%>
-<%--                    <c:if test="${user.role == 'user'}">--%>
-<%--                        <c:if test="${product.status.code != '0'}">--%>
-<%--                            <td align="left">재고 없음</td>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${product.status.code == '0'}">--%>
-<%--                            <td align="left">판매 중</td>--%>
-<%--                        </c:if>--%>
-<%--                    </c:if>--%>
-<%--                    <c:if test="${empty user}">--%>
-<%--                        <td align="left">상품 상태는 회원만 확인 가능합니다</td>--%>
-<%--                    </c:if>--%>
-<%--                    <c:if test="${user.role =='admin'}">--%>
-<%--                        <c:choose>--%>
-<%--                            <c:when test="${product.status.code == '1'}">--%>
-<%--                                <td align="left">--%>
-<%--                                        ${product.status.text}--%>
-<%--                                    <a href="/purchase/updateTranCode?prodNo=${product.prodNo}&tranCode=${product.status.code}&page=${pageInfo.currentPage}">--%>
-<%--                                        배송하기--%>
-<%--                                    </a>--%>
-<%--                                </td>--%>
-<%--                            </c:when>--%>
-<%--                            <c:when test="${product.status.code != '1'}">--%>
-<%--                                <td align="left">--%>
-<%--                                        ${product.status.text}--%>
-<%--                                </td>--%>
-<%--                            </c:when>--%>
-<%--                        </c:choose>--%>
-<%--                    </c:if>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-<%--            </c:forEach>--%>
-
-<%--            <tr>--%>
-<%--                <td colspan="11" bgcolor="D6D7D6" height="1"></td>--%>
-<%--            </tr>--%>
-<%--        </table>--%>
-<%--        <table width="100%" border="0" cellspacing="0" cellpadding="0"--%>
-<%--               style="margin-top: 10px;">--%>
-<%--            <tr>--%>
-<%--                <td align="center">--%>
-<%--                    <input type="hidden" id="currentPage" name="currentPage" value=""/>--%>
-<%--                    <c:if test="${ pageInfo.isEnablePrev }">--%>
-<%--                        ◀ 이전--%>
-<%--                    </c:if>--%>
-<%--                    <c:if test="${!pageInfo.isEnablePrev}">--%>
-<%--                        <a href="javascript:fncGetProductList('${ pageInfo.prevPage}')">◀ 이전</a>--%>
-<%--                    </c:if>--%>
-
-<%--                    <c:forEach var="i" begin="${pageInfo.currentStartPageNum}" end="${pageInfo.currentEndPageNum}"--%>
-<%--                               step="1">--%>
-<%--                        <a href="javascript:fncGetProductList('${ i }');">${ i }</a>--%>
-<%--                    </c:forEach>--%>
-
-<%--                    <c:if test="${ pageInfo.isEnableNext}">--%>
-<%--                        이후 ▶--%>
-<%--                    </c:if>--%>
-<%--                    <c:if test="${ !pageInfo.isEnableNext }">--%>
-<%--                        <a href="javascript:fncGetProductList('${pageInfo.nextPage}')">이후 ▶</a>--%>
-<%--                    </c:if>--%>
-<%--                </td>--%>
-<%--            </tr>--%>
-<%--        </table>--%>
-        <!--  페이지 Navigator 끝 -->
     </form>
     <div style="width: 100%; height: 30px"></div>
-    <div class="container-xl">
-        <div id="product-card-box" class="row justify-content-evenly">
-
-        </div>
-
+    <div id="card-box-container" class="container-xl overflow-y-scroll" style="height: calc(100vh - 200px)">
     </div>
-
 </div>
 
 <button id="prod-modal-btn" hidden="hidden" data-bs-toggle="modal" data-bs-target="#prod-modal">
@@ -331,37 +162,84 @@
 
 <script type="text/javascript" src="../javascript/ajax.js"></script>
 <script>
+    let currentPage;
     $(document).ready(() => {
-        createProductElement(1)
+        currentPage = 1;
+        setProductList(currentPage);
+        currentPage++;
     })
 
-    const createProductElement = (currentPage) => {
-        sendGetAjax('/api/products/?currentPage=' + currentPage, res => {
-            $("#product-total-count").text("전체 " + res.totalCount + " 건");
-            const $productCardBox = $("#product-card-box");
-            let $card_html = '';
+    $("#card-box-container").scroll(function () {
+        const $card_box_container = $("#card-box-container");
+        let card_box_scrollTop = $card_box_container.scrollTop();
+        const scrollableHeight = $card_box_container[0].scrollHeight - $card_box_container[0].clientHeight;
 
-            for (let product of res.list) {
-                $card_html += `<div id = "product-card" class="card col-xl-4" style="width: 18rem; height: fit-content;">
+        if (Math.abs(card_box_scrollTop - scrollableHeight) <= 1) {
+            appendProductList(currentPage);
+            currentPage++;
+        }
+    })
+
+    const setProductList = (currentPage, searchCondition, searchKeyword) => {
+        let apiAddress = `/api/products/totalCount` + buildProductQueryParam(currentPage, searchCondition, searchKeyword);
+        sendGetAjax(apiAddress, res => {
+            createTotalProductElement(res);
+            sendGetAjax(`/api/products` + buildProductQueryParam(currentPage, searchCondition, searchKeyword), res => {
+                createProductColumnElement(res);
+            })
+        })
+    }
+
+    const appendProductList = (currentPage, searchCondition, searchKeyword) => {
+        let apiAddress = `/api/products` + buildProductQueryParam(currentPage, searchCondition, searchKeyword);
+        sendGetAjax(apiAddress, res => {
+                createProductColumnElement(res);
+        })
+    }
+
+    const buildProductQueryParam = (currentPage, searchCondition, searchKeyword) => {
+        let queryParam = '?currentPage=' + currentPage;
+        if (searchKeyword)
+            queryParam += '&searchCondition=' + searchCondition + "&searchKeyword" + searchKeyword;
+        return queryParam;
+    }
+
+    const createTotalProductElement = (totalCount) => {
+        $("#product-total-count").text("전체 " + totalCount + " 건");
+    }
+
+    const createProductColumnElement = (res) => {
+
+        const $card_box_container = $("#card-box-container");
+
+        let $card_box_html = currentPage === 1 ? '' : $card_box_container.html();
+        $card_box_html += `<div id="product-card-box" class="row justify-content-evenly">`
+            + createProductRowElement(res) + `</div>`;
+        $card_box_container.html($card_box_html);
+    }
+
+    const createProductRowElement = (res) => {
+        let $card_html = '';
+        for (let product of res) {
+            $card_html += `<div id = "product-card" class="card col-xl-4" style="width: 18rem; height: fit-content;">
             <span id = "row-num" class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-dark">
-                  `+ product.rowNum +`
+                  ` + product.rowNum + `
             </span>
             <div id = "file-name" class="image-box">
-                <img src="/images/uploadFiles/`+ product.fileName +`" class="card-img-top" alt="/images/uploadFiles/딸기.jpg">
+                <img src="/images/uploadFiles/` + product.fileName + `" class="card-img-top" alt="/images/uploadFiles/딸기.jpg">
             </div>
             <div class="card-body">
                 <div class="align-content-around">
-                    <h6>상품 상태 <span id = "status" class="badge bg-success rounded-pill">`+ product.status +`</span></h6>
-                    <h5 id = "name" class="card-title">`+ product.productName +`</h5>
-                    <span id = "price" class="card-text" style="display: flex">`+ product.price +`</span>
-                    <span id = "menu-date" class="card-text" style="display: flex">`+ product.regDateString +` 등록</span>
+                    <h6>상품 상태 <span id = "status" class="badge bg-success rounded-pill">` + product.status + `</span></h6>
+                    <h5 id = "name" class="card-title">` + product.productName + `</h5>
+                    <span id = "price" class="card-text" style="display: flex">` + product.price + `</span>
+                    <span id = "menu-date" class="card-text" style="display: flex">` + product.regDateString + ` 등록</span>
                     <a id = "link" href="#" class="btn btn-primary">구매하기</a>
                 </div>
             </div>
         </div>`
-            }
-            $productCardBox.html($card_html);
-        })
+        }
+        return $card_html;
     }
 
     const viewProductInfo = (prodNo) => {
