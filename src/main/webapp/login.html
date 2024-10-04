@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>home</title>
+    <title>Login</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -25,7 +25,7 @@
     }
 </style>
 <body>
-<div class="container-fluid">
+<div class="container-fluid" style="height: calc(100vh)">
     <nav class="navbar bg-body-tertiary fixed-top">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -71,7 +71,27 @@
             </button>
         </div>
     </nav>
+
+    <div id="login-field" class="container-xxl container-lg d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-6 d-flex justify-content-center align-items-center border border-5 border-opacity-50 border-primary" style="height: 500px;border-radius: 10px;">
+            <div class="col-7">
+                <h3 class="mx-auto p-2 mb-5" style="font-weight: bold; text-align: center;">로그인</h3>
+                <div id="login-box">
+                    <label for="input-id" style="font-weight: bolder; margin-left: 3px">ID</label>
+                    <input id = "input-id"class="login-input form-control mb-3" type="text" placeholder="아이디를 입력해주세요" />
+                    <label for="input-pw" style="font-weight: bolder">PW</label>
+                    <input id = "input-pw" class="login-input form-control mb-3" type="password" placeholder="비밀번호를 입력해주세요" />
+                    <button class = "col-12 btn btn-outline-primary my-2    " type="button">로그인</button>
+                    <hr>
+                    <button class = "col-12 btn btn-outline-secondary my-2" type="button">회원가입</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+</body>
 
 <script>
     $(document).ready(function () {
@@ -91,5 +111,4 @@
         );
     });
 </script>
-</body>
 </html>

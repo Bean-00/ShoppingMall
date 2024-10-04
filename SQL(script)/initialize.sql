@@ -163,31 +163,40 @@ commit;
 
 ---------[기본 테이터 생성 부분]-----------
 
+insert into product(prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date)
+select seq_product_prod_no.nextval, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
+from product;
+
+commit;
+
+select * from product;
+
 ---------[파일 테이블 생성 부분]-----------
 CREATE SEQUENCE seq_file_no INCREMENT BY 1 START WITH 10000;
 
-CREATE TABLE FILES(
-    file_id number NOT NULL primary key,
-    file_name VARCHAR2(1000) NOT NULL,
-    file_sys_name VARCHAR2(100) NOT NULL,
-    file_dir_path VARCHAR2(100) NOT NULL,
-    file_size number NOT NULL,
+CREATE TABLE FILES
+(
+    file_id          number         NOT NULL primary key,
+    file_name        VARCHAR2(1000) NOT NULL,
+    file_sys_name    VARCHAR2(100)  NOT NULL,
+    file_dir_path    VARCHAR2(100)  NOT NULL,
+    file_size        number         NOT NULL,
     file_upload_date TIMESTAMP default sysdate,
-    file_mime_type VARCHAR2(50) NOT NULL ,
-    file_userId VARCHAR2(20) references users (user_id),
-    file_is_delete NUMBER(1) default 0
+    file_mime_type   VARCHAR2(50)   NOT NULL,
+    file_userId      VARCHAR2(20) references users (user_id),
+    file_is_deleted  NUMBER(1) default 1
 );
 
 
 
-CREATE TABLE FILE_PRODUCT_MAP (
-    file_id number not null primary key references FILES(file_id),
-    product_no number not null references PRODUCT(prod_no),
+CREATE TABLE FILE_PRODUCT_MAP
+(
+    file_id    number not null primary key references FILES (file_id),
+    product_no number not null references PRODUCT (prod_no),
     upload_seq number not null
 );
 
 --------------------------------------
-
 
 
 select *
@@ -664,10 +673,10 @@ SELECT ROW_NUM AS "rowNum", user_id, user_name, email
 FROM (SELECT ROW_NUMBER() over (ORDER BY USER_ID) AS ROW_NUM, user_id, user_name, email FROM USERS WHERE) U
 WHERE ROW_NUM BETWEEN ? AND ?;
 
-SELECT
-    prod_name
+SELECT prod_name
 FROM PRODUCT;
 
-select * from PRODUCT;
+select *
+from PRODUCT;
 
 commit;
